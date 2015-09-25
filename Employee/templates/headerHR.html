@@ -1,0 +1,67 @@
+<nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navBar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">
+        Brand <i class="fa fa-angle-right"></i>
+      </a>
+      <div class="navbar-brand" >HR</div>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="navBar">
+
+		<ul class="nav navbar-nav">
+			<li class="{% if '/HR/home/' in request.path %} active {% endif %}"><a href="{% url 'HR:home' %}"><i class="fa fa-home"></i>&nbsp;&nbsp;Home</a></li>
+			<li class="{% if '/HR/admin/' in request.path %} active {% endif %}"><a href="{% url 'HR:admin' %}"><i class="fa fa-user"></i>&nbsp;&nbsp;Admin</a></li>
+			<li class="{% if '/HR/support/' in request.path %} active {% endif %}"><a href="{% url 'HR:support' %}"><i class="fa fa-phone"></i>&nbsp;&nbsp;Support</a></li>
+			<li class="{% if '/HR/payroll/' in request.path %} active {% endif %}"><a href="{% url 'HR:payroll' %}"><i class="fa fa-money"></i>&nbsp;&nbsp;Payroll</a></li>
+			<li class="{% if '/HR/team/' in request.path %} active {% endif %}"><a href="{% url 'HR:team' %}"><i class="fa fa-users"></i>&nbsp;&nbsp;TM</a></li>
+			<li class="{% if '/HR/learn/' in request.path %} active {% endif %}"><a href="{% url 'HR:learn' %}"><i class="fa fa-book"></i>&nbsp;&nbsp;LM</a></li>
+			<li class="{% if '/HR/business/' in request.path %} active {% endif %}"><a href="{% url 'HR:business' %}"><i class="fa fa-building-o"></i>&nbsp;&nbsp;BM</a></li>
+			<li class="{% if '/HR/document/' in request.path %} active {% endif %}"><a href="{% url 'HR:document' %}"><i class="fa fa-file-text-o"></i>&nbsp;&nbsp;DM</a></li>
+      <li class="{% if '/HR/project/' in request.path %} active {% endif %}"><a href="{% url 'HR:project' %}"><i class="fa fa-flask"></i>&nbsp;&nbsp;PM</a></li>
+			<li class="{% if '/HR/recruit/' in request.path %} active {% endif %}"><a href="{% url 'HR:recruit' %}"><i class="fa fa-graduation-cap"></i>&nbsp;&nbsp;Recruit</a></li>
+		</ul>
+
+		<form class="navbar-form navbar-right" role="search">
+			<div class="form-group">
+			  <div class="input-group">
+				  <!-- USE TWITTER TYPEAHEAD JSON WITH API TO SEARCH -->
+				  <input type="text" class="form-control" placeholder="Search">
+				  <span class="input-group-btn">
+					  <button type="submit" class="btn btn-default"><i class="glyphicon glyphicon-search"></i></button>
+				  </span>
+			  </div>
+			</div>
+		</form>
+
+		<ul class="nav navbar-nav navbar-right">
+			<li class="dropdown">
+			  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{user.get_full_name |title}} &nbsp;<span class="glyphicon glyphicon-chevron-down"></span></a>
+			  <ul class="dropdown-menu">
+				<li><img class="img-responsive" width="200px" alt="profile-pic" src="{{MEDIA_URL}}/{{user.profile.displayPicture}}" style="top:-5px; position:relative; width:200px"></li>
+				<li><a href="#" style="text-align:center;">{{user.email}}</br><small>(HR Associate)</small></a></li>
+				<li role="separator" class="divider"></li>
+				<li><a href="#" style="text-align:center;"><i class="fa fa-envelope-o"></i>&nbsp;&nbsp;Messages&nbsp;&nbsp;<span class="label label-success">5</span></a></li>
+				<li><a href="#" style="text-align:center;"><i class="fa fa-flag-o"></i>&nbsp;&nbsp;Notifications&nbsp;&nbsp;<span class="label label-warning">1</span></a></li>
+
+				<li role="separator" class="divider"></li>
+				<li><a href="{% url 'HR:admin' %}?action=profileSettings"><i class="fa fa-gears"></i>&nbsp;&nbsp;Settings</a></li>
+        <li><a href="{% url 'logout' %}"><i class="fa fa-sign-out"></i>&nbsp;&nbsp;Logout</a></li>
+				<li role="separator" class="divider"></li>
+				<li><a href="#"><i class="fa fa-question"></i>&nbsp;&nbsp;&nbsp;Help</a></li>
+				<li><a href="#">&nbsp;<i class="fa fa-info"></i>&nbsp;&nbsp;&nbsp;About</a></li>
+			  </ul>
+			</li>
+		</ul>
+
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>

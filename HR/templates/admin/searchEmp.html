@@ -1,0 +1,100 @@
+{% extends "admin.html" %}
+{% load crispy_forms_tags %}
+{% load staticfiles %}
+
+{% block header %}
+  {% include 'headerHR.html' %}
+{% endblock %}
+
+{% block adminContent %}
+
+<ol class="breadcrumb">
+  <li class="active">Administration</li>
+  <li class="active">{{navContext | title}}</li>
+</ol>
+
+<div class="col-md-12">
+  <div class="row">
+    <div class="input-group">
+      <input class="form-control" id="searchString" name="searchString" placeholder="Search.." type="text" />
+      <span class="input-group-btn">
+        <a class="btn btn-primary" id="searchbutton"> <i class="fa fa-search"></i></a>
+        <a class="btn btn-default" href="/HR/admin/">Cancel</a>
+      </span>
+     </div>
+  </div>
+  <hr></hr>
+  <div class="row" id="searchResultsTable">
+    <table class="table table-bordered table-hover table-striped" align="center">
+      <thead>
+        <tr>
+          <th>Firstname</th>
+          <th>Lastname</th>
+          <th>Email</th>
+          <th>
+            Action
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block specific_js %}
+
+<script type="text/javascript">
+  var getResult = function(){
+    $('#searchResultsTable').show();
+    var searchString = $('#searchString').val();
+    var jqxhr = $.get( "http://localhost:8000/HR/api/User/",{format:'json', username__contains: searchString}, function() {
+      // alert( "success" );
+    })
+    .done(function(data) {
+      $('#searchResultsTable tbody').html('');
+      for (var i = 0; i < data.objects.length; i++) {
+        newRow = '<tr><td>'+data.objects[i].first_name+'</td><td>';
+        newRow += data.objects[i].last_name+'</td><td>';
+        newRow += data.objects[i].email+'</td><td style="text-align: center;">';
+        newRow += '<div class="btn-group">'+
+            '<button type="button" class="btn btn-default"><i class="fa fa-envelope-o"></i></button>'+
+            '<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">'+
+            '<span class="caret"></span><span class="sr-only">Toggle Dropdown</span></button>'+
+            '<ul class="dropdown-menu">'+
+              '<li><a href="#">Social</a></li>'+
+              '<li><a href="#">Projects</a></li>'+
+              '<li><a href="#">Learning</a></li>'+
+              '<li><a href="#">Payroll</a></li>'+
+              '<li><a href="#">Leave management</a></li>'+
+              '<li role="separator" class="divider"></li>'+
+              '<li><a href='+ 'HR/admin/?action=editProfile&username='+ data.objects[i].username +'>Edit master details</a></li>'+
+            '</ul>'+
+          '</div>';
+        $('#searchResultsTable tbody').append(newRow);
+      };
+    })
+    .fail(function() {
+      // alert( "error" );
+    })
+    .always(function() {
+      // alert( "finished" );
+    });
+  }
+  $(document).ready(function() {
+    $('#searchResultsTable').hide();
+    $('#searchbutton').click(getResult);
+    $('#searchString').keypress(function (e) {
+      var key = e.which;
+      if(key == 13){
+        getResult();
+        // alert("enter");
+      }
+    });
+  });
+</script>
+
+{% endblock %}

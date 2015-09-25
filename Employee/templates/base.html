@@ -1,0 +1,37 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Index - Employee</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" charset="utf-8">
+    <link rel="stylesheet" href="{% static 'css/font-awesome.css' %}" charset="utf-8">
+    <link rel="stylesheet" href="{% static 'css/datepicker.css' %}" media="screen" charset="utf-8">
+    <link rel="stylesheet" href="{% static 'css/custom.css' %}" charset="utf-8">
+    {% block specific_css %}{% endblock %}
+  </head>
+  <body>
+
+    <div style="margin-bottom:70px;">
+      {% block header %}{% endblock %}
+    </div>
+    {% block content %}{% endblock %}
+
+    {% block footer %}{% endblock %}
+
+    {% include 'footer.html' %}
+    <script src="{% static 'js/jquery-2.1.4.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/datepicker.js' %}"></script>
+    <script src="{% static 'js/angular.min.js' %}"></script>
+    <script type="text/javascript">
+      $(document).ready(function() {
+        $('.datepicker').datepicker({
+          dateFormat: "yyyy-mm-dd",
+        });
+      });
+    </script>
+    {% block specific_js %}{% endblock %}
+  </body>
+</html>

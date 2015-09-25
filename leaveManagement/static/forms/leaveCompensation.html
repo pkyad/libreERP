@@ -1,0 +1,32 @@
+<div class="container-fluid">
+  <form class="form-horizontal" ng-submit= "submitFn()">
+    <div class="form-group">
+      <label class="control-label col-sm-3" for="forDate">For:</label>
+      <div class="col-md-3">
+        <input type="date" name="forDate" value="" class="form-control"  required>
+      </div>
+      <label class="control-label col-md-1" style="text-align:center">On</Label>
+      <div class="col-md-3">
+        <input type="date" name="onDate" value="" class="form-control" required>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label col-sm-3" for="contributions">Contribution highlights:</label>
+      <div class="col-md-7">
+        <textarea type="text" rows="3" name="contribution" value="" class="form-control " required></textarea>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label col-sm-3" for="mode">Mode:</label>
+      <div class="col-md-7">
+        <select class="select form-control" name="mode">
+          <option value="NOT" selected="selected">Not selected..</option>
+          <option value="WFH">Work from home</option>
+          <option value="WEE">Weekend</option>
+          <option value="OVE">Over time</option>
+        </select>
+      </div>
+    </div>
+    <input class="btn btn-primary pull-right" type="submit" name="Submit" value="Submit">
+  </form>
+</div>

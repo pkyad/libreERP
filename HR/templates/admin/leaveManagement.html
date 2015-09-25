@@ -1,0 +1,189 @@
+{% extends "admin.html" %}
+{% load crispy_forms_tags %}
+{% load staticfiles %}
+
+{% block specific_css %}
+<link rel="stylesheet" href="{% static 'css/ngCalendar.css' %}" charset="utf-8">
+<style media="screen">
+
+</style>
+{% endblock %}
+
+{% block header %}
+  {% include 'headerHR.html' %}
+{% endblock %}
+
+{% block adminContent %}
+
+<div class="row">
+
+  {% if sidebar %}<div class="col-md-9">{% else %}<div class="col-md-12">{% endif %}
+    <ol class="breadcrumb">
+      <li class="active">Administration</li>
+      <li class="active">{{navContext | title}}</li>
+      <li class="active">Leave Management</li>
+    </ol>
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-{% if 'error'  in message.tags %}danger{% else %}{{message.tags}}{% endif %}">
+          <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+          {{ message }}
+        </div>
+      {% endfor %}
+    {% endif %}
+    {% if dynamicHeading %}
+      <h3> {{dynamicHeading.main}} {% if dynamicHeading.small %}<small>({{dynamicHeading.small}})</small>{% endif %}</h3>
+    {% endif %}
+
+    <!-- Leave management calender and controls goes here -->
+    {% verbatim %}
+
+  	<div ng-app="ngApp" ng-controller="myCtrl">
+  		<div class="container ngCalendarMain col-md-10">
+  			<div class="row">
+  				<div class="btn-group col-md-3 col-sm-12 col-xs-12">
+  					<button class="btn btn-default col-sm-3 col-xs-3" ng-click="gotoPrev()"> <i class="glyphicon glyphicon-chevron-left"></i> </button>
+  					<button class="btn btn-default col-sm-3 col-xs-3" ng-click="gotoNext()"> <i class="glyphicon glyphicon-chevron-right"></i></button>
+  					<button class="btn btn-success col-sm-6 col-xs-6" ng-click="gotoToday()">Today</button>
+  				</div>
+  				<div class="headerCalender col-md-5 col-sm-12 col-xs-12">
+  					<p>{{dateDisp | date:'MMM yyyy'}} </p>
+  				</div>
+  				<div class="col-md-4 col-sm-12 col-xs-12">
+  					<div class="col-md-7 col-sm-6 col-xs-6">
+  						<select class="form-control" ng-options="obj.disp for obj in listOfMonths track by obj.val"
+  				      ng-model="dropMonth"
+  				      ng-change="gotoPerticular()">
+  						</select>
+  					</div>
+  					<div class="col-md-5 col-sm-6 col-xs-6 pull-right">
+  						<select class="form-control" ng-options="obj.disp for obj in listOfYears track by obj.val"
+  							ng-model="dropYear"
+  							ng-change="gotoPerticular()">
+  						</select>
+  					</div>
+  				</div>
+  			</div>
+  			<hr></hr>
+  			<div class="row">
+  				<div class="weekHeader">
+  					<div class="weekDay">Sunday</div>
+  					<div class="weekDay">Monday</div>
+  					<div class="weekDay">Tuesday</div>
+  					<div class="weekDay">Wednesday</div>
+  					<div class="weekDay">Thursday</div>
+  					<div class="weekDay">Friday</div>
+  					<div class="weekDay">Saturday</div>
+  				</div>
+  			</div>
+  			<div class="week">
+  					<div class="day {{(dates[k] == (dateDisp|date : 'dd'))&& (dateFlags[k]=='Cur') ? 'active': ''}}" ng-repeat="k in range(0,41)" ng-click="showDetails(k)">
+  						<div class="dayNumber dayType{{dateFlags[k]}} ">
+  							{{dates[$index]}}
+  						</div>
+  						<div class="dayItems">
+
+  						</div>
+  					</div>
+  			</div>
+  		</div>
+  		<div class="col-md-2 col-sm-12 col-xs-12">
+  			<div class="row bg-yellow">
+
+  				<div class="dayDetails">
+  					<div class="sideBarDate"><i class="fa fa-calendar fa-2x pull-left"></i>{{dateDisp | date : 'dd MMM yyyy'}} </div>
+  					{{dayDisp}}
+  				</div>
+
+  			</div>
+        <div class="row bg-red dayInfoBox">
+          <div class=" dayDetails">
+            <div class="">
+              <i class="fa fa-clock-o fa fa-3x pull-left"></i> <i class="fa fa-sign-in"></i> : 2:26pm
+            </div>
+            <div class="">
+              <i class="fa fa-sign-out"></i> : 3:00am
+            </div>
+          </div>
+          <ul class="nav">
+            <li><a href="#"> Maternity leave <i class="fa fa-file-text-o pull-right"></i> <i class="fa fa-thumbs-o-up pull-right"></i></a></li>
+            <li><a href="#"> Casual leave <i class="fa fa-file-text-o pull-right"></i> </a></li>
+            <li><a href="#"> Paid leave <i class="fa fa-file-text-o pull-right"></i> </a></li>
+            <li><a href="#"> Compensation <i class="fa fa-file-text-o pull-right"></i></a></li>
+          </ul>
+        </div>
+        <div class="row ngCalEvents bg-aqua">
+  				<div id="ngCalAccordion" class="cssmenuAccordion">
+  					<ul class="nav">
+  						<li class="has-sub">
+                <a href='#'>
+                  <div >
+                    Options<i class="fa fa-bars fa-lg pull-right"></i>
+                  </div>
+                </a>
+  							<ul class="nav" >
+  								<li>
+                    <a ng-click = "toggleLeaveFormModal()">Leave application</a>
+                    <a ng-click = "toggleLeaveCompensationModal()">Leave compensation</a>
+                    <a href="#">Summary</a>
+                    <a href="#">Generate report</a>
+  								</li>
+  							</ul>
+  						</li>
+  					</ul>
+  				</div>
+  			</div>
+  		</div><!-- /.col -->
+      {{end | date : 'dd MMM yyyy'}}
+      {{start | date : 'dd MMM yyyy'}}
+      {{reason}}
+      {{category}}
+      {% endverbatim %}
+      <input type="file" name="attachment" file-model="myFile">
+      <modal title="Leave Compensation Form" submit-fn="confirmNew()" data = "modalData" visible="leaveCompensationModal" url = "{% static 'forms/leaveCompensation.html' %}"></modal>
+      <modal title="New leave application" submit-fn="uploadData()" data = "leaveApplicationData" visible="leaveFormModal" url = "{% static 'forms/leaveApplication.html' %}"></modal>
+      <button class="btn btn-success" name="click me" ng-click="uploadData()"> Click</button>
+
+    </div><!-- ngApp -->
+    <div class="btn-group">
+      <button type="button" class="btn btn-primary" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action</button>
+      <ul class="dropdown-menu">
+        <li>
+          <div class="container-fluid">
+              <input type="text" name="name" value="" class="form-control">
+          </div>
+        </li>
+        <li role="separator" class="divider"></li>
+        <li style="text-align:center">
+          <div class="row container-fluid">
+            <div class="btn-group">
+              <a href="#" class="btn btn-sm btn-success">Save</a><a href="#" class="btn btn-sm btn-default">Cancel</a>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+	</div>
+
+
+  {% if sidebar %}
+  <div class="col-md-3 pull-right">
+    <ul class="nav  nav-sidebar">
+      <li class="nav-sidebar-heading">Other options</li>
+        {% for key ,  value in sidebar.items %}
+          <li> <a href='{{value}}'>{{key}}</a></li>
+        {% endfor %}
+    </ul>
+  </div>
+  {% endif %}
+</div>
+
+{% endblock %}
+
+{% block specific_js %}
+<script type="text/javascript">
+
+</script>
+<script src="{% static 'js/ngCalendar.js' %}"></script>
+
+{% endblock%}

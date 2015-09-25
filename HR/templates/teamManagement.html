@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block header %}
+  {% include 'headerHR.html' %}
+{% endblock %}
+
+{% block content %}
+<h1> Hello user {% ifequal request.path '/HR/home/' %} Hey {% endifequal %}</h1>
+
+{% endblock %}
+
+{% block footer %}
+  Footer
+{% endblock %}

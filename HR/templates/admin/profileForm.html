@@ -1,0 +1,25 @@
+{% extends "admin.html" %}
+{% load crispy_forms_tags %}
+{% load staticfiles %}
+
+{% block adminContent %}
+
+<div class="row">
+  <div class="col-md-7">
+    {% crispy form %}
+  </div>
+
+  {% if sidebar %}
+  <div class="col-md-3 pull-right">
+    <ul class="nav  nav-sidebar">
+      <li class="nav-sidebar-heading">Other options</li>
+        {% for key ,  value in sidebar.items %}
+          <li {% if actionContext in value %} class="activeAction" {% endif %}> <a href='{{value}}' >{{key}}</a></li>
+        {% endfor %}
+    </ul>
+  </div>
+  {% endif %}
+</div>
+
+
+{% endblock %}

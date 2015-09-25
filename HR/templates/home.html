@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block header %}
+  {% include 'headerHR.html' %}
+{% endblock %}
+
+{% block content %}
+<!-- <h1> Hello user {% ifequal request.path '/HR/home/' %} Hey {% endifequal %}</h1>
+Pradeep
+<img src="{{MEDIA_URL}}images/avatar3.png" alt="" /> -->
+<div class="col-sm-1" id="">
+  <ul class="nav nav-sidebarDashboard" >
+    <li><a data-toggle="tab" href="#dash"><div align="center">&nbsp;<i class="fa fa-home fa-3x"></i></div></a></li>
+    <li><a data-toggle="tab" href="#mail"><div align="center"><i class="fa fa-envelope-o fa-3x"></i></div></a></li>
+    <li><a data-toggle="tab" href="#social"><div align="center">&nbsp;&nbsp;&nbsp;<i class="fa fa-facebook fa-3x"></i></div></a></li>
+    <li><a data-toggle="tab" href="#forums"><div align="center"><i class="fa fa-newspaper-o fa-3x"></i></div></a></li>
+    <li><a data-toggle="tab" href="#calender"><div align="center">&nbsp;<i class="fa fa-calendar fa-3x"></i></div></a></li>
+    <li><a data-toggle="tab" href="#notes"><div align="center">&nbsp;<i class="fa fa-sticky-note-o fa-3x"></i></i></div></a></li>
+  </ul>
+</div>
+
+<div class="tab-content col-sm-11">
+  <div id="dash" class="tab-pane fade">
+    {% include 'dashboardHome.html' %}
+  </div>
+  <div id="mail" class="tab-pane fade">
+    {% include 'dashboardMail.html' %}
+  </div>
+  <div id="im" class="tab-pane fade">
+    {% include 'dashboardIM.html' %}
+  </div>
+  <div id="social" class="tab-pane fade">
+    {% include 'dashboardSocial.html' %}
+  </div>
+  <div id="forums" class="tab-pane fade">
+    {% include 'dashboardForums.html' %}
+  </div>
+  <div id="calender" class="tab-pane fade">
+    {% include 'dashboardCalendar.html' %}
+  </div>
+  <div id="notes" class="tab-pane fade">
+    {% include 'dashboardNotes.html' %}
+  </div>
+</div>
+{% endblock %}
+
+{% block footer %}
+  Footer
+{% endblock %}

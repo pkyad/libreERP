@@ -1,0 +1,43 @@
+<div class="container-fluid">
+  <form class="form-horizontal" name = "leaveForm" ng-submit= "submitFn()">
+    <div class="form-group">
+      <label class="control-label col-sm-3" for="category" ng-model="category">Leave category:</label>
+      <div class="col-md-7">
+        <select class="select form-control" name="category" ng-model="data.category">
+          <option value="NOT" selected="selected">Not selected..</option>
+          <option value="CAS">Casual</option>
+          <option value="MED">Medical</option>
+          <option value="PAR">Parental</option>
+          <option value="MAT">Maternity</option>
+          <option value="MAR">Marriage</option>
+          <option value="OUT">Out station</option>
+          <option value="EDU">Education</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label col-sm-3" for="start">Duration:</label>
+      <div class="col-md-3">
+        <input type="date" name="start" value="" class="form-control"  required ng-model="data.start">
+      </div>
+      <label class="control-label col-md-1" style="text-align:center">To</Label>
+      <div class="col-md-3">
+        <input type="date" name="end" value="" class="form-control" required ng-model="data.end">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label col-sm-3" for="reason">Reason:</label>
+      <div class="col-md-7">
+        <textarea type="text" rows="3" name="reason" value="" class="form-control " required ng-model="data.reason"></textarea>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label col-sm-3" for="photo">Attachment:</label>
+      <div class="col-sm-7">
+        <input type="file" name="attachment" file-model="data.attachment">
+      </div>
+    </div>
+    <div ng-hide="data.statusMessage==''" class="alert alert-success">{{data.statusMessage}}</div>
+    <input class="btn btn-primary pull-right" type="submit" name="Submit" value="Submit">
+  </form>
+</div>

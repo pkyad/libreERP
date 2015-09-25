@@ -1,0 +1,45 @@
+{% extends "admin.html" %}
+{% load crispy_forms_tags %}
+{% load staticfiles %}
+
+{% block header %}
+  {% include 'headerHR.html' %}
+{% endblock %}
+
+{% block adminContent %}
+
+<div class="row">
+
+  {% if sidebar %}<div class="col-md-9">{% else %}<div class="col-md-12">{% endif %}
+    <ol class="breadcrumb">
+      <li class="active">Administration</li>
+      <li class="active">{{navContext | title}}</li>
+    </ol>
+
+    {% if messages %}
+      {% for message in messages %}
+
+        <div class="alert alert-{% if 'error'  in message.tags %}danger{% else %}{{message.tags}}{% endif %}">
+          <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+          {{ message }}
+        </div>
+      {% endfor %}
+    {% endif %}
+    {% if dynamicHeading %}
+      <h3> {{dynamicHeading.main}} <small>({{dynamicHeading.small}})</small></h3>
+    {% endif %}
+    {% crispy form %}
+  </div>
+
+  {% if sidebar %}
+  <div class="col-md-3 pull-right">
+    <ul class="nav  nav-sidebar">
+      <li class="nav-sidebar-heading">Other options</li>
+        {% for key ,  value in sidebar.items %}
+          <li> <a href='{{value}}'>{{key}}</a></li>
+        {% endfor %}
+    </ul>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

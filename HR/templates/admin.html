@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block header %}
+  {% include 'headerHR.html' %}
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+  <div class="row" >
+    <div class="panel-group col-md-2 nav-sidebarAccordion" id="accordion">
+      <div class="panel panel-default">
+        <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+          <div class="panel-title" align="left"><i class="fa fa-check-square-o"></i>&nbsp;&nbsp;Approvals</div>
+        </div>
+        <div id="collapseTwo" class="panel-collapse collapse">
+          <div class="panel-body">
+            <ul class="nav" >
+              <li><a href="#id0">Inbound <span class="label label-success pull-right">$ 320</span></a> </li>
+              <li><a href="#id1">Submitted</a></li>
+              <li><a href="#id2">Create new</a></li>
+              <li><a href="#id3">Approved</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
+          <div class="panel-title" align="left"><i class="fa fa-diamond"></i>&nbsp;&nbsp;Assets</div>
+        </div>
+        <div id="collapseThree" class='panel-collapse collapse'>
+          <div class="panel-body">
+            <ul class="nav" >
+              <li><a href="#id0">New arrival <span class="label label-success">$ 320</span></a> </li>
+              <li><a href="#id1"><i class="fa fa-shopping-cart"></i>&nbsp;&nbsp;New requirements</a></li>
+              <li><a href="#id2">Issue</a></li>
+              <li><a href="#id3">Return / Change</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#collapseFour">
+          <div class="panel-title" align="left"><i class="fa fa-pie-chart"></i>&nbsp;&nbsp;Reports</div>
+        </div>
+        <div id="collapseFour" class="panel-collapse collapse ">
+          <div class="panel-body">
+            <ul class="nav" >
+              <li><a href="#id0">New &nbsp;&nbsp;<span class="label label-success">320</span></a> </li>
+              <li><a href="#id1">Incomplete</a></li>
+              <li><a href="#id2">Current</a></li>
+              <li><a href="#id3">Archive</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#collapseFive">
+          <div class="panel-title" align="left"><i class="fa fa-users"></i>&nbsp;&nbsp;Employees</div>
+        </div>
+        <div id="collapseFive" class="panel-collapse collapse {% ifequal 'employees' navContext %} in {% endifequal %}">
+          <div class="panel-body">
+            <ul class="nav" >
+              <li><a href="{% url 'HR:admin' %}?action=searchEmp"><i class="fa fa-search"></i> Seach</a> </li>
+              <li><a href="{% url 'HR:admin' %}?module=leaveManagement"><i class="fa fa-calendar"></i> Leave management</a></li>
+              <li><a href="{% url 'HR:admin' %}?action=createUser"><i class="fa fa-user-plus"></i> Mannual entry</a></li>
+              <li><a href="#id2"><i class="fa fa-user-times"></i> Off boarding</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#collapseSix">
+          <div class="panel-title" align="left"><i class="fa fa-credit-card"></i>&nbsp;&nbsp;Finance</div>
+        </div>
+        <div id="collapseSix" class="panel-collapse collapse">
+          <div class="panel-body">
+            <ul class="nav" >
+              <li><a  href="#id2">Search</a></li>
+              <li><a  href="#id0">Inbound</a> </li>
+              <li><a  href="#id1">Pending</a></li>
+              <li><a  href="#id1">Bills received</a></li>
+              <li><a  href="#id2">Auditing</a></li>
+              <li><a  href="#id2">Statistics</a></li>
+              <li><a  href="#id2">Analytics</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#collapseSeven">
+          <div class="panel-title" align="left"><i class="fa fa-briefcase"></i>&nbsp;&nbsp;Corporate</div>
+        </div>
+        <div id="collapseSeven" class="panel-collapse collapse">
+          <div class="panel-body">
+            <ul class="nav" >
+              <li><a  href="#id2">Book appointments</a></li>
+              <li><a  href="#id0"><i class="fa fa-calendar"></i>&nbsp;&nbsp;New meeting</a> </li>
+              <li><a  href="#id1">MOM</a></li>
+              <li><a  href="#id1"><i class="fa fa-glass"></i>&nbsp;&nbsp;Events</a></li>
+              <li><a  href="#id2">Add/Update rules</a></li>
+              <li><a  href="#id2">Rules and Regulations</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#collapseEight">
+          <div class="panel-title" align="left"><i class="fa fa-gavel"></i>&nbsp;&nbsp;Legal</div>
+        </div>
+        <div id="collapseEight" class="panel-collapse collapse">
+          <div class="panel-body">
+            <ul class="nav" >
+              <li><a  href="#id2">Consult</a></li>
+              <li><a  href="#id0">Ongoing&nbsp;&nbsp;<span class="label label-success">16</span></a> </li>
+              <li><a  href="#id1">Approval received</a></li>
+              <li><a  href="#id1">New</a></li>
+              <li><a  href="#id2">Archive</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-10 col-md-offset-2">
+
+      {% block adminContent %}
+      {% if messages %}
+        {% for message in messages %}
+
+          <div class="alert alert-{% if 'error'  in message.tags %}danger{% else %}{{message.tags}}{% endif %}">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% endif %}
+      {% endblock %}
+
+    </div>
+  </div>
+
+
+</div>
+
+{% endblock %}
