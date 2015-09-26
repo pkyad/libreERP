@@ -21,6 +21,8 @@ def getTranscriptsPath(instance , filename ):
 def getOtherDocsPath(instance , filename ):
     return 'doc/Others/%s_%s_%s' % (str(time()).replace('.', '_'), instance.user.username, filename)
 
+
+
 class userProfile(models.Model):
     user = models.OneToOneField(User)
     PREFIX_CHOICES = (
@@ -100,3 +102,76 @@ class userProfile(models.Model):
     note3 = models.TextField(max_length = 500 , null = True , blank = True)
 
 User.profile = property(lambda u : userProfile.objects.get_or_create(user = u)[0])
+
+class notification(models.Model):
+    message = models.CharField(max_length = 200 , null=True)
+    link = models.URLField(max_length = 100 , null = True)
+    shortInfo = models.CharField(max_length = 30 , null = True)
+    read = models.BooleanField(default = False)
+    user = models.ForeignKey(User)
+    domain = models.CharField(null=True , max_length = 20)
+    originator = models.CharField(null = True , max_length = 20)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+def getChatMessageAttachment(instance , filename ):
+    return 'chat/%s_%s_%s' % (str(time()).replace('.', '_'), instance.user.username, instance.originator.username, filename)
+
+class chatMessage(models.Model):
+    message = models.CharField(max_length = 200 , null=True)
+    attachment = models.FileField(upload_to = getChatMessageAttachment ,  null = True)
+    originator = models.CharField(null = True , max_length = 20)
+    created = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(User)
+    read = models.BooleanField(default = False)
+
+def getMailMessageAttachment(instance , filename ):
+    return 'mail/%s_%s_%s' % (str(time()).replace('.', '_'), instance.user.username, instance.originator.username, filename)
+
+class mailMessage(models.Model):
+    message = models.CharField(max_length = 4000 , null = True)
+    subject = models.CharField(max_length = 200 , null = True)
+    attachments = models.FileField(upload_to = getMailMessageAttachment ,  null = True)
+    originator = models.CharField(null = True , max_length = 20)
+    created = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(User)
+    read = models.BooleanField(default = False)
+    CCd = models.CharField(max_length = 300 , null = True)
+
+def getCalendarAttachment(instance , filename ):
+    return 'calendar/%s_%s_%s' % (str(time()).replace('.', '_'), instance.user.username, instance.originator.username, filename)
+
+class calenderItem(models.Model):
+    TYPE_CHOICE =(
+        ('NONE' , 'Not Available'),
+        ('MEET' , 'Meeting'),
+        ('REMI' , 'Reminder'),
+        ('TODO' , 'ToDo'),
+        ('EVEN' , 'EVENT'),
+        ('DEAD' , 'Deadline'),
+        ('OTHE' , 'Other'),
+    )
+
+    LEVEL_CHOICE = (
+        ('NOR' , 'Normal'),
+        ('CRI' , 'Critical'),
+        ('OPT' , 'Optional'),
+        ('MAN' , 'Mandatory'),
+    )
+
+    eventType = models.CharField(choices = TYPE_CHOICE , default = 'NONE' , max_length = 4)
+    originator = models.CharField(null = True , max_length = 20)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+    user = models.ForeignKey(User)
+    text = models.CharField(max_length = 200 , null = True)
+    notification = models.ForeignKey(notification)
+    when = models.DateTimeField(null = True)
+    checked = models.BooleanField(default = False)
+    deleted = models.BooleanField(default = False)
+    completed = models.BooleanField(default = False)
+    canceled = models.BooleanField(default = False)
+    level = models.CharField(choices = LEVEL_CHOICE , default = 'NOR' , max_length = 3)
+    venue = models.CharField(max_length = 50)
+    attachment = models.FileField(upload_to = getCalendarAttachment , null = True)
+    myNotes = models.CharField(max_length = 100)

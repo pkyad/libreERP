@@ -76,6 +76,7 @@ TEMPLATES = [
             os.path.join(BASE_DIR, 'HR', 'templates', 'home'),
             os.path.join(BASE_DIR, 'HR', 'templates', 'admin'),
             os.path.join(BASE_DIR, 'API', 'templates'),
+            os.path.join(BASE_DIR, 'leaveManagement', 'templates'),
             ],
         'APP_DIRS': True,
         'OPTIONS': {
