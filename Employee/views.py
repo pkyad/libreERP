@@ -9,13 +9,6 @@ from django.template import RequestContext
 
 from .forms import loginForm
 
-profileSettingsSidebar = {
-    'Profile settings': '?action=profileSettings',
-    # 'Change Password' : '?action=changePassword' ,
-    'Notification Settings' : '?action=notificationsSettings' ,
-    'Themes' : '?action=changeTheme',
-    }
-
 def index(request):
     return render(request , 'index.html', {})
 def Login(request):

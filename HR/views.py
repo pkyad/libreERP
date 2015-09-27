@@ -6,8 +6,16 @@ from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.template import RequestContext
-
 from Employee.forms import myUserCreationForm, userProfileForm ,userProfileSettings
+
+profileSettingsSidebar = {
+    'Profile settings': '?action=profileSettings',
+    # 'Change Password' : '?action=changePassword' ,
+    'Notification Settings' : '?action=notificationsSettings' ,
+    'Themes' : '?action=changeTheme',
+    }
+
+
 
 # Create your views here.
 @login_required(login_url = '/login')

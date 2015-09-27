@@ -10,56 +10,173 @@ ngCIOC.directive('modal', function () {
               '<button type="button" class="close" data-dismiss="modal">&times;</button>'+
               '<h4 class="modal-title">{{ title }}</h4>' +
             '</div>' +
-            '<div class="modal-body" ng-transclude></div>' +
+            '<div class="modal-body">'+
+              '<div ng-include="contentUrl"></div>'+
+            '</div>' +
           '</div>' +
         '</div>' +
       '</div>',
     restrict: 'E',
     transclude: true,
     replace:true,
-    scope:true,
+    scope:{
+      data : '=',
+      visible : '=',
+      submitFn :'&',
+    },
+    controller : function($scope){
+    },
+    // attrs is the attrs passed from the main scope
     link: function postLink(scope, element, attrs) {
       scope.title = attrs.title;
-
-      scope.$watch(attrs.visible, function(value){
-        if(value == true)
+      scope.contentUrl = attrs.url;
+      scope.$watch('visible', function(newValue , oldValue){
+        if(newValue == true){
           $(element).modal('show');
-        else
+        }
+        else{
           $(element).modal('hide');
+        }
       });
 
       $(element).on('shown.bs.modal', function(){
         scope.$apply(function(){
-          scope.$parent[attrs.visible] = true;
+          scope.visible = true;
         });
       });
 
       $(element).on('hidden.bs.modal', function(){
         scope.$apply(function(){
-          scope.$parent[attrs.visible] = false;
+          scope.data.statusMessage = '';
+          scope.visible = false;
         });
       });
     }
   };
 });
+
+ngCIOC.directive('fileModel', ['$parse', function ($parse) {
+  return {
+    restrict: 'A',
+    link: function(scope, element, attrs) {
+      var model = $parse(attrs.fileModel);
+      var modelSetter = model.assign;
+
+      element.bind('change', function(){
+        scope.$apply(function(){
+          modelSetter(scope, element[0].files[0]);
+        });
+      });
+    }
+  };
+}]);
+
+ngCIOC.service('ngHttpSocket', ['$http', function ($http) {
+  this.uploadFileToUrl = function(data, uploadUrl){
+
+    $http.post(uploadUrl, data, {
+      transformRequest: angular.identity,
+      headers: {'Content-Type': undefined}
+    })
+    .success(function(){
+    })
+    .error(function(){
+
+    });
+  }
+}]);
+
+ngCIOC.directive('ngEnter', function () {
+  return function (scope, element, attrs) {
+    element.bind("keydown keypress", function (event) {
+      if(event.which === 13) {
+        scope.$apply(function (){
+          scope.$eval(attrs.ngEnter);
+        });
+        event.preventDefault();
+      }
+    });
+  };
+});
+
+
+var ngApp = angular.module('ngApp', ['libreHR.directives',]);
+
 /*
 This directive allows us to pass a function in on an enter key to do what we want.
  */
-var ngApp = angular.module('ngApp', ['libreHR.directives',]);
-ngApp.directive('ngEnter', function () {
-    return function (scope, element, attrs) {
-        element.bind("keydown keypress", function (event) {
-            if(event.which === 13) {
-                scope.$apply(function (){
-                    scope.$eval(attrs.ngEnter);
-                });
-                event.preventDefault();
-            }
-        });
-    };
-});
 
-ngApp.controller('myCtrl', function($scope) {
+ngApp.config(['$httpProvider' , function($httpProvider){
+
+  $httpProvider.defaults.xsrfCookieName = 'csrftoken';
+  $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
+  $httpProvider.defaults.withCredentials = true;
+}])
+
+ngApp.controller('myCtrl', function($scope , $http , ngHttpSocket) {
+  // main business logic starts from here
+
+  $scope.category = 'NOT'
+  $scope.reason = "Nothing";
+  $scope.start = new Date();
+  $scope.end = new Date();
+  $scope.clicked = function(val){
+    alert("clicked");
+  };
+
+  $scope.modalData = {val: "string"};
+
+  $scope.leaveFormModal = false;
+  $scope.leaveCompensationModal = false;
+  $scope.toggleLeaveFormModal = function(){
+  	$scope.leaveFormModal = !$scope.leaveFormModal;
+  };
+  $scope.toggleLeaveCompensationModal = function(){
+    $scope.leaveCompensationModal = !$scope.leaveCompensationModal;
+  }
+
+  $scope.confirm = function() {
+    alert("Submitted in the parent controller");
+  }
+
+  $scope.confirmNew = function() {
+    alert("Submitted in the another parent controller");
+  }
+
+  $http.get("http://127.0.0.1:8000/api/leaveApplications/")
+    .success(function(data){
+      console.log(data);
+  })
+  $scope.leaveApplicationData = {category : 'NOT' , reason : '' , start : '' , end:'' , attachment :''};
+  $scope.leaveApplicationData.statusMessage = '';
+  $scope.uploadData = function(){
+    var data = $scope.leaveApplicationData;
+    var fd = new FormData();
+    fd.append('attachment', data.attachment);
+    fd.append('start' , dateToString(data.start))
+    fd.append('end' , dateToString(data.end))
+    fd.append('category' , data.category)
+    fd.append('reason' , data.reason)
+    var uploadUrl = "http://localhost:8000/api/leaveApplications/";
+    ngHttpSocket.uploadFileToUrl(fd, uploadUrl);
+    $scope.leaveApplicationData = {category : 'NOT' , reason : '' , start : '' , end:'' , attachment :''};
+    $scope.leaveApplicationData.statusMessage = 'Success';
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+  // Everything related to the calendar from is from this point
+
   $scope.listOfMonths = [{"val":0, "disp":"January"}, {"val":1, "disp":"February"}, {"val":2, "disp":"March"}, {"val":3, "disp":"April"}, {"val":4, "disp":"May"}, {"val":5, "disp":"June"}, {"val":6, "disp":"July"}, {"val":7, "disp":"August"}, {"val":8, "disp":"September"}, {"val":9, "disp":"October"}, {"val":10, "disp":"November"}, {"val":11, "disp":"December"}];
   $scope.listOfYears = [{"val":2015, "disp":"2015"}, {"val":2016, "disp":"2016"}, {"val":2017, "disp":"2017"}, {"val":2018, "disp":"2018"}, {"val":2019, "disp":"2019"}];
   $scope.listOfDays = [{"val":1, "disp":"Sunday"}, {"val":1, "disp":"Monday"}, {"val":1, "disp":"Tuesday"}, {"val":1, "disp":"Wednesday"}, {"val":1, "disp":"Thursday"}, {"val":1, "disp":"Friday"}, {"val":1, "disp":"Saturday"}];
@@ -141,22 +258,12 @@ ngApp.controller('myCtrl', function($scope) {
     return input;
   };
 
-  // Everything related to the calendar functionality is upto this point
-  // main business logic starts from here
-  $scope.category = 'NOT'
-  $scope.reason = "Nothing";
-  $scope.start = new Date();
-  $scope.end = new Date();
-  $scope.clicked = function(val){
-    alert("clicked");
-  };
-
-  $scope.showModal = false;
-  $scope.toggleModal = function(){
-  	$scope.showModal = !$scope.showModal;
-  };
-
 });
+
+function dateToString(date){
+  return date.getFullYear()+'-' + (date.getMonth()+1) + '-'+ (date.getDay());
+}
+
 
 function daysInMonth(month,year) {
   return new Date(year, month, 0).getDate();

@@ -113,6 +113,7 @@ class notification(models.Model):
     originator = models.CharField(null = True , max_length = 20)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+    onHold = models.BooleanField(default = False)
 
 def getChatMessageAttachment(instance , filename ):
     return 'chat/%s_%s_%s' % (str(time()).replace('.', '_'), instance.user.username, instance.originator.username, filename)

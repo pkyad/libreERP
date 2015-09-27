@@ -51,15 +51,15 @@
   var getResult = function(){
     $('#searchResultsTable').show();
     var searchString = $('#searchString').val();
-    var jqxhr = $.get( "http://localhost:8000/HR/api/User/",{format:'json', username__contains: searchString}, function() {
+    var jqxhr = $.get( "http://localhost:8000/api/users/",{}, function() {
       // alert( "success" );
     })
     .done(function(data) {
       $('#searchResultsTable tbody').html('');
-      for (var i = 0; i < data.objects.length; i++) {
-        newRow = '<tr><td>'+data.objects[i].first_name+'</td><td>';
-        newRow += data.objects[i].last_name+'</td><td>';
-        newRow += data.objects[i].email+'</td><td style="text-align: center;">';
+      for (var i = 0; i < data.count; i++) {
+        newRow = '<tr><td>'+data.results[i].first_name+'</td><td>';
+        newRow += data.results[i].last_name+'</td><td>';
+        newRow += data.results[i].email+'</td><td style="text-align: center;">';
         newRow += '<div class="btn-group">'+
             '<button type="button" class="btn btn-default"><i class="fa fa-envelope-o"></i></button>'+
             '<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">'+
@@ -71,7 +71,7 @@
               '<li><a href="#">Payroll</a></li>'+
               '<li><a href="#">Leave management</a></li>'+
               '<li role="separator" class="divider"></li>'+
-              '<li><a href='+ 'HR/admin/?action=editProfile&username='+ data.objects[i].username +'>Edit master details</a></li>'+
+              '<li><a href='+ 'HR/admin/?action=editProfile&username='+ data.results[i].username +'>Edit master details</a></li>'+
             '</ul>'+
           '</div>';
         $('#searchResultsTable tbody').append(newRow);
