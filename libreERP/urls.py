@@ -13,6 +13,7 @@ urlpatterns = [
     url(r'^login/', 'Employee.views.Login' , name ='login'),
     url(r'^logout/', 'Employee.views.Logout' , name ='logout'),
     url(r'^api-auth/', include('rest_framework.urls', namespace ='rest_framework')),
+    # url('^', include('django.contrib.auth.urls')),
 ]
 if settings.DEBUG:
     urlpatterns +=static(settings.STATIC_URL , document_root = settings.STATIC_ROOT)

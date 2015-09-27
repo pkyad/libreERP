@@ -1,11 +1,4 @@
 
-.ngCalenderMain{
-  box-sizing: border-box;
-  border:1px solid;
-  border-color :#19a185;
-  padding:15px;
-}
-
 .headerCalender > p{
   text-align: center;
   font-size: 18px;
@@ -21,8 +14,9 @@
   box-sizing: border-box;
   border: 1px solid;
   border-color: #f2eded;
-  margin-bottom:-6px;
+  margin-bottom:-7px;
   margin-left:-1px;
+  overflow:hidden;
 }
 .day:hover , .week>.active{
   background-color:#cce6e9;
