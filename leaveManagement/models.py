@@ -64,11 +64,7 @@ class leaveCompensation(models.Model):
         ('RE' , 'Rejected'),
         ('AT' , 'Need attention'),
     )
-    ACTION_CHOICES = (
-        ('OK' , 'Approve'),
-        ('RE' , 'Reject'),
-        ('HO' , 'Hold decision'),
-    )
+
     user  = models.ForeignKey( User , null=True)
     compensatingFor = models.DateField(null = True)
     compensatedOn = models.DateField(null = True)
@@ -76,11 +72,11 @@ class leaveCompensation(models.Model):
     contribution = models.TextField(max_length = 1000 , null = False)
 
     status = models.CharField(choices = STATUS_CHOICES , default = 'NA' , max_length = 2)
-    approver = models.CharField(max_length = 20 , null = True)
+    approver = models.ForeignKey(User , related_name = 'leaveApproved' , null = True)
     approversComment = models.CharField(max_length = 200, null=True)
     approvedOn = models.DateField(null = True)
 
     adminStatus = models.CharField(choices = STATUS_CHOICES , default = 'NA' , max_length = 2)
-    adminApprover = models.CharField(max_length = 20 , null = True)
+    adminApprover = models.ForeignKey(User , related_name = 'leaveApprovedVeriefied' , null = True, limit_choices_to={'is_staff': True})
     adminsComment = models.CharField(max_length = 200, null=True)
     adminApprovedOn = models.DateField(null = True)

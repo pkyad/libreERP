@@ -37,17 +37,7 @@ class userProfile(models.Model):
         ('F' , 'Female'),
         ('O' , 'Other'),
     )
-    DOMAIN_CHOICES = (
-        ('NA' , 'Not Assigned'),
-        ('AUTO' , 'Automotive'),
-        ('SERVICE' , 'Service'),
-        ('RND' , 'University'),
-        ('FMCG' , 'FMCG'),
-        ('POWER' , 'Power'),
-        ('PHARMA' , 'Pharmaceuticals'),
-        ('MANUFAC' , 'Manufacturing'),
-        ('TELE' , 'Tele Communications'),
-    )
+    
     empID = models.PositiveIntegerField(unique = True , null = True)
     displayPicture = models.ImageField(upload_to = getDisplayPicturePath)
     dateOfBirth = models.DateField( null= True )
@@ -83,14 +73,6 @@ class userProfile(models.Model):
     transcripts = models.FileField(upload_to = getTranscriptsPath ,  null = True)
     otherDocs = models.FileField(upload_to = getOtherDocsPath ,  null = True , blank = True)
     almaMater = models.CharField(max_length = 100 , null = True)
-
-    domain = models.CharField(max_length = 15 , choices = DOMAIN_CHOICES , default = 'NA')
-    unit = models.CharField(max_length = 30 , null = True)
-    department = models.CharField(max_length = 30 , null = True)
-    group = models.CharField(max_length = 30 , null = True)
-    subGroup = models.CharField(max_length = 30 , null = True , blank = True)
-    team = models.CharField(max_length = 30 , null = True)
-    designation = models.CharField(max_length = 30 , null = True)
 
     fathersName = models.CharField(max_length = 100 , null = True)
     mothersName = models.CharField(max_length = 100 , null = True)

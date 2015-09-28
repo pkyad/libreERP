@@ -47,8 +47,8 @@ class userProfileForm(forms.ModelForm):
         fields = ('empID','dateOfBirth' , 'gender' ,  'prefix' , 'permanentAddressStreet' , 'permanentAddressCity',
             'permanentAddressState', 'permanentAddressPin' , 'permanentAddressCountry' , 'localAddressStreet' , 'localAddressCity' , 'localAddressPin',
             'localAddressState' , 'localAddressCountry' , 'email' , 'email2' ,'mobile', 'emergency' , 'tele' , 'website' , 'sign' , 'IDPhoto' ,
-            'TNCandBond' , 'resume' , 'certificates' , 'transcripts' , 'otherDocs' , 'almaMater' , 'domain' , 'unit' , 'department' , 'group' , 'subGroup' , 'team',
-            'designation' , 'fathersName' , 'mothersName' , 'childCSV' ,'wifesName', 'note1' , 'note2' , 'note3')
+            'TNCandBond' , 'resume' , 'certificates' , 'transcripts' , 'otherDocs' , 'almaMater' ,
+            'fathersName' , 'mothersName' , 'childCSV' ,'wifesName', 'note1' , 'note2' , 'note3')
     helper = FormHelper()
     helper.form_method = 'POST'
     helper.form_class = 'form-horizontal'
@@ -60,7 +60,6 @@ class userProfileForm(forms.ModelForm):
             Tab('Family' , 'fathersName' , 'mothersName', 'childCSV' , 'wifesName'),
             Tab('Address' , 'localAddressStreet', 'localAddressCity', 'localAddressPin', 'localAddressState','localAddressCountry','permanentAddressStreet','permanentAddressCity','permanentAddressState','permanentAddressPin' , 'permanentAddressCountry'),
             Tab('Documents', 'almaMater' , 'TNCandBond' , 'resume' , 'certificates' , 'transcripts' , 'otherDocs'),
-            Tab('Organisational Details' ,'designation' ,'domain' , 'unit' , 'department' , 'group' , 'subGroup' , 'team'),
             Tab('Notes' , 'note1' , 'note2' , 'note3')
         ),
         FormActions(

@@ -26,6 +26,7 @@ INSTALLED_APPS = (
     'API',
     'Employee',
     'leaveManagement',
+    'organisation',
 )
 
 MIDDLEWARE_CLASSES = (
