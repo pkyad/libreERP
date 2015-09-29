@@ -1,6 +1,6 @@
 :root {
-  --themeMain: #e74c3c;
-  --headerNavbarHighlight:#c0392b;
+  --themeMain: #0f607d;
+  --headerNavbarHighlight:#03355b;
   --flatAccordionLevelThree: #65ab98;
 
   /*--themeMain:#d77a2d ;
@@ -624,6 +624,64 @@ info-box-bordered >.progress-description, .info-box-text {
 .panel-group .panel{
   border-radius:0px;
 }
+
+
+/*Nav bar dropdowns*/
+
+.navDropDownList > li > ul{
+  height: 400px;
+  width:400px;
+  overflow:auto;
+  list-style: outside none none;
+  box-sizing:border-box;
+  display: block;
+}
+.navDropDownList > li > ul >li > a:hover, .slimScrollDiv >li > a:focus{
+  border-left-style: solid;
+  border-left-width: 4px;
+  border-left-color: #ffb206;
+}
+.navDropDownList > li > ul >li > a{
+  border-left-style: solid;
+  border-left-width: 4px;
+  border-left-color: #ffffff;
+}
+.navDropDownList >a{
+  padding-left:20px;
+  text-decoration:none;
+}
+
+.navDropDownList > li > ul >li {
+  border-bottom-color: #f5f5f5;
+  border-bottom-style: solid;
+  border-bottom-width: thin;
+}
+
+.navbar-form >input{
+  border-radius: 20px;
+  border-color: var(--headerNavbarHighlight);
+}
+/*.navbar-form >input{
+  background-color: #2e748c;
+
+}
+.navbar-form > ::-moz-placeholder {
+  color : #ffffff;
+}
+.navbar-form >input:focus{
+  background-color: #ffffff;
+  border-color: var(--headerNavbarHighlight);
+}
+*/
+
+
+
+
+
+
+
+
+
 
 
 

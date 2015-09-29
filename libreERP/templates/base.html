@@ -25,11 +25,20 @@
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
     <script src="{% static 'js/datepicker.js' %}"></script>
     <script src="{% static 'js/angular.min.js' %}"></script>
+    <script src="{% static 'js/libreHRDirectives.js' %}"></script>
+    <script src="{% static 'js/ngNavBarControls.js' %}"></script>
+    <!-- <script src="{% static 'js/jquery.slimscroll.min.js' %}"></script> -->
     <script type="text/javascript">
       $(document).ready(function() {
         $('.datepicker').datepicker({
           dateFormat: "yyyy-mm-dd",
         });
+        // $('.slimScrollDiv').slimScroll({
+        //   width: '400px',
+        //   height: '400px',
+        //   scroll:'True',
+        //   // allowPageScroll: false,
+        // });
       });
     </script>
     {% block specific_js %}{% endblock %}

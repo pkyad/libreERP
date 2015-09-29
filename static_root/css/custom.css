@@ -1,6 +1,6 @@
 :root {
-  --themeMain: #e74c3c;
-  --headerNavbarHighlight:#c0392b;
+  --themeMain: #76019f;
+  --headerNavbarHighlight:#2f0441;
   --flatAccordionLevelThree: #65ab98;
 
   /*--themeMain:#d77a2d ;
@@ -641,7 +641,7 @@ info-box-bordered >.progress-description, .info-box-text {
 
 
  /*Custom navbar styles */
-.navbar-default {
+/*.navbar-default {
   background-color: var(--themeMain);
   border-color:var(--headerNavbarHighlight);
 }
@@ -696,4 +696,4 @@ info-box-bordered >.progress-description, .info-box-text {
     color: #ffffff;
     background-color: var(--headerNavbarHighlight);
   }
-}
+}*/

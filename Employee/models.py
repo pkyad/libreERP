@@ -37,7 +37,7 @@ class userProfile(models.Model):
         ('F' , 'Female'),
         ('O' , 'Other'),
     )
-    
+
     empID = models.PositiveIntegerField(unique = True , null = True)
     displayPicture = models.ImageField(upload_to = getDisplayPicturePath)
     dateOfBirth = models.DateField( null= True )
@@ -85,13 +85,19 @@ class userProfile(models.Model):
 
 User.profile = property(lambda u : userProfile.objects.get_or_create(user = u)[0])
 
+DOMAIN_CHOICES = (
+    ('SYS' , 'System'),
+    ('ADM' , 'Administration'),
+    ('APP' , 'Application')
+)
+
 class notification(models.Model):
-    message = models.CharField(max_length = 200 , null=True)
+    message = models.TextField(max_length = 300 , null=True)
     link = models.URLField(max_length = 100 , null = True)
     shortInfo = models.CharField(max_length = 30 , null = True)
     read = models.BooleanField(default = False)
     user = models.ForeignKey(User)
-    domain = models.CharField(null=True , max_length = 20)
+    domain = models.CharField(null = False , default = 'SYS' , choices = DOMAIN_CHOICES , max_length = 3)
     originator = models.CharField(null = True , max_length = 20)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)

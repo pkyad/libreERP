@@ -78,6 +78,7 @@ TEMPLATES = [
             os.path.join(BASE_DIR, 'HR', 'templates', 'admin'),
             os.path.join(BASE_DIR, 'API', 'templates'),
             os.path.join(BASE_DIR, 'leaveManagement', 'templates'),
+            os.path.join(BASE_DIR, 'libreERP', 'templates'),
             ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -129,6 +130,9 @@ AUTH_PROFILE_MODULE = 'Employee.userProfile'
 STATIC_URL = '/static/'
 STATIC_ROOT = (
     os.path.join(BASE_DIR , 'static_root')
+)
+STATICFILES_DIRS = (
+   os.path.join(BASE_DIR , 'static_shared'),
 )
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR , 'media_root')

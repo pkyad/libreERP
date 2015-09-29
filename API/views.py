@@ -4,7 +4,9 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.decorators import detail_route,list_route
 from .serializers import UserSerializer , GroupSerializer , LeaveApplicationSerializer, selfSerializerLeaveManagement , userDesignationSerializer
+from .serializers import notificationSerializer
 from leaveManagement.models import leaveApplication
+from Employee.models import notification
 from .permissions import isOwner
 from organisation.models import userDesignation
 
@@ -28,8 +30,6 @@ class LeaveApplicationViewSet(viewsets.ModelViewSet):
 
 class selfSerializerLeaveManagementViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
-    # u = User.objects.get(username = 'pradeep')
-    # queryset = leaveApplication.objects.filter(user = u)
     serializer_class = selfSerializerLeaveManagement
     def get_queryset(self):
         return leaveApplication.objects.filter(user = self.request.user)
@@ -38,3 +38,12 @@ class userDesignationViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     queryset = userDesignation.objects.all()
     serializer_class = userDesignationSerializer
+
+class notificationViewSet(viewsets.ModelViewSet):
+    permission_classes = (isOwner, )
+    serializer_class = notificationSerializer
+    def get_queryset(self):
+        return notification.objects.filter(user = self.request.user)
+    @detail_route()
+    def perform_create(self, serializer):
+        serializer.save(user = self.request.user)
