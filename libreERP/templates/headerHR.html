@@ -30,13 +30,11 @@
         <li class="{% if '/HR/project/' in request.path %} active {% endif %}"><a href="{% url 'HR:project' %}"><i class="fa fa-flask"></i>&nbsp;&nbsp;PM</a></li>
   			<!-- <li class="{% if '/HR/recruit/' in request.path %} active {% endif %}"><a href="{% url 'HR:recruit' %}"><i class="fa fa-graduation-cap"></i>&nbsp;&nbsp;Recruit</a></li> -->
   		</ul>
-      {% verbatim %}
-      <div ng-app="ngNavBarControls" ng-controller="myCtrl">
+
 
     		<form class="navbar-form navbar-right" role="search">
     		  <input type="text" class="form-control" placeholder="Search or $">
     		</form>
-      {% endverbatim %}
     		<ul class="nav navbar-nav navbar-right">
     			<li class="dropdown">
     			  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{user.get_full_name |title}} &nbsp;<span class="glyphicon glyphicon-chevron-down"></span></a>
@@ -52,7 +50,6 @@
     			  </ul>
     			</li>
     		</ul>
-        {% verbatim %}
         <ul class = "nav navbar-nav navbar-right">
           <li class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" style="width:55px" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-envelope-o fa-lg"></i><span class="label label-success" style="position: absolute;top: 5px;">5</span></a>
@@ -174,8 +171,6 @@
             </ul>
           </li>
         </ul>
-      </div>
-      {% endverbatim %}
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>

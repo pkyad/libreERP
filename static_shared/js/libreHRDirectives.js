@@ -58,13 +58,13 @@ ngCIOC.directive('messageNotification', function () {
   return {
     template: '<li class="container-fluid" >'+
       '<a href="#" class="row">'+
-        '<img class="img-circle" src="{% static 'images/user3-128x128.jpg' %}" alt="My image" style="width:55px;height:55px;"/>'+
+        '<img class="img-circle" src="{% static "images/user3-128x128.jpg" %}" alt="My image" style="width:55px;height:55px;"/>'+
         '<div class="col-md-10 pull-right">'+
           '<span class="text-muted">Nathan</span><small style="position:absolute;right:0px;" class="pull-right text-muted">5M <i class="fa fa-clock-o "></i></small>'+
           '<br>Why not buy a new awesome theme?'+
         '</div>'+
       '</a>'+
-    '</li>'+
+    '</li>',
     restrict: 'E',
     transclude: true,
     replace:true,

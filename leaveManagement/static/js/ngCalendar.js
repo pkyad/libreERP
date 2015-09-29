@@ -1,4 +1,4 @@
-var ngApp = angular.module('ngApp', ['libreHR.directives',]);
+var ngApp = angular.module('ngApp', ['libreHR.directives','notificationApp',]);
 
 ngApp.config(['$httpProvider' , function($httpProvider){
 
@@ -6,11 +6,10 @@ ngApp.config(['$httpProvider' , function($httpProvider){
   $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
   $httpProvider.defaults.withCredentials = true;
 }])
-
 ngApp.controller('myCtrl', function($scope , $http , ngHttpSocket) {
   // main business logic starts from here
 
-  $scope.category = 'NOT'
+  $scope.category = 'NOT';
   $scope.reason = "Nothing";
   $scope.start = new Date();
   $scope.end = new Date();
@@ -40,7 +39,7 @@ ngApp.controller('myCtrl', function($scope , $http , ngHttpSocket) {
   $http.get("http://127.0.0.1:8000/api/leaveApplications/")
     .success(function(data){
       console.log(data);
-  })
+  });
   $scope.leaveApplicationData = {category : 'NOT' , reason : '' , start : '' , end:'' , attachment :''};
   $scope.leaveApplicationData.statusMessage = '';
   $scope.uploadData = function(){

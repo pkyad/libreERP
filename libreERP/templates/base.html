@@ -25,14 +25,17 @@
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
     <script src="{% static 'js/datepicker.js' %}"></script>
     <script src="{% static 'js/angular.min.js' %}"></script>
-    <script src="{% static 'js/libreHRDirectives.js' %}"></script>
     <script src="{% static 'js/ngNavBarControls.js' %}"></script>
+    <script src="{% static 'js/libreHRDirectives.js' %}"></script>
+
     <!-- <script src="{% static 'js/jquery.slimscroll.min.js' %}"></script> -->
     <script type="text/javascript">
       $(document).ready(function() {
         $('.datepicker').datepicker({
           dateFormat: "yyyy-mm-dd",
         });
+        var todoRootNode = document.getElementById('notificationAppDiv');
+        angular.bootstrap(todoRootNode, ['notificationApp']);
         // $('.slimScrollDiv').slimScroll({
         //   width: '400px',
         //   height: '400px',
