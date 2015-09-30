@@ -636,11 +636,40 @@ info-box-bordered >.progress-description, .info-box-text {
   box-sizing:border-box;
   display: block;
 }
-.navDropDownList > li > ul >li > a:hover, .slimScrollDiv >li > a:focus{
+.navDropDownList > li > ul >li > a:hover, .navDropDownList > li > ul >li > a:focus{
   border-left-style: solid;
   border-left-width: 4px;
   border-left-color: #ffb206;
 }
+
+.test:hover, .test:focus{
+  border-left-style: solid;
+  border-left-width: 4px;
+  border-left-color: #ffb206;
+  box-sizing:border-box;
+  display: block;
+  height: 60px;
+  border-bottom-color: #ebe7e7;
+  border-bottom-style: solid;
+  border-bottom-width: thin;
+  cursor: pointer;
+  background: #f5f5f5;
+}
+.test{
+  border-left-style: solid;
+  border-left-width: 4px;
+  border-left-color: #ffffff;
+  box-sizing:border-box;
+  display: block;
+  height: 60px;
+  border-bottom-color: #ebe7e7;
+  border-bottom-style: solid;
+  border-bottom-width: thin;
+}
+.test>a{
+  color : #1266b4;
+}
+
 .navDropDownList > li > ul >li > a{
   border-left-style: solid;
   border-left-width: 4px;
@@ -652,27 +681,16 @@ info-box-bordered >.progress-description, .info-box-text {
 }
 
 .navDropDownList > li > ul >li {
-  border-bottom-color: #f5f5f5;
+  border-bottom-color: #ebe7e7;
   border-bottom-style: solid;
   border-bottom-width: thin;
 }
 
 .navbar-form >input{
   border-radius: 20px;
-  border-color: var(--headerNavbarHighlight);
+  /*border-color: var(--headerNavbarHighlight);*/
 }
-/*.navbar-form >input{
-  background-color: #2e748c;
 
-}
-.navbar-form > ::-moz-placeholder {
-  color : #ffffff;
-}
-.navbar-form >input:focus{
-  background-color: #ffffff;
-  border-color: var(--headerNavbarHighlight);
-}
-*/
 
 
 
@@ -699,7 +717,7 @@ info-box-bordered >.progress-description, .info-box-text {
 
 
  /*Custom navbar styles */
-.navbar-default {
+/*.navbar-default {
   background-color: var(--themeMain);
   border-color:var(--headerNavbarHighlight);
 }
@@ -754,4 +772,4 @@ info-box-bordered >.progress-description, .info-box-text {
     color: #ffffff;
     background-color: var(--headerNavbarHighlight);
   }
-}
+}*/

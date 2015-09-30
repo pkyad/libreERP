@@ -14,12 +14,6 @@
       </a>
       <div class="navbar-brand" >HR</div>
     </div>
-
-    <div id="notificationAppDiv">
-      <div ng-controller="myCtrl2">
-        {% verbatim %} {{name}} {% endverbatim %}
-      </div>
-    </div>
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="navBar">
 
@@ -36,146 +30,61 @@
   			<!-- <li class="{% if '/HR/recruit/' in request.path %} active {% endif %}"><a href="{% url 'HR:recruit' %}"><i class="fa fa-graduation-cap"></i>&nbsp;&nbsp;Recruit</a></li> -->
   		</ul>
 
+      <div id="notificationAppDiv">
+        <div ng-controller="myCtrl2">
+      		<form class="navbar-form navbar-right" role="search">
+      		  <input type="text" class="form-control" placeholder="Search or $">
+      		</form>
+      		<ul class="nav navbar-nav navbar-right">
+      			<li class="dropdown">
+      			  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{user.get_full_name |title}} &nbsp;<span class="glyphicon glyphicon-chevron-down"></span></a>
+      			  <ul class="dropdown-menu">
+        				<li><img class="img-responsive" width="200px" alt="profile-pic" src="{{MEDIA_URL}}/{{user.profile.displayPicture}}" style="top:-5px; position:relative; width:200px"></li>
+        				<li><div style="text-align:center; -moz-user-select: none;"> {{user.email}}</br><small>(HR Associate)</small></div></li>
+        				<li role="separator" class="divider"></li>
+        				<li><a href="{% url 'HR:admin' %}?action=profileSettings"><i class="fa fa-gears"></i>&nbsp;&nbsp;Settings</a></li>
+                <li><a href="{% url 'logout' %}"><i class="fa fa-sign-out"></i>&nbsp;&nbsp;Logout</a></li>
+        				<li role="separator" class="divider"></li>
+        				<li><a href="#"><i class="fa fa-question"></i>&nbsp;&nbsp;&nbsp;Help</a></li>
+        				<li><a href="#">&nbsp;<i class="fa fa-info"></i>&nbsp;&nbsp;&nbsp;About</a></li>
+      			  </ul>
+      			</li>
+      		</ul>
+          {% verbatim %}
+          <ul class = "nav navbar-nav navbar-right">
+            <li class="dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown" style="width:55px" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-envelope-o fa-lg"></i><span class="label label-success" style="position: absolute;top: 5px;">{{imsCount}}</span></a>
+              <ul class="dropdown-menu navDropDownList">
+                <li>
+                  <!-- inner menu: contains the actual data -->
+                  <ul class="nav" >
+                    <div ng-repeat="message in ims.data">
+                    <message-strip data = "message" common="usersProfile"></message-strip>
+                    </div>
+                  </ul>
+                </li>
+                <a href="#"><i class = "fa fa-external-link"></i> See All Messages</a>
+              </ul>
+            </li>
+            <li class="dropdown">
+              <a class="dropdown-toggle" style="width:55px" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-flag-o fa-lg"></i><span class="label label-warning" style="position: absolute;top: 5px;">{{notificationCount}}</span></a>
+              <ul class="dropdown-menu navDropDownList">
+                <li>
+                  <!-- inner menu: contains the actual data -->
+                  <ul class="nav" >
+                    <div ng-repeat="notice in notifications">
 
-    		<form class="navbar-form navbar-right" role="search">
-    		  <input type="text" class="form-control" placeholder="Search or $">
-    		</form>
-    		<ul class="nav navbar-nav navbar-right">
-    			<li class="dropdown">
-    			  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{user.get_full_name |title}} &nbsp;<span class="glyphicon glyphicon-chevron-down"></span></a>
-    			  <ul class="dropdown-menu">
-      				<li><img class="img-responsive" width="200px" alt="profile-pic" src="{{MEDIA_URL}}/{{user.profile.displayPicture}}" style="top:-5px; position:relative; width:200px"></li>
-      				<li><div style="text-align:center;"> {{user.email}}</br><small>(HR Associate)</small></div></li>
-      				<li role="separator" class="divider"></li>
-      				<li><a href="{% url 'HR:admin' %}?action=profileSettings"><i class="fa fa-gears"></i>&nbsp;&nbsp;Settings</a></li>
-              <li><a href="{% url 'logout' %}"><i class="fa fa-sign-out"></i>&nbsp;&nbsp;Logout</a></li>
-      				<li role="separator" class="divider"></li>
-      				<li><a href="#"><i class="fa fa-question"></i>&nbsp;&nbsp;&nbsp;Help</a></li>
-      				<li><a href="#">&nbsp;<i class="fa fa-info"></i>&nbsp;&nbsp;&nbsp;About</a></li>
-    			  </ul>
-    			</li>
-    		</ul>
-        <ul class = "nav navbar-nav navbar-right">
-          <li class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" style="width:55px" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-envelope-o fa-lg"></i><span class="label label-success" style="position: absolute;top: 5px;">5</span></a>
-            <ul class="dropdown-menu navDropDownList">
-              <li>
-                <!-- inner menu: contains the actual data -->
-                <ul class="nav" >
-                  <li class="container-fluid" >
-                    <a href="#" class="row">
-                      <img class="img-circle" src="{% static 'images/user3-128x128.jpg' %}" alt="My image" style="width:55px;height:55px;"/>
-                      <div class="col-md-10 pull-right">
-                        <span class="text-muted">Nathan</span><small style="position:absolute;right:0px;" class="pull-right text-muted">5M <i class="fa fa-clock-o "></i></small>
-                        <br>Why not buy a new awesome theme?
-                      </div>
-                    </a>
-                  </li><!-- end message -->
-                  <li class="container-fluid" ><!-- start message -->
-                    <a href="#" class="row">
-                      <!-- <div class="col-md-3 pull-left"> -->
-                      <img class="img-circle" src="{% static 'images/user3-128x128.jpg' %}" alt="My image" style="width:55px;height:55px;"/>
-                      <!-- </div> -->
-                      <div class="col-md-10 pull-right">
-                        <span class="text-muted">Nathan</span><small style="position:absolute;right:0px;" class="pull-right text-muted">5M <i class="fa fa-clock-o "></i></small>
-                        <br>Why not buy a new awesome theme?
-                      </div>
-                    </a>
-                  </li><!-- end message -->
-                  <li class="container-fluid" ><!-- start message -->
-                    <a href="#" class="row">
-                      <!-- <div class="col-md-3 pull-left"> -->
-                      <img class="img-circle" src="{% static 'images/user5-128x128.jpg' %}" alt="My image" style="width:55px;height:55px;"/>
-                      <!-- </div> -->
-                      <div class="col-md-10 pull-right">
-                        <span class="text-muted">Martin. K</span><small style="position:absolute;right:0px;" class="pull-right text-muted">5M <i class="fa fa-clock-o "></i></small>
-                        <br>Why not buy a new awesome theme?
-                      </div>
-                    </a>
-                  </li><!-- end message -->
-                  <li class="container-fluid" ><!-- start message -->
-                    <a href="#" class="row">
-                      <!-- <div class="col-md-3 pull-left"> -->
-                      <img class="img-circle" src="{% static 'images/user4-128x128.jpg' %}" alt="My image" style="width:55px;height:55px;"/>
-                      <!-- </div> -->
-                      <div class="col-md-10 pull-right">
-                        <span class="text-muted">George.</span><small style="position:absolute;right:0px;" class="pull-right text-muted">5M <i class="fa fa-clock-o "></i></small>
-                        <br>Why not buy a new awesome theme?
-                      </div>
-                    </a>
-                  </li><!-- end message -->
-                  <li class="container-fluid" ><!-- start message -->
-                    <a href="#" class="row">
-                      <!-- <div class="col-md-3 pull-left"> -->
-                      <img class="img-circle" src="{% static 'images/user1-128x128.jpg' %}" alt="My image" style="width:55px;height:55px;"/>
-                      <!-- </div> -->
-                      <div class="col-md-10 pull-right">
-                        <span class="text-muted">David. M</span><small style="position:absolute;right:0px;" class="pull-right text-muted">5M <i class="fa fa-clock-o "></i></small>
-                        <br>Why not buy a new awesome theme?
-                      </div>
-                    </a>
-                  </li><!-- end message -->
-                </ul>
-              </li>
-              <a href="#"><i class = "fa fa-external-link"></i> See All Messages</a>
-            </ul>
-          </li>
-          <li class="dropdown">
-            <a class="dropdown-toggle" style="width:55px" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-flag-o fa-lg"></i><span class="label label-warning" style="position: absolute;top: 5px;">1</span></a>
-            <ul class="dropdown-menu navDropDownList">
-              <li>
-                <!-- inner menu: contains the actual data -->
-                <ul class="slimScrollDiv nav" >
-                  <li class="container-fluid" ><!-- start message -->
-                    <a href="#" class="row">
-                      <!-- <div class="col-md-3 pull-left"> -->
-                      <i class="fa fa-paperclip fa-2x"></i>
-                      <!-- </div> -->
-                      <div class="col-md-11 pull-right">
-                        <span class="text-muted">Nathan</span><small style="position:absolute;right:0px;" class="pull-right text-muted">5M <i class="fa fa-clock-o "></i></small>
-                        <br>Why not buy a new awesome theme?
-                      </div>
-                    </a>
-                  </li><!-- end message -->
-                  <li class="container-fluid"><!-- start message -->
-                    <a href="#" class="row">
-                      <!-- <div class="col-md-3 pull-left"> -->
-                      <i class="fa fa-users fa-2x"></i>
-                      <!-- </div> -->
-                      <div class="col-md-11 pull-right">
-                        <span class="text-muted">Nathan</span><small style="position:absolute;right:0px;" class="pull-right text-muted">5M <i class="fa fa-clock-o "></i></small>
-                        <br>Why not buy a new awesome theme?
-                      </div>
-                    </a>
-                  </li><!-- end message -->
-                  <li class="container-fluid" ><!-- start message -->
-                    <a href="#" class="row">
-                      <!-- <div class="col-md-3 pull-left"> -->
-                      <i class="fa fa-wrench fa-2x"></i>
-                      <!-- </div> -->
-                      <div class="col-md-11 pull-right">
-                        <span class="text-muted">Nathan</span><small style="position:absolute;right:0px;" class="pull-right text-muted">5M <i class="fa fa-clock-o "></i></small>
-                        <br>Why not buy a new awesome theme?
-                      </div>
-                    </a>
-                  </li><!-- end message -->
-                  <li class="container-fluid" ><!-- start message -->
-                    <a href="#" class="row">
-                      <!-- <div class="col-md-3 pull-left"> -->
-                      <i class="fa fa-book fa-2x"></i>
-                      <!-- </div> -->
-                      <div class="col-md-11 pull-right">
-                        <span class="text-muted">Nathan</span><small style="position:absolute;right:0px;" class="pull-right text-muted">5M <i class="fa fa-clock-o "></i></small>
-                        <br>Why not buy a new awesome theme?
-                      </div>
-                    </a>
-                  </li><!-- end message -->
-                </ul>
-              </li>
-              <a href="#"><i class = "fa fa-external-link"></i> See All Notifications</a>
-            </ul>
-          </li>
-        </ul>
+                      <notification-strip data = "notice" ></notification-strip>
+                    </div>
+                  </ul>
+                </li>
+                <a href="#"><i class = "fa fa-external-link"></i> See All Notifications</a>
+              </ul>
+            </li>
+          </ul> <!-- /. notification icons group -->
+          {% endverbatim %}
+        </div> <!-- /. Controller -->
+      </div> <!-- /ng application -->
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>

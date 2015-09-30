@@ -2,12 +2,19 @@ from django.contrib.auth.models import User , Group
 from rest_framework import serializers
 from leaveManagement.models import leaveApplication
 from organisation.models import userDesignation
-from Employee.models import notification
+from Employee.models import notification, chatMessage , userProfile
+
+
+class userProfileSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = userProfile
+        fields = ('url' , 'mobile' , 'displayPicture' , 'website' , 'prefix')
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
+    profile = userProfileSerializer(many=False)
     class Meta:
         model = User
-        fields = ('url' , 'username' , 'email' , 'groups' , 'first_name' , 'last_name' , 'leaveapplication_set')
+        fields = ('url' , 'username' , 'email' , 'first_name' , 'last_name' , 'profile')
 
 class GroupSerializer(serializers.ModelSerializer):
     class Meta:
@@ -32,3 +39,8 @@ class notificationSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = notification
         fields = ('url' , 'message' ,'shortInfo','domain','onHold', 'link' , 'originator' , 'created' ,'updated' , 'read')
+
+class chatMessageSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = chatMessage
+        fields = ('url' , 'message' ,'attachment', 'originator' , 'created' , 'read')

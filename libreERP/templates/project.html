@@ -7,11 +7,6 @@
 
 {% block content %}
 <h1> Hello user {% ifequal request.path '/HR/home/' %} Hey {% endifequal %}</h1>
-<div id="notificationAppDiv">
-  <div ng-controller="myCtrl2">
-    {% verbatim %} {{name}} {% endverbatim %}
-  </div>
-</div>
 {% endblock %}
 
 {% block footer %}

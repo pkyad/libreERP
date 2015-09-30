@@ -54,14 +54,68 @@ ngCIOC.directive('modal', function () {
   };
 });
 
-ngCIOC.directive('messageNotification', function () {
+ngCIOC.filter('timeAgo' , function(){
+  return function(input){
+    t = new Date(input);
+    var now = new Date();
+    var diff = Math.floor((now - t)/60000)
+    if (diff<60) {
+      return diff+'M';
+    }else if (diff>=60 && diff<60*24) {
+      return Math.floor(diff/60)+'H';
+    }else if (diff>=60*24) {
+      return Math.floor(diff/(60*24))+'D';
+    }
+  }
+})
+
+ngCIOC.filter('getIcon' , function(){
+  return function(input){
+    // console.log(scope.common);
+    switch (input) {
+      case 'LM':
+        return 'fa-book';
+      case 'PLM':
+        return 'fa-square-o';
+      case 'Social':
+        return 'fa-facebook-square';
+      case 'Payroll':
+        return 'fa-money'
+      default:
+        return 'fa-bell-o';
+    }
+  }
+})
+
+ngCIOC.filter('getDP' , function(){
+  return function(input , scope){
+    if (typeof scope.common[input]=="undefined") {
+      var user = getUser(input);
+      scope.common[input]={name: user.first_name+" "+user.last_name , DP : user.profile.displayPicture , email : user.email};
+    }
+    return scope.common[input].DP;
+  }
+})
+
+ngCIOC.filter('getName' , function(){
+  return function(input , scope){
+    if (typeof scope.common[input]=="undefined") {
+      var user = getUser(input);
+      scope.common[input]={name: user.first_name+" "+user.last_name , DP : user.profile.displayPicture , email : user.email};
+    }
+    return scope.common[input].name;
+  }
+})
+
+
+ngCIOC.directive('messageStrip', function () {
   return {
-    template: '<li class="container-fluid" >'+
-      '<a href="#" class="row">'+
-        '<img class="img-circle" src="{% static "images/user3-128x128.jpg" %}" alt="My image" style="width:55px;height:55px;"/>'+
-        '<div class="col-md-10 pull-right">'+
-          '<span class="text-muted">Nathan</span><small style="position:absolute;right:0px;" class="pull-right text-muted">5M <i class="fa fa-clock-o "></i></small>'+
-          '<br>Why not buy a new awesome theme?'+
+    template: '<li class="container-fluid test" >'+
+      '<a href="#" class="row" style="position: relative; top:-7px; text-decoration:none !important;">'+
+        '<img class="img-circle" ng-src="{{data.originator | getDP:this}}"  alt="My image" style="width:50px;height:50px;position: relative; top:-8px; "/>'+
+        '<div class="col-md-10 pull-right" style="position: relative; top:-10px">'+
+          '<span class="text-muted">{{data.originator | getName:this}}</span><small style="position:absolute;right:0px;" class="pull-right text-muted">{{data.created | timeAgo}} <i class="fa fa-clock-o "></i></small>'+
+          '<br>{{data.message}}'+
         '</div>'+
       '</a>'+
     '</li>',
@@ -70,22 +124,43 @@ ngCIOC.directive('messageNotification', function () {
     replace:true,
     scope:{
       data : '=',
-      visible : '=',
-      submitFn :'&',
+      common :'=',
     },
     controller : function($scope){
     },
     // attrs is the attrs passed from the main scope
     link: function postLink(scope, element, attrs) {
-      scope.title = attrs.title;
-      scope.contentUrl = attrs.url;
       scope.$watch('visible', function(newValue , oldValue){
-        if(newValue == true){
-          $(element).modal('show');
-        }
-        else{
-          $(element).modal('hide');
-        }
+
+      });
+    }
+  };
+});
+
+ngCIOC.directive('notificationStrip', function () {
+  return {
+    template: '<li class="container-fluid test" >'+
+      '<a href="{{data.url}}" class="row" style="position: relative; top:-7px; text-decoration:none !important;">'+
+        '<i class="fa {{data.originator | getIcon:this}} fa-2x"></i>'+
+        '<div class="col-md-11 pull-right" style="position: relative; top:-10px">'+
+          '<span class="text-muted">{{data.originator}}</span><small style="position:absolute;right:0px;" class="pull-right text-muted">{{data.created | timeAgo}} <i class="fa fa-clock-o "></i></small>'+
+          '<br>{{data.shortInfo | limitTo:45 }}'+
+        '</div>'+
+      '</a>'+
+    '</li>',
+    restrict: 'E',
+    transclude: true,
+    replace:true,
+    scope:{
+      data : '=',
+    },
+    controller : function($scope){
+      // console.log($scope.data);
+    },
+    // attrs is the attrs passed from the main scope
+    link: function postLink(scope, element, attrs) {
+      scope.$watch('visible', function(newValue , oldValue){
+
       });
     }
   };

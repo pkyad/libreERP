@@ -4,9 +4,9 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.decorators import detail_route,list_route
 from .serializers import UserSerializer , GroupSerializer , LeaveApplicationSerializer, selfSerializerLeaveManagement , userDesignationSerializer
-from .serializers import notificationSerializer
+from .serializers import notificationSerializer, chatMessageSerializer , userProfileSerializer
 from leaveManagement.models import leaveApplication
-from Employee.models import notification
+from Employee.models import notification, chatMessage , userProfile
 from .permissions import isOwner
 from organisation.models import userDesignation
 
@@ -38,12 +38,25 @@ class userDesignationViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     queryset = userDesignation.objects.all()
     serializer_class = userDesignationSerializer
+class userProfileViewSet(viewsets.ModelViewSet):
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    queryset = userProfile.objects.all()
+    serializer_class = userProfileSerializer
 
 class notificationViewSet(viewsets.ModelViewSet):
     permission_classes = (isOwner, )
     serializer_class = notificationSerializer
     def get_queryset(self):
         return notification.objects.filter(user = self.request.user)
+    @detail_route()
+    def perform_create(self, serializer):
+        serializer.save(user = self.request.user)
+
+class chatMessageViewSet(viewsets.ModelViewSet):
+    permission_classes = (isOwner, )
+    serializer_class = chatMessageSerializer
+    def get_queryset(self):
+        return chatMessage.objects.filter(user = self.request.user)
     @detail_route()
     def perform_create(self, serializer):
         serializer.save(user = self.request.user)

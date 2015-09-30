@@ -109,7 +109,7 @@ def getChatMessageAttachment(instance , filename ):
 class chatMessage(models.Model):
     message = models.CharField(max_length = 200 , null=True)
     attachment = models.FileField(upload_to = getChatMessageAttachment ,  null = True)
-    originator = models.CharField(null = True , max_length = 20)
+    originator = models.ForeignKey(User , related_name = "sentIMs" , null = True)
     created = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(User)
     read = models.BooleanField(default = False)

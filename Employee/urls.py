@@ -2,6 +2,7 @@ from django.conf.urls import url, include
 from . import views
 
 urlpatterns = [
+
     url(r'^admin/', 'HR.views.admin', name='admin'),
     url(r'^home/', views.home, name='home'),
     url(r'^support/', views.support, name='support'),
