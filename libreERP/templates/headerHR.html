@@ -57,7 +57,7 @@
               <ul class="dropdown-menu navDropDownList">
                 <li>
                   <!-- inner menu: contains the actual data -->
-                  <ul class="nav" >
+                  <ul class="nav" style="position:relative; top:-5px;">
                     <div ng-repeat="message in ims.data">
                     <message-strip data = "message" common="usersProfile"></message-strip>
                     </div>
@@ -71,7 +71,7 @@
               <ul class="dropdown-menu navDropDownList">
                 <li>
                   <!-- inner menu: contains the actual data -->
-                  <ul class="nav" >
+                  <ul class="nav" style="position:relative; top:-5px;">
                     <div ng-repeat="notice in notifications">
 
                       <notification-strip data = "notice" ></notification-strip>
