@@ -12,7 +12,7 @@
   {% if sidebar %}
   <div class="col-md-3 pull-right">
     <ul class="nav  nav-sidebar">
-      <li class="nav-sidebar-heading">Other options</li>
+      <li class="nav-sidebar-heading"><i class="fa fa-bars fa-lg"></i></li>
         {% for key ,  value in sidebar.items %}
           <li {% if actionContext in value %} class="activeAction" {% endif %}> <a href='{{value}}' >{{key}}</a></li>
         {% endfor %}

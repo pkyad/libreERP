@@ -56,7 +56,7 @@ class chatMessageViewSet(viewsets.ModelViewSet):
     permission_classes = (isOwner, )
     serializer_class = chatMessageSerializer
     def get_queryset(self):
-        return chatMessage.objects.filter(user = self.request.user)
+        return chatMessage.objects.filter(user = self.request.user).order_by('-created')
     @detail_route()
     def perform_create(self, serializer):
         serializer.save(user = self.request.user)

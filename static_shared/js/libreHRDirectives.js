@@ -107,15 +107,26 @@ ngCIOC.filter('getName' , function(){
   }
 })
 
+ngCIOC.filter('decorateCount' , function(){
+  return function(input){
+    if (input ==1){
+      return "";
+    }
+    else {
+      return "("+input+")";
+    }
+  }
+})
+
 
 ngCIOC.directive('messageStrip', function () {
   return {
-    template: '<li class="container-fluid test" >'+
+    template: '<li class="container-fluid navBarInfoList" >'+
       '<a href="#" class="row" style="position: relative; top:-7px; text-decoration:none !important;">'+
         '<img class="img-circle" ng-src="{{data.originator | getDP:this}}"  alt="My image" style="width:50px;height:50px;position: relative; top:-8px; "/>'+
         '<div class="col-md-10 pull-right" style="position: relative; top:-10px">'+
-          '<span class="text-muted">{{data.originator | getName:this}}</span><small style="position:absolute;right:0px;" class="pull-right text-muted">{{data.created | timeAgo}} <i class="fa fa-clock-o "></i></small>'+
-          '<br>{{data.message}}'+
+          '<span class="text-muted">{{data.originator | getName:this}}</span> {{data.count | decorateCount}}<small style="position:absolute;right:0px;" class="pull-right text-muted">{{data.created | timeAgo}} <i class="fa fa-clock-o "></i></small>'+
+          '<br>{{data.message | limitTo:45}}'+
         '</div>'+
       '</a>'+
     '</li>',
@@ -139,7 +150,7 @@ ngCIOC.directive('messageStrip', function () {
 
 ngCIOC.directive('notificationStrip', function () {
   return {
-    template: '<li class="container-fluid test" >'+
+    template: '<li class="container-fluid navBarInfoList" >'+
       '<a href="{{data.url}}" class="row" style="position: relative; top:-7px; text-decoration:none !important;">'+
         '<i class="fa {{data.originator | getIcon:this}} fa-2x"></i>'+
         '<div class="col-md-11 pull-right" style="position: relative; top:-10px">'+
