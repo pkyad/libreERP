@@ -89,8 +89,10 @@ ngCIOC.filter('getIcon' , function(){
 
 ngCIOC.filter('getDP' , function(){
   return function(input , scope){
+
     if (typeof scope.common[input]=="undefined") {
       var user = getUser(input);
+      // console.log(user);
       scope.common[input]={name: user.first_name+" "+user.last_name , DP : user.profile.displayPicture , email : user.email};
     }
     return scope.common[input].DP;

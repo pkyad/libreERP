@@ -1,6 +1,6 @@
 var notificationApp = angular.module('notificationApp', ['libreHR.directives',]);
 
-notificationApp.controller('myCtrl2', function($scope , $http, $templateCache, $timeout ) {
+notificationApp.controller('myCtrl', function($scope , $http, $templateCache, $timeout ) {
   // main business logic starts from here
 
   $scope.fetchNotifications = function() {

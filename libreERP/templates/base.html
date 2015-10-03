@@ -17,7 +17,13 @@
       {% block header %}{% endblock %}
     </div>
     {% block content %}{% endblock %}
-
+    <div id="instantMessanger">
+      <div id="instantMessangerCtrl" ng-controller="myCtrl">
+        {% verbatim %}
+        {% endverbatim %}
+        <chat-window></chat-window>
+      </div>
+    </div>
     {% block footer %}{% endblock %}
 
     {% include 'footer.html' %}
@@ -25,8 +31,11 @@
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
     <script src="{% static 'js/datepicker.js' %}"></script>
     <script src="{% static 'js/angular.min.js' %}"></script>
-    <script src="{% static 'js/ngNavBarControls.js' %}"></script>
+    <script src="{% static 'js/angular-sanitize.min.js' %}"></script>
+    <script src="{% static 'js/autobahn.min.js' %}"></script>
     <script src="{% static 'js/libreHRDirectives.js' %}"></script>
+    <script src="{% static 'js/ngNavBarControls.js' %}"></script>
+    <script src="{% static 'js/instantMessanger.js' %}"></script>
 
     <!-- <script src="{% static 'js/jquery.slimscroll.min.js' %}"></script> -->
     <script type="text/javascript">
@@ -35,6 +44,8 @@
           dateFormat: "yyyy-mm-dd",
         });
         angular.bootstrap( document.getElementById('notificationAppDiv'), ['notificationApp']);
+        angular.bootstrap( document.getElementById('instantMessanger'), ['instantMessanger']);
+
         // $('.slimScrollDiv').slimScroll({
         //   width: '300px',
         //   height: '350px',

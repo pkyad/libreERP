@@ -664,11 +664,11 @@ info-box-bordered >.progress-description, .info-box-text {
 }
 
 .chatWindow{
-  position:absolute;
+  position:fixed;
   bottom:0px;
   right:30px;
   width:300px;
-  height:500px;
+  /*height:500px;*/
   background: #f9f9f9;
   border-top-style: solid;
   border-top-width: 4px;
@@ -681,6 +681,7 @@ info-box-bordered >.progress-description, .info-box-text {
   border-bottom-style: solid;
   border-bottom-width: 1px;
   border-bottom-color: #bfbfbf;
+  height: 36px;
   /*background: #e4e4e4;*/
 
 }

@@ -43,4 +43,4 @@ class notificationSerializer(serializers.HyperlinkedModelSerializer):
 class chatMessageSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = chatMessage
-        fields = ('url' , 'message' ,'attachment', 'originator' , 'created' , 'read')
+        fields = ('url' , 'message' ,'attachment', 'originator' , 'created' , 'read' , 'user')

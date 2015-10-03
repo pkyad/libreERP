@@ -7,7 +7,7 @@ from .serializers import UserSerializer , GroupSerializer , LeaveApplicationSeri
 from .serializers import notificationSerializer, chatMessageSerializer , userProfileSerializer
 from leaveManagement.models import leaveApplication
 from Employee.models import notification, chatMessage , userProfile
-from .permissions import isOwner
+from .permissions import isOwner , readOnly
 from organisation.models import userDesignation
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -59,4 +59,17 @@ class chatMessageViewSet(viewsets.ModelViewSet):
         return chatMessage.objects.filter(user = self.request.user).order_by('-created')
     @detail_route()
     def perform_create(self, serializer):
-        serializer.save(user = self.request.user)
+        serializer.save(originator = self.request.user)
+
+
+class chatMessageBetweenViewSet(viewsets.ModelViewSet):
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, readOnly)
+    serializer_class = chatMessageSerializer
+    def get_queryset(self):
+        reciepient = User.objects.get(username = self.request.GET['other'])
+        qs1 = chatMessage.objects.filter(originator = self.request.user)
+        qs1 = qs1.filter(user= reciepient)
+        qs2 = chatMessage.objects.filter(user = self.request.user)
+        qs2 = qs2.filter(originator= reciepient)
+        qs = qs1 | qs2
+        return qs.order_by('-created')

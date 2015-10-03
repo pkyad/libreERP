@@ -27,11 +27,11 @@
   			<li class="{% if '/HR/business/' in request.path %} active {% endif %}"><a href="{% url 'HR:business' %}"><i class="fa fa-building-o"></i>&nbsp;&nbsp;BM</a></li>
   			<li class="{% if '/HR/document/' in request.path %} active {% endif %}"><a href="{% url 'HR:document' %}"><i class="fa fa-file-text-o"></i>&nbsp;&nbsp;DM</a></li> -->
         <li class="{% if '/HR/project/' in request.path %} active {% endif %}"><a href="{% url 'HR:project' %}"><i class="fa fa-flask"></i>&nbsp;&nbsp;PM</a></li>
-  			<!-- <li class="{% if '/HR/recruit/' in request.path %} active {% endif %}"><a href="{% url 'HR:recruit' %}"><i class="fa fa-graduation-cap"></i>&nbsp;&nbsp;Recruit</a></li> -->
+  			<li class="{% if '/HR/recruit/' in request.path %} active {% endif %}"><a href="{% url 'HR:recruit' %}"><i class="fa fa-graduation-cap"></i>&nbsp;&nbsp;Recruit</a></li>
   		</ul>
 
       <div id="notificationAppDiv">
-        <div ng-controller="myCtrl2">
+        <div id="headerNotificationCtrl" ng-controller="myCtrl">
       		<form class="navbar-form navbar-right" role="search">
       		  <input type="text" class="form-control" placeholder="Search or $">
       		</form>
@@ -88,44 +88,3 @@
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
-<div class="chatWindow">
-  <div class="header">
-    <div class="container-fluid">
-      <i class="fa fa-circle onlineStatus"></i>
-      <span class="username">Sandeep Yadav</span>
-      <span class="pull-right"><i class="fa fa-chevron-down">&nbsp;&nbsp;&nbsp;<i class="fa fa-close"></i></i></span>
-    </div>
-  </div>
-  <div class="messageView container-fluid">
-    <div class="row">
-      <div class="col-md-8 col-md-offset-1 messageBubble">
-        hey too
-      </div>
-      <div class="col-md-3">
-        <img class="img-responsive img-circle" width="40px" height="50px" alt="profile-pic" src="{{MEDIA_URL}}/{{user.profile.displayPicture}}" style="position:relative; top:10px;margin-left:5px;">
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-3">
-        <img class="img-responsive img-circle" width="40px" height="50px" alt="profile-pic" src="{{MEDIA_URL}}/{{user.profile.displayPicture}}" style="position:relative; top:10px;margin-left:5px;">
-      </div>
-      <div class="col-md-8 messageBubble">
-        hey too Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-8 col-md-offset-1 messageBubble">
-         ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-      </div>
-      <div class="col-md-3">
-        <img class="img-responsive img-circle" width="40px" height="50px" alt="profile-pic" src="{{MEDIA_URL}}/{{user.profile.displayPicture}}" style="position:relative; top:10px;margin-left:5px;">
-      </div>
-    </div>
-  </div>
-  <div class="footer">
-    <div class="container-fluid">
-      <input type="text" class="form-control" name="name" value="" style="width:100%" ></input>
-    </div>
-  </div>
-
-</div>

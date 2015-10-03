@@ -10,6 +10,7 @@ router.register(r'myLeave' , views.selfSerializerLeaveManagementViewSet, base_na
 router.register(r'userDesignation' , views.userDesignationViewSet)
 router.register(r'notification' , views.notificationViewSet, base_name = 'notification')
 router.register(r'chatMessage' , views.chatMessageViewSet, base_name = 'chatmessage')
+router.register(r'chatMessageBetween' , views.chatMessageBetweenViewSet, base_name = 'chatbetween')
 router.register(r'userProfile' , views.userProfileViewSet)
 
 urlpatterns = [
