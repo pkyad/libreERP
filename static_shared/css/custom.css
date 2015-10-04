@@ -666,7 +666,7 @@ info-box-bordered >.progress-description, .info-box-text {
 .chatWindow{
   position:fixed;
   bottom:0px;
-  right:30px;
+  /*right:30px;*/
   width:300px;
   /*height:500px;*/
   background: #f9f9f9;

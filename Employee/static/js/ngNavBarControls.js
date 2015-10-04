@@ -1,6 +1,6 @@
 var notificationApp = angular.module('notificationApp', ['libreHR.directives',]);
 
-notificationApp.controller('myCtrl', function($scope , $http, $templateCache, $timeout ) {
+notificationApp.controller('myCtrl', function($scope , $http, $templateCache, $timeout , userProfileService) {
   // main business logic starts from here
 
   $scope.fetchNotifications = function() {
@@ -12,9 +12,9 @@ notificationApp.controller('myCtrl', function($scope , $http, $templateCache, $t
       then(function(response) {
         $scope.notificationFetchStatus = response.status;
         // console.log(response);
-        $scope.notificationCount = response.data.count;
-        for (var i = 0; i < response.data.count; i++) {
-          var notification = response.data.results[i]
+        $scope.notificationCount = response.data.length;
+        for (var i = 0; i < response.data.length; i++) {
+          var notification = response.data[i]
           $scope.notifications.push(notification)
         }
       }, function(response) {
@@ -31,9 +31,10 @@ notificationApp.controller('myCtrl', function($scope , $http, $templateCache, $t
     $http({method: $scope.method, url: $scope.url, cache: $templateCache}).
       then(function(response) {
         $scope.messageFetchStatus = response.status;
-        $scope.imsCount = response.data.count;
-        for (var i = 0; i < response.data.count; i++) {
-          var im = response.data.results[i];
+        $scope.imsCount = response.data.length;
+        // console.log(response.data);
+        for (var i = 0; i < response.data.length; i++) {
+          var im = response.data[i];
           // console.log(senders.indexOf(im.originator));
           if (senders.indexOf(im.originator) ==-1){
             $scope.ims.push(im);
@@ -51,14 +52,14 @@ notificationApp.controller('myCtrl', function($scope , $http, $templateCache, $t
   };
   $scope.fetchNotifications();
   $scope.fetchMessages();
+  $scope.openChatWindow = function(url){
+    // console.log(url);
+    // console.log("Will open the chat window");
+    var scope = angular.element(document.getElementById('instantMessangerCtrl')).scope();
+    // console.log(scope);
+    scope.$apply(function() {
+      scope.addIMWindow(url);
+    });
+  }
 
 });
-
-function getUser(link){
-  var httpRequest = new XMLHttpRequest()
-  httpRequest.open('GET', link+"?format=json" , false);
-  httpRequest.send(null);
-  if (httpRequest.status === 200) { // successfully
-    return JSON.parse(httpRequest.responseText); // we're calling our method
-  }
-}

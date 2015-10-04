@@ -38,7 +38,7 @@ ngApp.controller('myCtrl', function($scope , $http , ngHttpSocket) {
 
   $http.get("http://127.0.0.1:8000/api/leaveApplications/")
     .success(function(data){
-      console.log(data);
+      // console.log(data);
   });
   $scope.leaveApplicationData = {category : 'NOT' , reason : '' , start : '' , end:'' , attachment :''};
   $scope.leaveApplicationData.statusMessage = '';

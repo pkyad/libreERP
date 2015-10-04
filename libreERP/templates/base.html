@@ -20,8 +20,10 @@
     <div id="instantMessanger">
       <div id="instantMessangerCtrl" ng-controller="myCtrl">
         {% verbatim %}
+        <div ng-repeat="friend in imWindows">
+          <chat-window friend-url="friend.url" pos="$index" id="chatWindow{{friend.username}}" cancel="closeIMWindow($index)"></chat-window>
+        </div>
         {% endverbatim %}
-        <chat-window></chat-window>
       </div>
     </div>
     {% block footer %}{% endblock %}

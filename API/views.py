@@ -12,8 +12,16 @@ from organisation.models import userDesignation
 
 class UserViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-    queryset = User.objects.all().order_by('-date_joined')
+    # queryset = User.objects.all().order_by('-date_joined')
     serializer_class = UserSerializer
+    def get_queryset(self):
+        if 'mode' in self.request.GET:
+            if self.request.GET['mode']=="mySelf":
+                return User.objects.filter(username = self.request.user.username)
+            else :
+                return User.objects.all().order_by('-date_joined')
+        else:
+            return User.objects.all().order_by('-date_joined')
 
 class GroupViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
@@ -40,8 +48,9 @@ class userDesignationViewSet(viewsets.ModelViewSet):
     serializer_class = userDesignationSerializer
 class userProfileViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-    queryset = userProfile.objects.all()
     serializer_class = userProfileSerializer
+    queryset = userProfile.objects.all()
+
 
 class notificationViewSet(viewsets.ModelViewSet):
     permission_classes = (isOwner, )
@@ -72,4 +81,4 @@ class chatMessageBetweenViewSet(viewsets.ModelViewSet):
         qs2 = chatMessage.objects.filter(user = self.request.user)
         qs2 = qs2.filter(originator= reciepient)
         qs = qs1 | qs2
-        return qs.order_by('-created')
+        return qs.order_by('created')

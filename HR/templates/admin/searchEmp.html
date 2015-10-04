@@ -56,10 +56,11 @@
     })
     .done(function(data) {
       $('#searchResultsTable tbody').html('');
-      for (var i = 0; i < data.count; i++) {
-        newRow = '<tr><td>'+data.results[i].first_name+'</td><td>';
-        newRow += data.results[i].last_name+'</td><td>';
-        newRow += data.results[i].email+'</td><td style="text-align: center;">';
+      for (var i = 0; i < data.length; i++) {
+
+        newRow = '<tr><td>'+data[i].first_name+'</td><td>';
+        newRow += data[i].last_name+'</td><td>';
+        newRow += data[i].email+'</td><td style="text-align: center;">';
         newRow += '<div class="btn-group">'+
             '<button type="button" class="btn btn-default"><i class="fa fa-envelope-o"></i></button>'+
             '<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">'+
@@ -71,7 +72,7 @@
               '<li><a href="#">Payroll</a></li>'+
               '<li><a href="#">Leave management</a></li>'+
               '<li role="separator" class="divider"></li>'+
-              '<li><a href='+ 'HR/admin/?action=editProfile&username='+ data.results[i].username +'>Edit master details</a></li>'+
+              '<li><a href='+ 'HR/admin/?action=editProfile&username='+ data[i].username +'>Edit master details</a></li>'+
             '</ul>'+
           '</div>';
         $('#searchResultsTable tbody').append(newRow);

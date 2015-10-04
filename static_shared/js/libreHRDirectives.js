@@ -1,5 +1,46 @@
 var ngCIOC = angular.module('libreHR.directives' , []);
 
+ngCIOC.service('userProfileService', function($rootScope, $window){
+  var userProfiles = [];
+  if (typeof userProfiles["mySelf"]=="undefined") {
+    var result = mySelf();
+    user = result.user;
+    userProfiles["mySelf"]={ url:result.url.split("?")[0],  name: user.first_name+" "+user.last_name , DP : user.profile.displayPicture , email : user.email , username :user.username};
+    // console.log(user);
+  }
+
+  $window.rootScopes = $window.rootScopes || [];
+  $window.rootScopes.push($rootScope);
+
+  if (!!$window.sharedService){
+    return $window.sharedService;
+  }
+
+  $window.sharedService = {
+    change: function(input){
+      // do something with the input such as assigning it back to the variable
+      angular.forEach($window.rootScopes, function(scope) {
+        if(!scope.$$phase) {
+            scope.$apply();
+        }
+      });
+    },
+    get: function(userUrl){
+      if (typeof userProfiles[userUrl]=="undefined") {
+        var user = getUser(userUrl);
+        // console.log("going to GET");
+        // console.log(user);
+        userProfiles[userUrl]={url: userUrl, name: user.first_name+" "+user.last_name , DP : user.profile.displayPicture , email : user.email, username :user.username};
+      }
+      // console.log(userUrl);
+      return userProfiles[userUrl];
+    }
+  }
+
+  return $window.sharedService;
+});
+
+
 ngCIOC.directive('modal', function () {
   return {
     template: '<div class="modal fade">' +
@@ -87,25 +128,17 @@ ngCIOC.filter('getIcon' , function(){
   }
 })
 
-ngCIOC.filter('getDP' , function(){
-  return function(input , scope){
-
-    if (typeof scope.common[input]=="undefined") {
-      var user = getUser(input);
-      // console.log(user);
-      scope.common[input]={name: user.first_name+" "+user.last_name , DP : user.profile.displayPicture , email : user.email};
-    }
-    return scope.common[input].DP;
+ngCIOC.filter('getDP' , function(userProfileService){
+  return function(userUrl){
+    profile = userProfileService.get(userUrl);
+    return profile.DP;
   }
 })
 
-ngCIOC.filter('getName' , function(){
-  return function(input , scope){
-    if (typeof scope.common[input]=="undefined") {
-      var user = getUser(input);
-      scope.common[input]={name: user.first_name+" "+user.last_name , DP : user.profile.displayPicture , email : user.email};
-    }
-    return scope.common[input].name;
+ngCIOC.filter('getName' , function(userProfileService){
+  return function(userUrl){
+    profile = userProfileService.get(userUrl);
+    return profile.name;
   }
 })
 
@@ -123,11 +156,11 @@ ngCIOC.filter('decorateCount' , function(){
 
 ngCIOC.directive('messageStrip', function () {
   return {
-    template: '<li class="container-fluid navBarInfoList" >'+
-      '<a href="#" class="row" style="position: relative; top:-7px; text-decoration:none !important;">'+
-        '<img class="img-circle" ng-src="{{data.originator | getDP:this}}"  alt="My image" style="width:50px;height:50px;position: relative; top:-8px; "/>'+
+    template: '<li class="container-fluid navBarInfoList" ng-click="openChat()">'+
+      '<a class="row" style="position: relative; top:-7px; text-decoration:none !important;">'+
+        '<img class="img-circle" ng-src="{{data.originator | getDP}}"  alt="My image" style="width:50px;height:50px;position: relative; top:-8px; "/>'+
         '<div class="col-md-10 pull-right" style="position: relative; top:-10px">'+
-          '<span class="text-muted">{{data.originator | getName:this}}</span> {{data.count | decorateCount}}<small style="position:absolute;right:0px;" class="pull-right text-muted">{{data.created | timeAgo}} <i class="fa fa-clock-o "></i></small>'+
+          '<span class="text-muted">{{data.originator | getName}}</span> {{data.count | decorateCount}}<small style="position:absolute;right:0px;" class="pull-right text-muted">{{data.created | timeAgo}} <i class="fa fa-clock-o "></i></small>'+
           '<br>{{data.message | limitTo:45}}'+
         '</div>'+
       '</a>'+
@@ -137,7 +170,7 @@ ngCIOC.directive('messageStrip', function () {
     replace:true,
     scope:{
       data : '=',
-      common :'=',
+      openChat :'&',
     },
     controller : function($scope){
     },
@@ -227,3 +260,31 @@ ngCIOC.directive('ngEnter', function () {
     });
   };
 });
+
+
+function getUser(url , mode){
+  var httpRequest = new XMLHttpRequest()
+  if(mode !="mySelf") {
+    urlGet = url+"?format=json";
+  }else{
+    urlGet = url;
+  }
+  // console.log(url);
+  httpRequest.open('GET', urlGet , false);
+  httpRequest.send(null);
+  if (httpRequest.status === 200) { // successfully
+    user = JSON.parse(httpRequest.responseText);
+    user.myUrl = url;
+    return user
+  }
+}
+function mySelf(){
+  var httpRequest = new XMLHttpRequest()
+  httpRequest.open('GET', "http://localhost:8000/api/users/?mode=mySelf&format=json" , false);
+  httpRequest.send(null);
+  if (httpRequest.status === 200) { // successfully
+    var temp = JSON.parse(httpRequest.responseText);
+    // console.log(temp[0].url);
+    return {user :getUser(temp[0].url , "mySelf") , url:temp[0].url};
+  }
+}

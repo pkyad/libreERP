@@ -59,7 +59,7 @@
                   <!-- inner menu: contains the actual data -->
                   <ul class="nav" style="position:relative; top:-5px;">
                     <div ng-repeat="message in ims">
-                    <message-strip data = "message" common="usersProfile"></message-strip>
+                    <message-strip data = "message" open-chat="openChatWindow(message.originator)"></message-strip>
                     </div>
                   </ul>
                 </li>
