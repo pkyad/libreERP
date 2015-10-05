@@ -1,61 +1,69 @@
-var connection = new autobahn.Connection({url: 'ws://10.140.7.94:8080/ws', realm: 'realm1'});
+var wampConnection = new autobahn.Connection({url: 'ws://10.140.7.94:8080/ws', realm: 'realm1'});
+
+
 
 // "onopen" handler will fire when WAMP session has been established ..
-connection.onopen = function (session) {
 
-   console.log("session established!");
+
+function processIM (args) {
+  var msg = args[1];
+  var status = args[0];
+  var friend = args[2];
+  // console.log(args);
+  // console.log("event for 'onhello' received: " + msg + " and the status is " + status);
+  var scope = angular.element(document.getElementById('chatWindow'+friend)).scope();
+  // console.log(scope);
+  // console.log();
+  scope.$apply(function() {
+    // console.log(scope);
+    if (status =="T" && !scope.$$childHead.isTyping) {
+      scope.$$childHead.isTyping = true;
+      // console.log("yes its inside the T");
+      // console.log(scope);
+      setTimeout( function(){
+        var scope = angular.element(document.getElementById('chatWindow'+friend)).scope();
+        // console.log(scope);
+        scope.$apply(function() {
+          scope.$$childHead.isTyping = false;
+
+        });
+      }, 1500 );
+    }else if (status=="M") {
+      // console.log(msg);
+      scope.$$childHead.ims.push({message: msg , originator:scope.$$childHead.friendUrl})
+      scope.$$childHead.senderIsMe.push(false);
+      // may be get the navBar conroller scope and refresh it
+    }
+
+  });
+
+}
+
+wampConnection.onopen = function (session) {
+
+  console.log("session established!");
 
    // our event handler we will subscribe on our topic
-   //
-  function onhello (args) {
-    var msg = args[1];
-    var status = args[0];
-    var friend = args[2];
-    // console.log(args);
-    // console.log("event for 'onhello' received: " + msg + " and the status is " + status);
-    var scope = angular.element(document.getElementById('chatWindow'+friend)).scope();
-    // console.log(scope);
-    // console.log();
-    scope.$apply(function() {
-      // console.log(scope);
-      if (status =="T" && !scope.$$childHead.isTyping) {
-        scope.$$childHead.isTyping = true;
-        // console.log("yes its inside the T");
-        // console.log(scope);
-        setTimeout( function(){
-          var scope = angular.element(document.getElementById('chatWindow'+friend)).scope();
-          // console.log(scope);
-          scope.$apply(function() {
-            scope.$$childHead.isTyping = false;
 
-          });
-        }, 1500 );
-      }else if (status=="M") {
-        // console.log(msg);
-        scope.$$childHead.ims.push({message: msg , originator:scope.$$childHead.friendUrl})
-        scope.$$childHead.senderIsMe.push(false);
-      }
-
-    });
-
-  }
-  session.subscribe('com.example.onhello', onhello).then(
+  // console.log(wampBindName);
+  session.subscribe('service.chat.'+wampBindName, processIM).then(
     function (sub) {
-      console.log("subscribed to topic 'onhello'");
+      // console.log(sub);
+      // console.log("subscribed to topic 'onhello'");
     },
     function (err) {
-      console.log("failed to subscribed: " + err);
+      // console.log("failed to subscribed: " + err);
     }
   );
-
 };
 
+console.log(wampConnection);
   // fired when connection was lost (or could not be established)
   //
-connection.onclose = function (reason, details) {
+wampConnection.onclose = function (reason, details) {
    console.log("Connection lost: " + reason);
 }
-connection.open();
+wampConnection.open();
 
 var instantMessanger = angular.module('instantMessanger', ['libreHR.directives','ngSanitize' ]);
 instantMessanger.config(['$httpProvider' , function($httpProvider){
@@ -64,6 +72,7 @@ instantMessanger.config(['$httpProvider' , function($httpProvider){
   $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
   $httpProvider.defaults.withCredentials = true;
 }]);
+
 instantMessanger.directive('chatWindow', function (userProfileService) {
   return {
     template: '<div class="chatWindow" style="height:{{toggle?500:36}}px;right:{{location}}px;">'+
@@ -127,7 +136,7 @@ instantMessanger.directive('chatWindow', function (userProfileService) {
           $scope.status = "M"; // contains message
           $scope.ims.push({message: msg , originator: $scope.me.url})
           $scope.senderIsMe.push(true);
-          connection.session.publish('com.example.onhello', [$scope.status , msg , $scope.me.username], {}, {acknowledge: true}).then(
+          wampConnection.session.publish('service.chat.'+$scope.friend.username, [$scope.status , msg , $scope.me.username], {}, {acknowledge: true}).then(
             function (publication) {
               // console.log("going to post the im");
               dataToSend = {message:msg , user: $scope.friendUrl , read:false};
@@ -166,7 +175,17 @@ instantMessanger.directive('chatWindow', function (userProfileService) {
                 $scope.senderIsMe.push(false);
               }
               $scope.ims.push(im);
-              // console.log($scope.ims.length);
+              // update the message as read
+              // var fd = new FormData();
+              // fd.append('read' , true);
+              // $http({method: 'POST', data:fd ,transformRequest: angular.identity, url: im.url}).
+              //   then(
+              //     function(response) {
+              //
+              //     },
+              //     function(response) {
+              //     $scope.messageFetchStatus = response.status;
+              //   });
             }
           }, function(response) {
             $scope.messageFetchStatus = response.status;
@@ -184,7 +203,7 @@ instantMessanger.directive('chatWindow', function (userProfileService) {
         // console.log("changing");
         scope.status = "T"; // the sender is typing a message
         if (newValue!="") {
-          connection.session.publish('com.example.onhello', [scope.status , scope.messageToSend , scope.me.username]);
+          wampConnection.session.publish('service.chat.'+scope.friend.username, [scope.status , scope.messageToSend , scope.me.username]);
         }
         scope.status = "N";
       }); // watch for the messageTosend
@@ -206,14 +225,14 @@ instantMessanger.directive('chatWindow', function (userProfileService) {
 
 instantMessanger.controller('myCtrl', function($scope , $http, $templateCache, $timeout , userProfileService) {
   // main business logic starts from here
-  $scope.test = "Some text";
+  // $scope.test = "Some text";
   // $scope.url = "http://localhost:8000/api/users/3/";
 
   $scope.imWindows = [ ];
 
   $scope.addIMWindow = function(url){
     // add a chat window
-    console.log(url);
+    // console.log(url);
     if ($scope.imWindows.length<=4) {
       for (var i = 0; i < $scope.imWindows.length; i++) {
         if ($scope.imWindows[i].url == url) {

@@ -4,6 +4,7 @@ notificationApp.controller('myCtrl', function($scope , $http, $templateCache, $t
   // main business logic starts from here
 
   $scope.fetchNotifications = function() {
+    console.log("going to fetch notifictions");
     $scope.method = 'GET';
     $scope.url = 'http://localhost:8000/api/notification/';
     $scope.notifications = [];

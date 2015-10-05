@@ -14,7 +14,7 @@ class isManager(permissions.BasePermission):
 class readOnly(permissions.BasePermission):
 
     def has_object_permission(self, request , view , obj):
-        if request.method in permissions.SAFE_METHODS:
+        if request.method in 'GET':
             # Check permissions for read-only request
             return True
         else:

@@ -3,11 +3,12 @@ from rest_framework import viewsets , permissions , serializers
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.decorators import detail_route,list_route
+
 from .serializers import UserSerializer , GroupSerializer , LeaveApplicationSerializer, selfSerializerLeaveManagement , userDesignationSerializer
 from .serializers import notificationSerializer, chatMessageSerializer , userProfileSerializer
+from .permissions import isOwner , readOnly
 from leaveManagement.models import leaveApplication
 from Employee.models import notification, chatMessage , userProfile
-from .permissions import isOwner , readOnly
 from organisation.models import userDesignation
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -65,7 +66,7 @@ class chatMessageViewSet(viewsets.ModelViewSet):
     permission_classes = (isOwner, )
     serializer_class = chatMessageSerializer
     def get_queryset(self):
-        return chatMessage.objects.filter(user = self.request.user).order_by('-created')
+        return chatMessage.objects.filter(user = self.request.user , read = False).order_by('-created')
     @detail_route()
     def perform_create(self, serializer):
         serializer.save(originator = self.request.user)
@@ -74,11 +75,10 @@ class chatMessageViewSet(viewsets.ModelViewSet):
 class chatMessageBetweenViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, readOnly)
     serializer_class = chatMessageSerializer
+
     def get_queryset(self):
         reciepient = User.objects.get(username = self.request.GET['other'])
-        qs1 = chatMessage.objects.filter(originator = self.request.user)
-        qs1 = qs1.filter(user= reciepient)
-        qs2 = chatMessage.objects.filter(user = self.request.user)
-        qs2 = qs2.filter(originator= reciepient)
+        qs1 = chatMessage.objects.filter(originator = self.request.user , user= reciepient)
+        qs2 = chatMessage.objects.filter(user = self.request.user , originator= reciepient)
         qs = qs1 | qs2
-        return qs.order_by('created')
+        return qs.order_by('created')[:30]
