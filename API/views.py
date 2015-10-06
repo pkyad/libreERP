@@ -3,7 +3,7 @@ from rest_framework import viewsets , permissions , serializers
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.decorators import detail_route,list_route
-
+from url_filter.integrations.drf import DjangoFilterBackend
 from .serializers import UserSerializer , GroupSerializer , LeaveApplicationSerializer, selfSerializerLeaveManagement , userDesignationSerializer
 from .serializers import notificationSerializer, chatMessageSerializer , userProfileSerializer
 from .permissions import isOwner , readOnly
@@ -14,6 +14,8 @@ from organisation.models import userDesignation
 class UserViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     # queryset = User.objects.all().order_by('-date_joined')
+    filter_backends = [DjangoFilterBackend]
+    filter_fields = ['username']
     serializer_class = UserSerializer
     def get_queryset(self):
         if 'mode' in self.request.GET:

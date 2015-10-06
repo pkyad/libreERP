@@ -14,7 +14,7 @@
 <script>
 $(document).ready(function() {
 
-  wampConnection.session.publish('service.notification.pradeep', ["some notication"], {}, {acknowledge: true}).then(
+  connection.session.publish('service.notification.pradeep', ["some notication"], {}, {acknowledge: true}).then(
     function (publication) {
       console.log("sent the notification");
     },

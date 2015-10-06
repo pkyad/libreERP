@@ -67,6 +67,63 @@
       </div>
     </div><!-- /.widget-user -->
   </div>
+  <div class="col-md-3">
+    <!-- Widget: user widget style 1 -->
+    <div class="box box-widget widget-user-2">
+      <!-- Add the bg color to the header using any of the bg-* classes -->
+      <div class="widget-user-header bg-green">
+        <div class="widget-user-image">
+          <img class="img-circle" src="{{MEDIA_URL}}/{{user.profile.displayPicture}}" alt="User Avatar">
+        </div><!-- /.widget-user-image -->
+        <h3 class="widget-user-username">Nadia Carmichael</h3>
+        <h5 class="widget-user-desc">Lead Developer</h5>
+      </div>
+      <div class="box-footer no-padding">
+        <ul class="nav nav-stacked">
+          <li><a href="#">Projects <span class="pull-right badge bg-blue">31</span></a></li>
+          <li><a href="#">Tasks <span class="pull-right badge bg-aqua">5</span></a></li>
+          <li><a href="#">Completed Projects <span class="pull-right badge bg-green">12</span></a></li>
+          <li><a href="#">Followers <span class="pull-right badge bg-red">842</span></a></li>
+        </ul>
+      </div>
+    </div><!-- /.widget-user -->
+  </div>
+  <div class="col-md-3">
+    <!-- Widget: user widget style 1 -->
+    <div class="box box-widget widget-user-2">
+      <!-- Add the bg color to the header using any of the bg-* classes -->
+      <div class="widget-user-header bg-aqua">
+        <div class="widget-user-image">
+          <img class="img-circle" src="{{MEDIA_URL}}/{{user.profile.displayPicture}}" alt="User Avatar">
+        </div><!-- /.widget-user-image -->
+        <h3 class="widget-user-username">Nadia Carmichael</h3>
+        <h5 class="widget-user-desc">Lead Developer</h5>
+      </div>
+      <div class="box-footer no-padding">
+        <ul class="nav nav-stacked">
+          <li><a href="#">Projects <span class="pull-right badge bg-blue">31</span></a></li>
+          <li><a href="#">Tasks <span class="pull-right badge bg-aqua">5</span></a></li>
+          <li><a href="#">Completed Projects <span class="pull-right badge bg-green">12</span></a></li>
+          <li><a href="#">Followers <span class="pull-right badge bg-red">842</span></a></li>
+        </ul>
+      </div>
+    </div><!-- /.widget-user -->
+  </div>
+
+  <table class="table table-bordered table-hover table-striped" align="center">
+    <thead>
+      <tr>
+        <th>Firstname</th>
+        <th>Lastname</th>
+        <th>Email</th>
+        <th>
+          Action
+        </th>
+      </tr>
+    </thead>
+    <tbody><tr><td>Sandeep</td><td>Yadav</td><td>sandeep@cioc.com</td><td style="text-align: center;"><div class="btn-group"><button type="button" class="btn btn-default"><i class="fa fa-envelope-o"></i></button><button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only">Toggle Dropdown</span></button><ul class="dropdown-menu"><li><a href="#">Social</a></li><li><a href="#">Projects</a></li><li><a href="#">Learning</a></li><li><a href="#">Payroll</a></li><li><a href="#">Leave management</a></li><li role="separator" class="divider"></li><li><a href="HR/admin/?action=editProfile&amp;username=sandeep">Edit master details</a></li></ul></div></td></tr><tr><td>Raj</td><td>Yadav</td><td>raj@cioc.com</td><td style="text-align: center;"><div class="btn-group"><button type="button" class="btn btn-default"><i class="fa fa-envelope-o"></i></button><button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only">Toggle Dropdown</span></button><ul class="dropdown-menu"><li><a href="#">Social</a></li><li><a href="#">Projects</a></li><li><a href="#">Learning</a></li><li><a href="#">Payroll</a></li><li><a href="#">Leave management</a></li><li role="separator" class="divider"></li><li><a href="HR/admin/?action=editProfile&amp;username=raj">Edit master details</a></li></ul></div></td></tr><tr><td>Pradeep</td><td>Yadav</td><td>pradeep@cioc.com</td><td style="text-align: center;"><div class="btn-group"><button type="button" class="btn btn-default"><i class="fa fa-envelope-o"></i></button><button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only">Toggle Dropdown</span></button><ul class="dropdown-menu"><li><a href="#">Social</a></li><li><a href="#">Projects</a></li><li><a href="#">Learning</a></li><li><a href="#">Payroll</a></li><li><a href="#">Leave management</a></li><li role="separator" class="divider"></li><li><a href="HR/admin/?action=editProfile&amp;username=pradeep">Edit master details</a></li></ul></div></td></tr><tr><td>CIOC</td><td></td><td>admin@cioc.com</td><td style="text-align: center;"><div class="btn-group"><button type="button" class="btn btn-default"><i class="fa fa-envelope-o"></i></button><button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only">Toggle Dropdown</span></button><ul class="dropdown-menu"><li><a href="#">Social</a></li><li><a href="#">Projects</a></li><li><a href="#">Learning</a></li><li><a href="#">Payroll</a></li><li><a href="#">Leave management</a></li><li role="separator" class="divider"></li><li><a href="HR/admin/?action=editProfile&amp;username=cioc">Edit master details</a></li></ul></div></td></tr></tbody>
+  </table>
+
 </div>
 
 {% endblock %}
@@ -77,7 +134,7 @@
   var getResult = function(){
     $('#searchResultsTable').show();
     var searchString = $('#searchString').val();
-    var jqxhr = $.get( "http://localhost:8000/api/users/",{}, function() {
+    var jqxhr = $.get( "http://localhost:8000/api/users/?username__contains="+searchString,{}, function() {
       // alert( "success" );
     })
     .done(function(data) {
