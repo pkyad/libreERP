@@ -27,6 +27,7 @@ INSTALLED_APPS = (
     'Employee',
     'leaveManagement',
     'organisation',
+    'projectManagement',
 )
 
 MIDDLEWARE_CLASSES = (

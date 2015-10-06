@@ -71,10 +71,6 @@ def document(request):
     return render(request , 'documentManagement.html' , {})
 
 @login_required(login_url = '/login')
-def project(request):
-    return render(request , 'project.html' , {})
-
-@login_required(login_url = '/login')
 def recruit(request):
     return render(request , 'recruit.html' , {})
 

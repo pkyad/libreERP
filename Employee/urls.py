@@ -11,6 +11,6 @@ urlpatterns = [
     url(r'^learn/', views.learn, name='learn'),
     url(r'^business/', views.business, name='business'),
     url(r'^document/', views.document, name='document'),
-    url(r'^project/', views.project, name='project'),
+    url(r'^project/', 'projectManagement.views.project', name='project'),
     url(r'^recruit/', views.recruit, name='recruit'),
 ]
