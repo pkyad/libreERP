@@ -13,8 +13,8 @@
 	      <div class="box box-widget widget-user">
 	        <!-- Add the bg color to the header using any of the bg-* classes -->
 	        <div class="widget-user-header bg-black" style="background: url('{{MEDIA_URL}}/images/photo2.png') center center;">
-          	<h3 class="widget-user-username">Elizabeth Pierce</h3>
-          	<h5 class="widget-user-desc">Web Designer</h5>
+          	<h3 class="widget-user-username"></h3>
+          	<h5 class="widget-user-desc"></h5>
 	        </div>
 	        <div class="widget-user-image">
 	          <img class="img-circle" src="{{MEDIA_URL}}/{{user.profile.displayPicture}}" alt="User Avatar">
@@ -24,7 +24,8 @@
 	    </div>
 			<div class="row">
 	      <!-- Profile Image -->
-	      <h3 class="profile-username text-center">Overview</h3>
+	      <h4 class="profile-username text-center">{{user.get_full_name |title}}</h4>
+
 
 	      <ul class="list-group list-group-unbordered">
 					<li class="list-group-item">Projects <span class="pull-right badge bg-blue">31</span></li>
@@ -33,14 +34,14 @@
 					<li class="list-group-item">Followers <span class="pull-right badge bg-red">842</span></li>
 	      </ul>
 				<div align="center">
-					<a class="btn btn-success ">Follow</a>
-					<a class="btn btn-default">Message</a>
+					<a class="btn btn-success "><i class="fa fa-user-plus"></i></a>
+					<a class="btn btn-default"><i class="fa fa-envelope-o"></i></a>
 				</div>
 
 	      <!-- About Me Box -->
 	      <div class="box box-primary">
 	        <div class="box-header with-border">
-	          <h3 class="box-title">About Me</h3>
+	          <h4 class="box-title">About Me</h4>
 						<p class="text-muted" align="justify">Freelancer is a free bootstrap theme created by Start Bootstrap. The download includes the complete source files including HTML, CSS, and JavaScript as well as optional LESS stylesheets for easy customization.
 						Whether you're a student looking to showcase your work, a professional looking to attract clients, or a graphic artist looking to share your projects, this template is the perfect starting point!</p>
 						<hr>
