@@ -1,0 +1,8 @@
+.genericTable thead {
+  background-color: #8e44ad;
+  color : white;
+  cursor: pointer;
+  height: 40px;
+  -moz-user-select: none;
+  user-select : none;
+}

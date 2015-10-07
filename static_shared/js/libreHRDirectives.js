@@ -110,6 +110,16 @@ ngCIOC.filter('timeAgo' , function(){
   }
 })
 
+ngCIOC.filter('humanize' , function(){
+  return function(input){
+    // insert a space before all caps
+    input = input.replace(/([A-Z])/g, ' $1');
+    // uppercase the first character
+    input = input.replace(/^./, function(str){ return str.toUpperCase(); });
+    return input;
+  }
+})
+
 ngCIOC.filter('getIcon' , function(){
   return function(input){
     // console.log(scope.common);

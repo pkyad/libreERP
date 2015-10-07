@@ -6,6 +6,11 @@
   {% include 'headerHR.html' %}
 {% endblock %}
 
+{% block specific_css %}
+
+<link rel="stylesheet" href="{% static 'css/genericSearch.css' %}" charset="utf-8">
+{% endblock %}
+
 {% block adminContent %}
 
 <ol class="breadcrumb">
@@ -13,151 +18,105 @@
   <li class="active">{{navContext | title}}</li>
 </ol>
 
-<div class="col-md-12">
-  <div class="row">
-    <div class="input-group">
-      <input class="form-control" id="searchString" name="searchString" placeholder="Search.." type="text" />
-      <span class="input-group-btn">
-        <a class="btn btn-default" href="/HR/admin/">Cancel</a>
-      </span>
-     </div>
-  </div>
-  <hr></hr>
-  <div class="row" id="searchResultsTable">
-    <table class="table table-bordered table-hover table-striped" align="center">
-      <thead>
-        <tr>
-          <th>Firstname</th>
-          <th>Lastname</th>
-          <th>Email</th>
-          <th>
-            Action
-          </th>
-        </tr>
-      </thead>
-      <tbody>
+<div id="searchEmpApp">
+  <div ng-controller="empSearchCtrl">
+    {% verbatim %}
+    <!-- test text = {{test}} -->
+    <div class="col-md-12">
+      <div class="row container-fluid" style="margin-bottom:30px;">
+        <div class="input-group">
 
-      </tbody>
-    </table>
+          <input type="text" class="form-control" name="refine" placeholder="Search" ng-model = "searchText">
+          <div class="input-group-btn">
+            <a class='btn btn-default'> <i class="fa fa-bars"></i></a>
+            <a class='btn btn-default '> <i class="fa fa-th-large"></i></a>
+            <a class='btn btn-default '> <i class="fa fa-th"></i></a>
+            <a class='btn btn-default '> <i class="fa fa-pie-chart"></i></a>
 
-
-
-  </div>
-
-
-  <hr>
-  <div class="row col-md-4 pull-right" style="margin-bottom:20px;">
-    <div class="input-group">
-
-      <input type="text" class="form-control" name="refine" value="Search all fields">
-      <div class="input-group-btn">
-        <a class='btn btn-default'> <i class="fa fa-bars"></i></a>
-        <a class='btn btn-default '> <i class="fa fa-th-large"></i></a>
-        <a class='btn btn-default '> <i class="fa fa-th"></i></a>
-        <a class='btn btn-default '> <i class="fa fa-pie-chart"></i></a>
-
-        <a class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span></a>
-        <ul class="dropdown-menu">
-          <li><a href="#">Use in report</a></li>
-          <li><a href="#">Export</a></li>
-          <li><a href="#">Print</a></li>
-          <li role="separator" class="divider"></li>
-          <li><a href="#">Send via email</a></li>
-        </ul>
+            <a class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="#">Use in report</a></li>
+              <li><a href="#">Export</a></li>
+              <li><a href="#">Print</a></li>
+              <li role="separator" class="divider"></li>
+              <li><a href="#">Send via email</a></li>
+            </ul>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
-  <div class=" row container-fluid">
-    <table class="table table-hover table-condensed" >
-      <thead>
-        <tr>
-          <th>Select</th>
-          <th>Firstname</th>
-          <th>Lastname</th>
-          <th>Email</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><input type="checkbox" name="name" value=""></td><td>Sandeep</td><td>Yadav</td><td>sandeep@cioc.com</td><td ><div class="btn-group"><button type="button" class="btn btn-default"><i class="fa fa-envelope-o"></i></button><button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only">Toggle Dropdown</span></button><ul class="dropdown-menu"><li><a href="#">Social</a></li><li><a href="#">Projects</a></li><li><a href="#">Learning</a></li><li><a href="#">Payroll</a></li><li><a href="#">Leave management</a></li><li role="separator" class="divider"></li><li><a href="HR/admin/?action=editProfile&amp;username=sandeep">Edit master details</a></li></ul></div></td>
-        </tr>
-        <tr>
-          <td><input type="checkbox" name="name" value=""></td><td>Raj</td><td>Yadav</td><td>raj@cioc.com</td><td ><div class="btn-group"><button type="button" class="btn btn-default"><i class="fa fa-envelope-o"></i></button><button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only">Toggle Dropdown</span></button><ul class="dropdown-menu"><li><a href="#">Social</a></li><li><a href="#">Projects</a></li><li><a href="#">Learning</a></li><li><a href="#">Payroll</a></li><li><a href="#">Leave management</a></li><li role="separator" class="divider"></li><li><a href="HR/admin/?action=editProfile&amp;username=raj">Edit master details</a></li></ul></div></td>
-        </tr>
-        <tr>
-          <td><input type="checkbox" name="name" value=""></td><td>Pradeep</td><td>Yadav</td><td>pradeep@cioc.com</td><td ><div class="btn-group"><button type="button" class="btn btn-default"><i class="fa fa-envelope-o"></i></button><button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only">Toggle Dropdown</span></button><ul class="dropdown-menu"><li><a href="#">Social</a></li><li><a href="#">Projects</a></li><li><a href="#">Learning</a></li><li><a href="#">Payroll</a></li><li><a href="#">Leave management</a></li><li role="separator" class="divider"></li><li><a href="HR/admin/?action=editProfile&amp;username=pradeep">Edit master details</a></li></ul></div></td>
-        </tr>
-        <tr>
-          <td><input type="checkbox" name="name" value=""></td><td>CIOC</td><td>Admin</td><td>admin@cioc.com</td><td ><div class="btn-group"><button type="button" class="btn btn-default"><i class="fa fa-envelope-o"></i></button><button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only">Toggle Dropdown</span></button><ul class="dropdown-menu"><li><a href="#">Social</a></li><li><a href="#">Projects</a></li><li><a href="#">Learning</a></li><li><a href="#">Payroll</a></li><li><a href="#">Leave management</a></li><li role="separator" class="divider"></li><li><a href="HR/admin/?action=editProfile&amp;username=cioc">Edit master details</a></li></ul></div></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  <ul class="pagination">
-    <li><a href="#">1</a></li>
-    <li class="active"><a href="#">2</a></li>
-    <li><a href="#">3</a></li>
-    <li><a href="#">4</a></li>
-    <li><a href="#">5</a></li>
-  </ul>
+      <div class="row container-fluid">
+        <table class="table table-hover table-striped table-condensed genericTable" >
+          <thead>
+            <tr>
+              <th ng-repeat = "heading in tableHeading" ng-click="sort($index)">{{heading | humanize}}
+                <i ng-if="sortFlag[$index]==1" class="fa fa-angle-up"></i>
+                <i ng-if="sortFlag[$index]==-1" class="fa fa-angle-down"></i>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="row in tableData">
+              <td><input type="checkbox" name="name" value=""></td>
+              <td ng-repeat = "(key , val) in row">{{val}}</td>
+              <td>
+                <div class="input-group-btn">
+                  <a class='btn btn-default btn-sm'> <i class="fa {{mainOption.icon}}"></i></a>
+                  <a class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span></a>
+                  <ul class="dropdown-menu">
+                    <li ng-repeat="(key , val) in options"><a href="{{val}}">{{key | humanize}}</a></li>
+                  </ul>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <nav>
+        <ul class="pagination pull-right">
+          <li><a href="#">5</a></li>
+          <li><a href="#">10</a></li>
+          <li><a href="#">20</a></li>
+          <li><a href="#">All</a></li>
 
+        </ul>
+        <ul class="pagination">
+          <li>
+            <a href="#" aria-label="Previous">
+              <span aria-hidden="true">&laquo;</span>
+            </a>
+          </li>
+          <li><a href="#">1</a></li>
+          <li class="active"><a href="#">2</a></li>
+          <li><a href="#">3</a></li>
+          <li><a href="#">4</a></li>
+          <li><a href="#">5</a></li>
+          <li>
+            <a href="#" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+            </a>
+          </li>
+        </ul>
+        </nav>
+    </div> <!-- main col -->
+    {% endverbatim %}
+  </div> <!-- ng controller -->
+</div> <!-- ng app -->
 
-</div>
 
 {% endblock %}
 
 {% block specific_js %}
-
+<script src="{% static 'js/ngSearchEmp.js' %}"></script>
 <script type="text/javascript">
-  var getResult = function(){
-    $('#searchResultsTable').show();
-    var searchString = $('#searchString').val();
-    var jqxhr = $.get( "http://localhost:8000/api/users/?username__contains="+searchString,{}, function() {
-      // alert( "success" );
-    })
-    .done(function(data) {
-      $('#searchResultsTable tbody').html('');
-      for (var i = 0; i < data.length; i++) {
 
-        newRow = '<tr><td>'+data[i].first_name+'</td><td>';
-        newRow += data[i].last_name+'</td><td>';
-        newRow += data[i].email+'</td><td style="text-align: center;">';
-        newRow += '<div class="btn-group">'+
-            '<button type="button" class="btn btn-default"><i class="fa fa-envelope-o"></i></button>'+
-            '<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">'+
-            '<span class="caret"></span><span class="sr-only">Toggle Dropdown</span></button>'+
-            '<ul class="dropdown-menu">'+
-              '<li><a href="#">Social</a></li>'+
-              '<li><a href="#">Projects</a></li>'+
-              '<li><a href="#">Learning</a></li>'+
-              '<li><a href="#">Payroll</a></li>'+
-              '<li><a href="#">Leave management</a></li>'+
-              '<li role="separator" class="divider"></li>'+
-              '<li><a href='+ 'HR/admin/?action=editProfile&username='+ data[i].username +'>Edit master details</a></li>'+
-            '</ul>'+
-          '</div>';
-        $('#searchResultsTable tbody').append(newRow);
-      };
-    })
-    .fail(function() {
-      // alert( "error" );
-    })
-    .always(function() {
-      // alert( "finished" );
-    });
-  }
   $(document).ready(function() {
-    $('#searchResultsTable').hide();
-    $('#searchbutton').click(getResult);
-    $('#searchString').keypress(function (e) {
-      var key = e.which;
-      if(key == 13){
-        getResult();
-        // alert("enter");
-      }
-    });
+    // alert("going to load");
+    angular.bootstrap( document.getElementById('searchEmpApp'), ['genericSearch']);
   });
+
+  range1 = function(){
+    return "working";
+  }
 </script>
 
 {% endblock %}
