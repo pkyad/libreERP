@@ -113,6 +113,7 @@ ngCIOC.filter('timeAgo' , function(){
 ngCIOC.filter('humanize' , function(){
   return function(input){
     // insert a space before all caps
+    input = input.replace('_' , ' ');
     input = input.replace(/([A-Z])/g, ' $1');
     // uppercase the first character
     input = input.replace(/^./, function(str){ return str.toUpperCase(); });
@@ -149,6 +150,41 @@ ngCIOC.filter('getName' , function(userProfileService){
   return function(userUrl){
     profile = userProfileService.get(userUrl);
     return profile.name;
+  }
+})
+
+ngCIOC.filter('explodeObj' , function(userProfileService){
+  return function(input){
+    if (typeof input =='object' && input!=null){
+      toReturn = '';
+      console.log(input);
+      for(key in input){
+        val = input[key];
+        if (val != null){
+          console.log('The key is ' + key + ' and the value is ' + val);
+          urlTest = isUrl(val);
+          if ( urlTest.type == 'hyperLink') {
+            toReturn += '<a href=' + val + '> <i class="fa fa-link"></i> </a>';
+          } else if (urlTest.type == 'image') {
+            toReturn += ' <i class="fa fa-picture-o"></i> ';
+          } else if(urlTest.type == 'string') {
+            toReturn += val + ' , ';
+          } else if(urlTest.type == 'number') {
+            toReturn += val + ' , ';
+          } else{
+            toReturn += urlTest.type + ' , ';
+          }
+        } else{
+          // console.log('The value is null for the key' + key);
+          // toReturn += 'Null , ';
+        }
+      }
+      return toReturn;
+    }else if (isUrl(input).flag == true){
+      return '<a href=' + input + '> <i class="fa fa-link"></i> </a>';
+    }else{
+      return input;
+    }
   }
 })
 

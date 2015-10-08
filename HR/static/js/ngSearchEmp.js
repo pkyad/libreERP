@@ -20,7 +20,7 @@ genericSearch.controller('empSearchCtrl', function($scope , $http, $templateCach
   $scope.fullTextSearch = function(str){
     rowsContaining = [];
     str = str.toLowerCase();
-    console.log(str);
+    // console.log(str);
     for (var i = 0; i < $scope.originalTable.length; i++) {
 
       row = $scope.originalTable[i];
@@ -32,8 +32,8 @@ genericSearch.controller('empSearchCtrl', function($scope , $http, $templateCach
         };
       };
     } // main for loop
-    console.log(rowsContaining);
-    console.log($scope.tableData);
+    // console.log(rowsContaining);
+    // console.log($scope.tableData);
     $scope.tableData = [];
     for (var i = 0; i < rowsContaining.length; i++) {
       $scope.tableData.push($scope.originalTable[rowsContaining[i]]);
@@ -45,7 +45,7 @@ genericSearch.controller('empSearchCtrl', function($scope , $http, $templateCach
     $scope.url = 'http://localhost:8000/api/users/?username__contains=' + newValue;
     $http({method: $scope.method, url: $scope.url, cache: $templateCache}).
       then(function(response) {
-        console.log(response.data);
+        // console.log(response.data);
         $scope.tableData = response.data;
         $scope.originalTable = angular.copy($scope.tableData);
         $scope.sortFlag = [];
@@ -69,15 +69,15 @@ genericSearch.controller('empSearchCtrl', function($scope , $http, $templateCach
   });
 
   $scope.$watch('searchText', function(newValue , oldValue){
-    parts = newValue.split('-->');
-    console.log(parts);
+    parts = newValue.split('>');
+    // console.log(parts);
     $scope.getStr = parts[0].trim();
     if (typeof parts[1] == 'undefined'){
       searchStr = '';
     }else{
       searchStr = parts[1].trim();
     };
-    console.log(searchStr);
+    // console.log(searchStr);
     $scope.fullTextSearch(searchStr);
   });
 
@@ -126,6 +126,61 @@ genericSearch.controller('empSearchCtrl', function($scope , $http, $templateCach
   }
 
 });
+
+function isNumber(num){
+  if (typeof num=='string') {
+    num = parseInt(num);
+  }
+  // console.log(num);
+  // console.log(Number.isInteger(num));
+  if (Number.isInteger(num)){
+    return true;
+  }else {
+    return false;
+  }
+}
+
+isUrl = function(str){
+  // checks if the input is a url
+  if (isNumber(str)) {
+    // console.log("got a number hurray");
+    return {flag : false , type : 'number'};
+  }
+  if ( str.length > 7) {
+    // console.log("the input to isURL is " + str);
+    str = str.toLowerCase()
+
+    if (str.indexOf('http://') !=-1 || str.indexOf('https://') !=-1 ){
+      // console.log('yes its a url');
+      flag = true;
+      if (str.endsWith('.jpg') || str.endsWith('png')) {
+        type = 'image';
+      }else if (str.endsWith('.pdf')) {
+        type = 'pdf';
+      }else if (str.endsWith('.py')) {
+        type = 'python';
+      }else if (str.endsWith('.odt')) {
+        type = 'openDoc';
+      }else{
+        type = 'hyperLink';
+      }
+    }
+  } else {
+    flag = false;
+    type = 'string';
+  }
+
+  return {flag : flag , type : type};
+}
+
+String.prototype.endsWith = function(str){
+  if (str.length<this){
+    return false;
+  }
+  return (this.match(str+"$")==str)
+}
+
+
 
 
 // var getResult = function(){

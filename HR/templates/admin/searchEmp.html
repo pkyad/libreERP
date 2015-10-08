@@ -57,7 +57,7 @@
           <tbody>
             <tr ng-repeat="row in tableData">
               <td><input type="checkbox" name="name" value=""></td>
-              <td ng-repeat = "(key , val) in row">{{val}}</td>
+              <td ng-repeat = "(key , val) in row" ><span ng-bind-html="val | explodeObj"></span></td>
               <td>
                 <div class="input-group-btn">
                   <a class='btn btn-default btn-sm'> <i class="fa {{mainOption.icon}}"></i></a>

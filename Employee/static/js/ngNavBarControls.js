@@ -37,12 +37,14 @@ notificationApp.controller('myCtrl', function($scope , $http, $templateCache, $t
         for (var i = 0; i < response.data.length; i++) {
           var im = response.data[i];
           // console.log(senders.indexOf(im.originator));
-          if (senders.indexOf(im.originator) ==-1){
-            $scope.ims.push(im);
-            senders.push(im.originator);
-            $scope.ims[senders.indexOf(im.originator)].count =1;
-          } else{
+          if (im.originator != null){
+            if (senders.indexOf(im.originator) ==-1){
+              $scope.ims.push(im);
+              senders.push(im.originator);
+              $scope.ims[senders.indexOf(im.originator)].count =1;
+            }else{
             $scope.ims[senders.indexOf(im.originator)].count +=1;
+            }
           }
           // console.log(senders);
           // console.log($scope.ims);
