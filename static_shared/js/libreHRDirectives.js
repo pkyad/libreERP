@@ -40,6 +40,24 @@ ngCIOC.service('userProfileService', function($rootScope, $window){
   return $window.sharedService;
 });
 
+ngCIOC.filter('rainbow' , function(){
+  return function(input){
+    console.log(input);
+    if (input%5 == 1){
+      return "bg-aqua";
+    } else if (input%5 == 2){
+      return "bg-yellow";
+    } else if (input%5 == 3) {
+      return "bg-green";
+    }else if (input%5 == 5) {
+      return "bg-blue";
+    }else if (input%5 == 0) {
+      return "bg-orange";
+    } else{
+      return "bg-purple";
+    }
+  }
+})
 
 ngCIOC.directive('modal', function () {
   return {
@@ -146,6 +164,7 @@ ngCIOC.filter('getDP' , function(userProfileService){
   }
 })
 
+
 ngCIOC.filter('getName' , function(userProfileService){
   return function(userUrl){
     profile = userProfileService.get(userUrl);
@@ -157,11 +176,11 @@ ngCIOC.filter('explodeObj' , function(userProfileService){
   return function(input){
     if (typeof input =='object' && input!=null){
       toReturn = '';
-      console.log(input);
+      // console.log(input);
       for(key in input){
         val = input[key];
         if (val != null){
-          console.log('The key is ' + key + ' and the value is ' + val);
+          // console.log('The key is ' + key + ' and the value is ' + val);
           urlTest = isUrl(val);
           if ( urlTest.type == 'hyperLink') {
             toReturn += '<a href=' + val + '> <i class="fa fa-link"></i> </a>';
@@ -198,6 +217,8 @@ ngCIOC.filter('decorateCount' , function(){
     }
   }
 })
+
+
 
 
 ngCIOC.directive('messageStrip', function () {

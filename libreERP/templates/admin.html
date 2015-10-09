@@ -6,11 +6,13 @@
 {% endblock %}
 
 {% block content %}
-
 <div class="container-fluid">
 
+
+
+
   <div class="row" >
-    <div class="panel-group col-md-2 nav-sidebarAccordion" id="accordion">
+    <div class="panel-group col-md-2 col-sm-12 nav-sidebarAccordion" id="accordion">
       <!-- <div class="panel panel-default">
         <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
           <div class="panel-title" align="left"><i class="fa fa-check-square-o"></i>&nbsp;&nbsp;Approvals</div>
@@ -124,18 +126,20 @@
       </div> -->
     </div>
     <div class="col-md-10 col-md-offset-2">
+      <!-- <div class="row"> -->
 
-      {% block adminContent %}
-      {% if messages %}
-        {% for message in messages %}
+        {% block adminContent %}
+        {% if messages %}
+          {% for message in messages %}
 
-          <div class="alert alert-{% if 'error'  in message.tags %}danger{% else %}{{message.tags}}{% endif %}">
-            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-            {{ message }}
-          </div>
-        {% endfor %}
-      {% endif %}
-      {% endblock %}
+            <div class="alert alert-{% if 'error'  in message.tags %}danger{% else %}{{message.tags}}{% endif %}">
+              <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+              {{ message }}
+            </div>
+          {% endfor %}
+        {% endif %}
+        {% endblock %}
+      <!-- </div> -->
 
     </div>
   </div>

@@ -17,6 +17,17 @@ genericSearch.controller('empSearchCtrl', function($scope , $http, $templateCach
   $scope.tableData = [];
   $scope.searchText = '';
   $scope.originalTable = [];
+  isSelectable = true;
+  haveOptions = true;
+  $scope.mainOption = {IM : 'http://instantmessage' , icon : 'fa-envelope-o'}
+  $scope.options = {social : 'http://socialLink' , learning : 'http://learning' , leave : 'http://leave' , editMaster : 'http://editMaster'};
+  $scope.itemsNumPerView = [5, 10, 20];
+  $scope.itemsPerView = 5;
+  $scope.pageList = [1, 2, 3, 4, 5];
+  $scope.pageNo = 0; // default page number set to 0
+  $scope.viewMode ='list';
+  // console.log($scope.tableData);
+
   $scope.fullTextSearch = function(str){
     rowsContaining = [];
     str = str.toLowerCase();
@@ -40,13 +51,22 @@ genericSearch.controller('empSearchCtrl', function($scope , $http, $templateCach
     }
   }
 
-  $scope.$watch('getStr' , function(newValue , oldValue){
-    $scope.method = 'GET';
-    $scope.url = 'http://localhost:8000/api/users/?username__contains=' + newValue;
-    $http({method: $scope.method, url: $scope.url, cache: $templateCache}).
+  $scope.fetchData = function(searchStr){
+    if (typeof searchStr=='undefined') {
+      searchStr = '';
+    }
+    fetch.method = 'GET';
+    fetch.url = 'http://localhost:8000/api/users/?&username__contains=' + searchStr + '&limit='+ $scope.itemsPerView + '&offset='+ $scope.pageNo*$scope.itemsPerView;
+    $http({method: fetch.method, url: fetch.url, cache: $templateCache}).
       then(function(response) {
-        // console.log(response.data);
-        $scope.tableData = response.data;
+        console.log(response);
+        var pageCount = Math.floor(response.data.count/$scope.itemsPerView)+1;
+        $scope.pageList = [1];
+        console.log(pageCount);
+        for (var i = 2; i <= pageCount; i++) {
+          $scope.pageList.push(i);
+        }
+        $scope.tableData = response.data.results;
         $scope.originalTable = angular.copy($scope.tableData);
         $scope.sortFlag = [];
         $scope.tableHeading = [];
@@ -66,7 +86,12 @@ genericSearch.controller('empSearchCtrl', function($scope , $http, $templateCach
       }, function(response) {
 
     });
+  }
+
+  $scope.$watch('getStr' , function(newValue , oldValue){
+    $scope.fetchData(newValue);
   });
+
 
   $scope.$watch('searchText', function(newValue , oldValue){
     parts = newValue.split('>');
@@ -81,14 +106,29 @@ genericSearch.controller('empSearchCtrl', function($scope , $http, $templateCach
     $scope.fullTextSearch(searchStr);
   });
 
-  isSelectable = true;
-  haveOptions = true;
-  $scope.mainOption = {IM : 'http://instantmessage' , icon : 'fa-envelope-o'}
-  $scope.options = {social : 'http://socialLink' , learning : 'http://learning' , leave : 'http://leave' , editMaster : 'http://editMaster'};
-
-  // console.log($scope.tableData);
 
 
+  $scope.changePage = function(toPage){
+    // change page number ot the seleted page
+    $scope.pageNo = toPage;
+    $scope.fetchData();
+    console.log("will change the page now" + toPage);
+
+  }
+
+  $scope.loadPrevSetPages = function(){
+    // function to load prev set of pages
+  }
+  $scope.loadNextSetPages = function(){
+    // function to load the next set of pages
+
+  }
+  $scope.changeNumView = function(num){
+    $scope.itemsPerView = num;
+    $scope.fetchData();
+    $scope.changePage(0);
+    console.log($scope.pageNo);
+  }
   $scope.sort = function(col){
     $scope.tableSnap = angular.copy($scope.tableData);
     if ($scope.sortFlag[col]==-2) {
@@ -179,44 +219,3 @@ String.prototype.endsWith = function(str){
   }
   return (this.match(str+"$")==str)
 }
-
-
-
-
-// var getResult = function(){
-//   $('#searchResultsTable').show();
-//   var searchString = $('#searchString').val();
-//   var jqxhr = $.get( "http://localhost:8000/api/users/?username__contains="+searchString,{}, function() {
-//     // alert( "success" );
-//   })
-//   .done(function(data) {
-//     $('#searchResultsTable tbody').html('');
-//     for (var i = 0; i < data.length; i++) {
-//
-//       newRow = '<tr><td>'+data[i].first_name+'</td><td>';
-//       newRow += data[i].last_name+'</td><td>';
-//       newRow += data[i].email+'</td><td style="text-align: center;">';
-//       newRow += '<div class="btn-group">'+
-//           '<button type="button" class="btn btn-default"><i class="fa fa-envelope-o"></i></button>'+
-//           '<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">'+
-//           '<span class="caret"></span><span class="sr-only">Toggle Dropdown</span></button>'+
-//           '<ul class="dropdown-menu">'+
-//             '<li><a href="#">Social</a></li>'+
-//             '<li><a href="#">Projects</a></li>'+
-//             '<li><a href="#">Learning</a></li>'+
-//             '<li><a href="#">Payroll</a></li>'+
-//             '<li><a href="#">Leave management</a></li>'+
-//             '<li role="separator" class="divider"></li>'+
-//             '<li><a href='+ 'HR/admin/?action=editProfile&username='+ data[i].username +'>Edit master details</a></li>'+
-//           '</ul>'+
-//         '</div>';
-//       $('#searchResultsTable tbody').append(newRow);
-//     };
-//   })
-//   .fail(function() {
-//     // alert( "error" );
-//   })
-//   .always(function() {
-//     // alert( "finished" );
-//   });
-// }

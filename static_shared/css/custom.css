@@ -47,7 +47,7 @@
 
 /* for the side panel accordion */
 .nav-sidebarAccordion {
-  position: fixed;
+  position: absolute;
 }
 .nav-sidebarAccordion > .panel> .panel-heading:hover {
   border-radius: 0px;
@@ -279,6 +279,20 @@
 
 .bg-red{
     background-color: #DD4B39 !important;
+}
+
+.bg-blue {
+  background-color: #3498db;
+}
+
+.bg-black {
+  background-color: #34495e;
+}
+.bg-orange {
+  background-color: #d35400;
+}
+.bg-purple {
+  background-color: #8e44ad;
 }
 
 .bg-red, .bg-yellow, .bg-aqua, .bg-blue, .bg-light-blue, .bg-green, .bg-navy, .bg-teal, .bg-olive, .bg-lime, .bg-orange, .bg-fuchsia, .bg-purple, .bg-maroon, .bg-black, .bg-red-active, .bg-yellow-active, .bg-aqua-active, .bg-blue-active, .bg-light-blue-active, .bg-green-active, .bg-navy-active, .bg-teal-active, .bg-olive-active, .bg-lime-active, .bg-orange-active, .bg-fuchsia-active, .bg-purple-active, .bg-maroon-active, .bg-black-active {
