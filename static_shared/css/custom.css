@@ -1,6 +1,6 @@
 :root {
   --themeMain: #3d9483;
-  --headerNavbarHighlight:#03355b;
+  --headerNavbarHighlight:#276c5f;
   --flatAccordionLevelThree: #65ab98;
 
   /*--themeMain:#d77a2d ;
@@ -270,7 +270,7 @@
 }
 
 .bg-green{
-    background-color: #00A65A !important;
+    background-color: #066339 !important;
 }
 
 .bg-yellow {
@@ -278,37 +278,49 @@
 }
 
 .bg-red{
-    background-color: #DD4B39 !important;
+    background-color: #a34337 !important;
 }
 
 .bg-blue {
-  background-color: #3498db;
+  background-color: #2673a6 !important;
 }
 
 .bg-black {
-  background-color: #34495e;
+  background-color: #34495e !important;
 }
 .bg-orange {
-  background-color: #d35400;
+  background-color: #b16c04 !important;
 }
 .bg-purple {
-  background-color: #8e44ad;
+  background-color: #8e44ad !important;
 }
+.bg-olive {
+  background-color: #828504 !important;
+
+}
+.bg-fuchsia {
+  background-color: #ad2a72 !important;
+
+}
+
 
 .bg-red, .bg-yellow, .bg-aqua, .bg-blue, .bg-light-blue, .bg-green, .bg-navy, .bg-teal, .bg-olive, .bg-lime, .bg-orange, .bg-fuchsia, .bg-purple, .bg-maroon, .bg-black, .bg-red-active, .bg-yellow-active, .bg-aqua-active, .bg-blue-active, .bg-light-blue-active, .bg-green-active, .bg-navy-active, .bg-teal-active, .bg-olive-active, .bg-lime-active, .bg-orange-active, .bg-fuchsia-active, .bg-purple-active, .bg-maroon-active, .bg-black-active {
   color: #FFF !important;
+}
+.info-box-faIcon {
+  line-height: 90px;
 }
 .info-box-icon {
   border-radius: 2px 0px 0px 2px;
   display: block;
   float: left;
-  height: 90px;
+  height: 100%;
   width: 90px;
   text-align: center;
   font-size: 45px;
-  line-height: 90px;
   background: rgba(0, 0, 0, 0.2) none repeat scroll 0% 0%;
 }
+
 .info-box-content {
   padding: 5px 10px;
   margin-left: 90px;
@@ -321,7 +333,7 @@
 
 info-box-bordered >.progress-description, .info-box-text {
   display: block;
-  text-transform: uppercase;
+  text-transform: capitalize;
   font-size: 14px;
   white-space: nowrap;
   overflow: show;

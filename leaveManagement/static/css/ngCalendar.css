@@ -77,7 +77,7 @@
   display: block;
 }
 .dayInfoBox >ul >li >a:hover ,.dayInfoBox >ul >li >a:focus {
-  background: #803600;
+  background: rgba(0, 0, 0, 0.2) none repeat scroll 0% 0%;
 }
 .dayInfoBox >ul >li >a{
   text-decoration: none;

@@ -7,7 +7,6 @@
     <title>Index - Employee</title>
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" charset="utf-8">
     <link rel="stylesheet" href="{% static 'css/font-awesome.css' %}" charset="utf-8">
-    <link rel="stylesheet" href="{% static 'css/datepicker.css' %}" media="screen" charset="utf-8">
     <link rel="stylesheet" href="{% static 'css/header.css' %}" charset="utf-8">
     <link rel="stylesheet" href="{% static 'css/custom.css' %}" charset="utf-8">
     {% block specific_css %}{% endblock %}
@@ -35,31 +34,18 @@
     </script>
     <script src="{% static 'js/jquery-2.1.4.min.js' %}"></script>
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
-    <script src="{% static 'js/datepicker.js' %}"></script>
     <script src="{% static 'js/angular.min.js' %}"></script>
+    <script src="{% static 'js/angular-animate.min.js' %}"></script>
     <script src="{% static 'js/angular-sanitize.min.js' %}"></script>
     <script src="{% static 'js/autobahn.min.js' %}"></script>
     <script src="{% static 'js/libreHRDirectives.js' %}"></script>
     <script src="{% static 'js/instantMessanger.js' %}"></script>
     <script src="{% static 'js/ngNavBarControls.js' %}"></script>
 
-    <!-- <script src="{% static 'js/jquery.slimscroll.min.js' %}"></script> -->
     <script type="text/javascript">
       $(document).ready(function() {
-        $('.datepicker').datepicker({
-          dateFormat: "yyyy-mm-dd",
-        });
         angular.bootstrap( document.getElementById('notificationAppDiv'), ['notificationApp']);
         angular.bootstrap( document.getElementById('instantMessanger'), ['instantMessanger']);
-
-        // $('.slimScrollDiv').slimScroll({
-        //   width: '300px',
-        //   height: '350px',
-        //   color:  '#1b76d5',
-        //   size:   '10px',
-        //   wheelStep:  '1',
-        //   scroll: true,
-        // });
       });
     </script>
     <script src="{% static 'js/wampProcessors.js' %}"></script>

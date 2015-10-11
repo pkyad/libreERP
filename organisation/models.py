@@ -12,22 +12,22 @@ class userDesignation(models.Model):
     )
 
     RND_RANK_CHOICE = (
-        ('NOTSELEC' , 'Not Selected..'),
-        ('DIRECTOR' , 'Director'),
-        ('DEPDIREC' , 'Deputy Director'),
-        ('DEPAHEAD' , 'Department Head'),
-        ('PROFINCH' , 'Prof. InCharge'),
-        ('GROUPLEA' , 'Group Leader'),
-        ('SENSCIEN' , 'Senior Scientist'),
-        ('SCIENTIS' , 'Scientist'),
-        ('UNDERGRA' , 'Undergraduate Student'),
-        ('MASTERST' , 'Master Student'),
-        ('PHDSTUDE' , 'PhD Candidate'),
-        ('POSTDOCS' , 'Post Doctoral Candidate'),
-        ('SENIOREN' , 'Senior Engineer'),
-        ('ENGNIEER' , 'Engineer'),
-        ('TECHNICI' , 'Technician'),
-        ('GETSTAFF' , 'General Staff'),
+        ('Not Selected..' , 'Not Selected..'),
+        ('Director' , 'Director'),
+        ('Deputy Director' , 'Deputy Director'),
+        ('Department Head' , 'Department Head'),
+        ('Prof. InCharge' , 'Prof. InCharge'),
+        ('Group Leader' , 'Group Leader'),
+        ('Senior Scientist' , 'Senior Scientist'),
+        ('Scientist' , 'Scientist'),
+        ('Undergraduate Student' , 'Undergraduate Student'),
+        ('Master Student' , 'Master Student'),
+        ('PhD Candidate' , 'PhD Candidate'),
+        ('Post Doctoral Candidate' , 'Post Doctoral Candidate'),
+        ('Senior Engineer' , 'Senior Engineer'),
+        ('Engineer' , 'Engineer'),
+        ('Technician' , 'Technician'),
+        ('General Staff' , 'General Staff'),
     )
 
     OPERATIONAL_RANK_CHOICE = (
@@ -64,7 +64,7 @@ class userDesignation(models.Model):
         ('TELE' , 'Tele Communications'),
     )
 
-    """ One more field can be user here  
+    """ One more field can be user here
     """
     user = models.OneToOneField(User)
     domainType = models.CharField(choices = UNIT_TYPE_CHOICE , default = 'NOT' , max_length = 3)
@@ -72,12 +72,11 @@ class userDesignation(models.Model):
     unit = models.CharField(max_length = 30 , null = True) # this should be unique for a given facilty
     department = models.CharField(max_length = 30 , null = True)
     rank = models.CharField(choices = RND_RANK_CHOICE , default = 'NOTSELEC' , max_length = 8)
-    designation = models.CharField(null = False , max_length = 30)
     reportingTo = models.ForeignKey(User , related_name = "managing" , null=True)
     primaryApprover = models.ForeignKey(User, related_name = "approving" , null=True)
     secondaryApprover = models.ForeignKey(User , related_name = "alsoApproving" , null=True)
 
     def __unicode__(self):
-        return self.designation
+        return self.rank
 
 User.designation = property(lambda u : userDesignation.objects.get_or_create(user = u)[0])

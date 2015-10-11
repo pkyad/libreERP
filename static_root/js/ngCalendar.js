@@ -1,110 +1,4 @@
-
-var ngCIOC = angular.module('libreHR.directives' , []);
-
-ngCIOC.directive('modal', function () {
-  return {
-    template: '<div class="modal fade">' +
-        '<div class="modal-dialog">' +
-          '<div class="modal-content">' +
-            '<div class="modal-header">' +
-              '<button type="button" class="close" data-dismiss="modal">&times;</button>'+
-              '<h4 class="modal-title">{{ title }}</h4>' +
-            '</div>' +
-            '<div class="modal-body">'+
-              '<div ng-include="contentUrl"></div>'+
-            '</div>' +
-          '</div>' +
-        '</div>' +
-      '</div>',
-    restrict: 'E',
-    transclude: true,
-    replace:true,
-    scope:{
-      data : '=',
-      visible : '=',
-      submitFn :'&',
-    },
-    controller : function($scope){
-    },
-    // attrs is the attrs passed from the main scope
-    link: function postLink(scope, element, attrs) {
-      scope.title = attrs.title;
-      scope.contentUrl = attrs.url;
-      scope.$watch('visible', function(newValue , oldValue){
-        if(newValue == true){
-          $(element).modal('show');
-        }
-        else{
-          $(element).modal('hide');
-        }
-      });
-
-      $(element).on('shown.bs.modal', function(){
-        scope.$apply(function(){
-          scope.visible = true;
-        });
-      });
-
-      $(element).on('hidden.bs.modal', function(){
-        scope.$apply(function(){
-          scope.data.statusMessage = '';
-          scope.visible = false;
-        });
-      });
-    }
-  };
-});
-
-ngCIOC.directive('fileModel', ['$parse', function ($parse) {
-  return {
-    restrict: 'A',
-    link: function(scope, element, attrs) {
-      var model = $parse(attrs.fileModel);
-      var modelSetter = model.assign;
-
-      element.bind('change', function(){
-        scope.$apply(function(){
-          modelSetter(scope, element[0].files[0]);
-        });
-      });
-    }
-  };
-}]);
-
-ngCIOC.service('ngHttpSocket', ['$http', function ($http) {
-  this.uploadFileToUrl = function(data, uploadUrl){
-
-    $http.post(uploadUrl, data, {
-      transformRequest: angular.identity,
-      headers: {'Content-Type': undefined}
-    })
-    .success(function(){
-    })
-    .error(function(){
-
-    });
-  }
-}]);
-
-ngCIOC.directive('ngEnter', function () {
-  return function (scope, element, attrs) {
-    element.bind("keydown keypress", function (event) {
-      if(event.which === 13) {
-        scope.$apply(function (){
-          scope.$eval(attrs.ngEnter);
-        });
-        event.preventDefault();
-      }
-    });
-  };
-});
-
-
-var ngApp = angular.module('ngApp', ['libreHR.directives',]);
-
-/*
-This directive allows us to pass a function in on an enter key to do what we want.
- */
+var ngApp = angular.module('ngApp', ['libreHR.directives','notificationApp',]);
 
 ngApp.config(['$httpProvider' , function($httpProvider){
 
@@ -112,11 +6,10 @@ ngApp.config(['$httpProvider' , function($httpProvider){
   $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
   $httpProvider.defaults.withCredentials = true;
 }])
-
 ngApp.controller('myCtrl', function($scope , $http , ngHttpSocket) {
   // main business logic starts from here
 
-  $scope.category = 'NOT'
+  $scope.category = 'NOT';
   $scope.reason = "Nothing";
   $scope.start = new Date();
   $scope.end = new Date();
@@ -146,7 +39,7 @@ ngApp.controller('myCtrl', function($scope , $http , ngHttpSocket) {
   $http.get("http://127.0.0.1:8000/api/leaveApplications/")
     .success(function(data){
       // console.log(data);
-  })
+  });
   $scope.leaveApplicationData = {category : 'NOT' , reason : '' , start : '' , end:'' , attachment :''};
   $scope.leaveApplicationData.statusMessage = '';
   $scope.uploadData = function(){

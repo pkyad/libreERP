@@ -49,6 +49,7 @@ class userDesignationViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     queryset = userDesignation.objects.all()
     serializer_class = userDesignationSerializer
+    
 class userProfileViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     serializer_class = userProfileSerializer
