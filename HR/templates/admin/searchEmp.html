@@ -14,10 +14,10 @@
 {% block adminContent %}
 <!-- <div class="row"> -->
 
-  <ol class="breadcrumb">
-    <li class="active">Administration</li>
-    <li class="active">{{navContext | title}}</li>
-  </ol>
+<ol class="breadcrumb">
+  <li class="active">Administration</li>
+  <li class="active">{{navContext | title}}</li>
+</ol>
 <!-- </div> -->
 <div id="searchEmpApp">
   <div ng-controller="empSearchCtrl">
@@ -65,7 +65,7 @@
         </ul>
       </nav>
       <div class="row container-fluid">
-        <table ng-if="viewMode == 'list'" class="table table-hover table-striped table-condensed genericTable" >
+        <table ng-if="viewMode == 'list'" class="table" >
           <thead>
             <tr>
               <th ng-repeat = "heading in tableHeading" ng-click="sort($index)">{{heading | humanize}}
@@ -136,11 +136,17 @@
         </div>
 
       </div>
-
+      <button type="button" class="btn btn-default" ng-click="openAside('left', true)"> Open aside</button>
+      <button type="button" class="btn btn-default" ng-click="openAside('left' )">
+              <span class="glyphicon glyphicon-align-justify"></span> Left
+            </button>
     </div> <!-- main col -->
     {% endverbatim %}
   </div> <!-- ng controller -->
 </div> <!-- ng app -->
+
+
+
 
 
 {% endblock %}

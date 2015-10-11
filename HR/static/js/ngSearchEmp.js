@@ -1,4 +1,4 @@
-var genericSearch = angular.module('genericSearch', ['libreHR.directives','ngAnimate', 'ngSanitize']);
+var genericSearch = angular.module('genericSearch', ['libreHR.directives' , 'ngSanitize', 'ui.bootstrap', 'ngAside']);
 
 genericSearch.config(['$httpProvider' , function($httpProvider){
   $httpProvider.defaults.xsrfCookieName = 'csrftoken';
@@ -11,7 +11,7 @@ genericSearch.config(['$httpProvider' , function($httpProvider){
 genericSearch.directive('tableRow', function () {
   return {
     template: '<tr>'+
-      '<td><input type="checkbox" name="name" value=""></td>'+
+      '<td><input type="checkbox" name="name" value="" disabled="true"></td>'+
       '<td ng-repeat = "(key , val) in data" ><span ng-bind-html="val | explodeObj"></span></td>'+
       '<td>'+
         '<div class="input-group-btn">'+
@@ -47,7 +47,7 @@ genericSearch.directive('tableRow', function () {
 });
 // alert("Came in the ngSeachEmp js file");
 
-genericSearch.controller('empSearchCtrl', function($scope , $http, $templateCache, $timeout , userProfileService) {
+genericSearch.controller('empSearchCtrl', function($scope , $http, $templateCache, $timeout , userProfileService , $aside) {
   // $scope.test = "some text";
   // $scope.tableData = [{firstName : 'Pradeep' , lastName : 'Yadav' , email: 'pradeep@cioc.com' , num : 5},
   //   {firstName : 'Sandeep' , lastName : 'Yadav' , email: 'sandeep@cioc.com' , num : 1},
@@ -68,6 +68,39 @@ genericSearch.controller('empSearchCtrl', function($scope , $http, $templateCach
   $scope.numOfPagesPerView = 5;
   // console.log($scope.tableData);
   $scope.aside = {title: 'Title', content: 'Hello Aside<br />This is a multiline message!'};
+
+  $scope.asideState = {
+    open: false
+  };
+
+  $scope.openAside = function(position, backdrop) {
+    $scope.asideState = {
+      open: true,
+      position: position
+    };
+
+    function postClose() {
+      $scope.asideState.open = false;
+    }
+
+    $aside.open({
+      templateUrl: '/static/forms/aside.html',
+      placement: position,
+      size: 'lg',
+      backdrop: backdrop,
+      controller: function($scope, $modalInstance) {
+        $scope.ok = function(e) {
+          $modalInstance.close();
+          e.stopPropagation();
+        };
+        $scope.cancel = function(e) {
+          $modalInstance.dismiss();
+          e.stopPropagation();
+        };
+      }
+    }).result.then(postClose, postClose);
+  }
+
 
   $scope.fullTextSearch = function(str){
     rowsContaining = [];
