@@ -8,8 +8,6 @@ def getPostAttachmentPath(instance , filename ):
     return 'social/postAttachments/%s_%s_%s' % (str(time()).replace('.', '_'), instance.user.username, filename)
 def getSocialPictureUploadPath(instance , filename ):
     return 'social/pictureUploads/%s_%s_%s' % (str(time()).replace('.', '_'), instance.user.username, filename)
-def getSocialCoverPictureUploadPath(instance , filename ):
-    return 'social/pictureUploads/%s_%s_%s' % (str(time()).replace('.', '_'), instance.user.username, filename)
 
 
 class post(models.Model):
@@ -34,24 +32,15 @@ class follow(models.Model):
     user = models.ForeignKey(User , related_name ='itemsFollowing')
     created = models.DateTimeField(auto_now = True)
 
-class socialProfile(models.Model):
-    user = models.ForeignKey(User , related_name = 'socialProfile')
-    aboutMe = models.TextField(max_length = 500, null = False)
-    status = models.TextField(max_length = 200 , null = False)
-    coverPic = models.ImageField(upload_to = getSocialCoverPictureUploadPath , null = True)
-
-
 class comment(models.Model):
     user = models.ForeignKey(User , related_name = 'postsCommented')
     created = models.DateTimeField(auto_now = True)
     attachment = models.FileField(upload_to = getCommentAttachmentPath , null = True)
-    def __unicode__(self):
-        return self.parent
+    text = models.CharField(max_length = 200 , null = False)
+
 class like(models.Model):
     user = models.ForeignKey(User , related_name = 'commentsLiked')
     created = models.DateTimeField(auto_now = True)
-    def __unicode__(self):
-        return self.parent
 
 class postComments(comment):
     parent = models.ForeignKey(post , related_name ='comments')

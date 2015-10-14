@@ -1,7 +1,7 @@
 from rest_framework import serializers
-from .models import post , album , picture , socialProfile
+from .models import post , album , picture 
 from API.serializers import UserSerializer
-
+from django.core.exceptions import ValidationError
 
 # class socialCommentsSerializer(serializers.HyperlinkedModelSerializer):
 #     class Meta:

@@ -139,7 +139,7 @@ genericSearch.controller('empSearchCtrl', function($scope , $http, $templateCach
       searchStr = '';
     }
     fetch.method = 'GET';
-    fetch.url = 'http://localhost:8000/api/users/?&username__contains=' + searchStr + '&limit='+ $scope.itemsPerView + '&offset='+ ($scope.pageNo-1)*$scope.itemsPerView;
+    fetch.url = '/api/users/?&username__contains=' + searchStr + '&limit='+ $scope.itemsPerView + '&offset='+ ($scope.pageNo-1)*$scope.itemsPerView;
     $http({method: fetch.method, url: fetch.url, cache: $templateCache}).
       then(function(response) {
         // console.log(response);

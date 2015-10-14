@@ -6,7 +6,7 @@ notificationApp.controller('myCtrl', function($scope , $http, $templateCache, $t
   $scope.fetchNotifications = function() {
     console.log("going to fetch notifictions");
     $scope.method = 'GET';
-    $scope.url = 'http://localhost:8000/api/notification/';
+    $scope.url = '/api/notification/';
     $scope.notifications = [];
     $scope.notificationCount =0;
     $http({method: $scope.method, url: $scope.url, cache: $templateCache}).
@@ -25,7 +25,7 @@ notificationApp.controller('myCtrl', function($scope , $http, $templateCache, $t
   $scope.usersProfile = [];
   $scope.fetchMessages = function() {
     $scope.method = 'GET';
-    $scope.url = 'http://localhost:8000/api/chatMessage/';
+    $scope.url = '/api/chatMessage/';
     $scope.ims = [];
     $scope.imsCount = 0;
     var senders = [];
@@ -65,4 +65,60 @@ notificationApp.controller('myCtrl', function($scope , $http, $templateCache, $t
     });
   }
 
+});
+
+
+
+notificationApp.directive('messageStrip', function () {
+  return {
+    template: '<li class="container-fluid navBarInfoList" ng-click="openChat()">'+
+      '<a class="row" style="position: relative; top:-7px; text-decoration:none !important;">'+
+        '<img class="img-circle" ng-src="{{data.originator | getDP}}"  alt="My image" style="width:50px;height:50px;position: relative; top:-8px; "/>'+
+        '<div class="col-md-10 pull-right" style="position: relative; top:-10px">'+
+          '<span class="text-muted">{{data.originator | getName}}</span> {{data.count | decorateCount}}<small style="position:absolute;right:0px;" class="pull-right text-muted">{{data.created | timeAgo}} <i class="fa fa-clock-o "></i></small>'+
+          '<br>{{data.message | limitTo:35}}'+
+        '</div>'+
+      '</a>'+
+    '</li>',
+    restrict: 'E',
+    transclude: true,
+    replace:true,
+    scope:{
+      data : '=',
+      openChat :'&',
+    },
+    controller : function($scope){
+    },
+    // attrs is the attrs passed from the main scope
+    link: function postLink(scope, element, attrs) {
+
+    }
+  };
+});
+
+notificationApp.directive('notificationStrip', function () {
+  return {
+    template: '<li class="container-fluid navBarInfoList" >'+
+      '<a href="{{data.url}}" class="row" style="position: relative; top:-7px; text-decoration:none !important;">'+
+        '<i class="fa {{data.originator | getIcon:this}} fa-2x"></i>'+
+        '<div class="col-md-11 pull-right" style="position: relative; top:-10px">'+
+          '<span class="text-muted">{{data.originator}}</span><small style="position:absolute;right:0px;" class="pull-right text-muted">{{data.created | timeAgo}} <i class="fa fa-clock-o "></i></small>'+
+          '<br>{{data.shortInfo | limitTo:45 }}'+
+        '</div>'+
+      '</a>'+
+    '</li>',
+    restrict: 'E',
+    transclude: true,
+    replace:true,
+    scope:{
+      data : '=',
+    },
+    controller : function($scope){
+      // console.log($scope.data);
+    },
+    // attrs is the attrs passed from the main scope
+    link: function postLink(scope, element, attrs) {
+      
+    }
+  };
 });

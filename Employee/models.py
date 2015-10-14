@@ -20,6 +20,10 @@ def getTranscriptsPath(instance , filename ):
     return 'doc/Transcripts/%s_%s_%s' % (str(time()).replace('.', '_'), instance.user.username, filename)
 def getOtherDocsPath(instance , filename ):
     return 'doc/Others/%s_%s_%s' % (str(time()).replace('.', '_'), instance.user.username, filename)
+def getSocialCoverPictureUploadPath(instance , filename ):
+    return 'social/pictureUploads/%s_%s_%s' % (str(time()).replace('.', '_'), instance.user.username, filename)
+
+
 
 class userProfile(models.Model):
     user = models.OneToOneField(User)
@@ -80,6 +84,10 @@ class userProfile(models.Model):
     note1 = models.TextField(max_length = 500 , null = True , blank = True)
     note2 = models.TextField(max_length = 500 , null = True , blank = True)
     note3 = models.TextField(max_length = 500 , null = True , blank = True)
+
+    aboutMe = models.TextField(max_length = 1000 , null = True)
+    status = models.CharField(max_length = 100 , null = True) # social status
+    coverPic = models.ImageField(upload_to = getSocialCoverPictureUploadPath , null = True , blank = True)
 
 User.profile = property(lambda u : userProfile.objects.get_or_create(user = u)[0])
 

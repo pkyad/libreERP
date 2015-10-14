@@ -82,6 +82,7 @@ TEMPLATES = [
             os.path.join(BASE_DIR, 'API', 'templates'),
             os.path.join(BASE_DIR, 'leaveManagement', 'templates'),
             os.path.join(BASE_DIR, 'libreERP', 'templates'),
+            os.path.join(BASE_DIR, 'social', 'templates'),
             ],
         'APP_DIRS': True,
         'OPTIONS': {

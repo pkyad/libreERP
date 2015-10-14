@@ -45,6 +45,12 @@ Pradeep
 </div>
 {% endblock %}
 
-{% block footer %}
-  Footer
+{% block specific_js %}
+<script src="{% static 'js/ngSocial.js' %}"></script>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    angular.bootstrap( document.getElementById('socialAppDiv'), ['social']);
+  });
+</script>
 {% endblock %}

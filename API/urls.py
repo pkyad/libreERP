@@ -16,6 +16,7 @@ router.register(r'userProfile' , views.userProfileViewSet , base_name ='userprof
 router.register(r'socialPost' , socialPostViewSet , base_name ='post')
 router.register(r'socialPicture' , socialPictureViewSet , base_name ='picture')
 router.register(r'socialAlbum' , socialAlbumViewSet , base_name ='album')
+
 urlpatterns = [
     url(r'^', include(router.urls)),
 ]

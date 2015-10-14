@@ -227,67 +227,6 @@ ngCIOC.filter('decorateCount' , function(){
   }
 })
 
-
-
-
-ngCIOC.directive('messageStrip', function () {
-  return {
-    template: '<li class="container-fluid navBarInfoList" ng-click="openChat()">'+
-      '<a class="row" style="position: relative; top:-7px; text-decoration:none !important;">'+
-        '<img class="img-circle" ng-src="{{data.originator | getDP}}"  alt="My image" style="width:50px;height:50px;position: relative; top:-8px; "/>'+
-        '<div class="col-md-10 pull-right" style="position: relative; top:-10px">'+
-          '<span class="text-muted">{{data.originator | getName}}</span> {{data.count | decorateCount}}<small style="position:absolute;right:0px;" class="pull-right text-muted">{{data.created | timeAgo}} <i class="fa fa-clock-o "></i></small>'+
-          '<br>{{data.message | limitTo:35}}'+
-        '</div>'+
-      '</a>'+
-    '</li>',
-    restrict: 'E',
-    transclude: true,
-    replace:true,
-    scope:{
-      data : '=',
-      openChat :'&',
-    },
-    controller : function($scope){
-    },
-    // attrs is the attrs passed from the main scope
-    link: function postLink(scope, element, attrs) {
-      scope.$watch('visible', function(newValue , oldValue){
-
-      });
-    }
-  };
-});
-
-ngCIOC.directive('notificationStrip', function () {
-  return {
-    template: '<li class="container-fluid navBarInfoList" >'+
-      '<a href="{{data.url}}" class="row" style="position: relative; top:-7px; text-decoration:none !important;">'+
-        '<i class="fa {{data.originator | getIcon:this}} fa-2x"></i>'+
-        '<div class="col-md-11 pull-right" style="position: relative; top:-10px">'+
-          '<span class="text-muted">{{data.originator}}</span><small style="position:absolute;right:0px;" class="pull-right text-muted">{{data.created | timeAgo}} <i class="fa fa-clock-o "></i></small>'+
-          '<br>{{data.shortInfo | limitTo:45 }}'+
-        '</div>'+
-      '</a>'+
-    '</li>',
-    restrict: 'E',
-    transclude: true,
-    replace:true,
-    scope:{
-      data : '=',
-    },
-    controller : function($scope){
-      // console.log($scope.data);
-    },
-    // attrs is the attrs passed from the main scope
-    link: function postLink(scope, element, attrs) {
-      scope.$watch('visible', function(newValue , oldValue){
-
-      });
-    }
-  };
-});
-
 ngCIOC.directive('fileModel', ['$parse', function ($parse) {
   return {
     restrict: 'A',

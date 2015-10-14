@@ -77,7 +77,7 @@ instantMessanger.directive('chatWindow', function (userProfileService) {
               // console.log("going to post the im");
               dataToSend = {message:msg , user: $scope.friendUrl , read:false};
               // console.log(dataToSend);
-              $http({method: 'POST', data:dataToSend, url: 'http://localhost:8000/api/chatMessage/', cache: $templateCache}).
+              $http({method: 'POST', data:dataToSend, url: '/api/chatMessage/', cache: $templateCache}).
                 then(function(response) {
                   // console.log("succesfully sent the im post");
                 }, function(response) {
@@ -94,7 +94,7 @@ instantMessanger.directive('chatWindow', function (userProfileService) {
       }; // send function
       $scope.fetchMessages = function() {
         $scope.method = 'GET';
-        $scope.url = 'http://localhost:8000/api/chatMessageBetween/?other='+$scope.friend.username;
+        $scope.url = '/api/chatMessageBetween/?other='+$scope.friend.username;
         $scope.ims = [];
         $scope.imsCount = 0;
         $scope.senderIsMe = [];
