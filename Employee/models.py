@@ -21,8 +21,6 @@ def getTranscriptsPath(instance , filename ):
 def getOtherDocsPath(instance , filename ):
     return 'doc/Others/%s_%s_%s' % (str(time()).replace('.', '_'), instance.user.username, filename)
 
-
-
 class userProfile(models.Model):
     user = models.OneToOneField(User)
     PREFIX_CHOICES = (
