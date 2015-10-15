@@ -19,6 +19,7 @@ social.controller('socialCtrl', function($scope , $http, $templateCache, $timeou
     $http({method: fetch.method, url: fetch.url, cache: $templateCache}).
       then(function(response) {
         $scope.posts = response.data;
+        console.log($scope.posts);
       }, function(response) {
 
     });
@@ -32,6 +33,7 @@ social.controller('socialCtrl', function($scope , $http, $templateCache, $timeou
     $http({method: fetch.method, url: fetch.url, cache: $templateCache}).
       then(function(response) {
         $scope.album = response.data;
+        console.log($scope.album);
       }, function(response) {
 
     });

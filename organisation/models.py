@@ -71,7 +71,7 @@ class userDesignation(models.Model):
     domain = models.CharField(max_length = 15 , choices = DOMAIN_CHOICES , default = 'NA')
     unit = models.CharField(max_length = 30 , null = True) # this should be unique for a given facilty
     department = models.CharField(max_length = 30 , null = True)
-    rank = models.CharField(choices = RND_RANK_CHOICE , default = 'NOTSELEC' , max_length = 8)
+    rank = models.CharField(choices = RND_RANK_CHOICE , default = 'Not selected..' , max_length = 8)
     reportingTo = models.ForeignKey(User , related_name = "managing" , null=True)
     primaryApprover = models.ForeignKey(User, related_name = "approving" , null=True)
     secondaryApprover = models.ForeignKey(User , related_name = "alsoApproving" , null=True)

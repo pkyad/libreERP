@@ -88,7 +88,7 @@
               <!-- Add the bg color to the header using any of the bg-* classes -->
               <div class="widget-user-header {{$index | rainbow}}">
                 <div class="widget-user-image">
-                  <img class="img-circle" ng-src="{{item.url | getDP}}" alt="User Avatar">
+                  <img class="img-circle" ng-src="{{item.url | getDP}}" alt="DP">
                 </div><!-- /.widget-user-image -->
                 <h3 class="widget-user-username">{{item.url | getName}}</h3>
                 <h5 class="widget-user-desc">{{item.designation.rank}}</h5>
@@ -108,7 +108,7 @@
         <div ng-if = "viewMode == 'icon'" ng-repeat="item in tableData">
           <div class="col-md-3 col-sm-6 col-xs-12">
             <div class="info-box info-box-bordered">
-              <span class="info-box-icon"><img style="width: 100%;" class="img" ng-src="{{item.url | getDP}}" alt="User Avatar"></span>
+              <span class="info-box-icon"><img style="width: 100%;" class="img" ng-src="{{item.url | getDP}}" ></span>
               <div class="info-box-content">
                 <span class="info-box-text">{{item.url | getName}}</span>
                 <span class="info-box-number">{{item.email}}</span>
@@ -120,7 +120,7 @@
         <div ng-if = "viewMode == 'graph'" ng-repeat="item in tableData">
           <div class="col-md-3 col-sm-6 col-xs-12">
             <div class="info-box {{$index | rainbow}}">
-              <span class="info-box-icon {{$index | rainbow}}"><img style="width: 100%;" class="img" ng-src="{{item.url | getDP}}" alt="User Avatar"></span>
+              <span class="info-box-icon {{$index | rainbow}}"><img style="width: 100%;" class="img" ng-src="{{item.url | getDP}}"></span>
               <div class="info-box-content">
                 <span class="info-box-text">{{item.url | getName}}</span>
                 <span class="info-box-number">5,200</span>
