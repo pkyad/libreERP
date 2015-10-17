@@ -63,7 +63,8 @@ ngCIOC.service('userProfileService', function($rootScope, $window){
         return userSocialAlbums[username];
       }
     },
-    getAlbumImage: function(getUrl){
+    getAlbumImage: function(getUrl , username){
+      console.log(username);
       // console.log("came in the getSocialImage function of the userSocialProfileService");
       if (typeof userSocialPhotos[getUrl]=="undefined") {
         var photo =  getAlbumImage(getUrl);
@@ -323,7 +324,7 @@ ngCIOC.directive('ngEnter', function () {
 
 
 function getUser(urlGet , mode){
-  console.log(url);
+  console.log(urlGet);
   var httpRequest = new XMLHttpRequest()
   if (urlGet.indexOf('json')==-1) {
     urlGet += '?format=json';
@@ -333,7 +334,7 @@ function getUser(urlGet , mode){
   if (httpRequest.status === 200) { // successfully
     // console.log(urlGet);
     user = JSON.parse(httpRequest.responseText);
-    user.myUrl = url;
+    user.myUrl = urlGet;
     return user
   }
 }

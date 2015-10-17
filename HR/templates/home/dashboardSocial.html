@@ -95,7 +95,7 @@
 		                <ul class="timeline timeline-inverse">
 		                  <!-- timeline time label -->
 		                  <li class="time-label">
-		                    <span class="bg-red">
+		                    <span class="bg-yellow">
 		                      10 Feb. 2014
 		                    </span>
 		                  </li>
@@ -110,7 +110,7 @@
 		                        {{post.text}}
 		                      </div>
 		                      <div class="timeline-footer" >
-		                        <a style="text-decoration: none;" href="#">Like <i class="fa fa-thumbs-o-up"></i></a> <a href="#">Comments <i class="fa fa-comment-o"></i></a>
+		                        <a style="text-decoration: none;" href="" ng-click="openAside('right', true)">Like <i class="fa fa-thumbs-o-up"></i></a> <a href="#">Comments <i class="fa fa-comment-o"></i></a>
 		                      </div>
 		                    </div>
 		                  </li>
@@ -130,7 +130,7 @@
 		                      <h3 class="timeline-header"><a href="#">{{user.url | getName}}</a> uploaded new photos to album : {{album.title}}</h3>
 		                      <div class="timeline-body">
                             <div ng-repeat = "image in album.photos" style="display: inline;">
-		                          <img  ng-src="{{image | albumImageUrl}}" alt="..." class="margin" height="100px" width="150px" >
+		                          <img  ng-src="{{image | albumImageUrl:user.username}}" alt="..." class="margin" height="100px" width="150px" >
                             </div>
 		                      </div>
 		                    </div>
