@@ -74,14 +74,14 @@ class userProfileForm(forms.ModelForm):
 class userProfileSettings(forms.ModelForm):
     class Meta:
         model = userProfile
-        fields = ('displayPicture',)
+        fields = ('displayPicture','aboutMe', 'status' , 'coverPic')
     helper = FormHelper()
     helper.form_method = 'POST'
     helper.form_class = 'form-horizontal'
     helper.label_class = 'col-sm-3'
     helper.field_class = 'col-sm-6'
     helper.layout = Layout(
-        Fieldset('Edit profile settings' , 'displayPicture'),
+        Fieldset('Edit profile settings' , 'displayPicture' , 'aboutMe', 'status' , 'coverPic'),
         FormActions(
             Submit('Save', 'Save', css_class='btn-primary'),
             HTML("""

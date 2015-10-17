@@ -2,10 +2,14 @@ var ngCIOC = angular.module('libreHR.directives' , []);
 
 ngCIOC.service('userProfileService', function($rootScope, $window){
   var userProfiles = [];
+  var userSocialPosts = [];
+  var userSocialAlbums = [];
+  var userSocialPictures = [];
+  var userSocialPhotos = [];
   if (typeof userProfiles["mySelf"]=="undefined") {
-    var result = mySelf();
+    var result = myProfile();
     user = result.user;
-    userProfiles["mySelf"]={ url:result.url.split("?")[0],  name: user.first_name+" "+user.last_name , DP : user.profile.displayPicture , email : user.email , username :user.username};
+    userProfiles["mySelf"]={ url:result.url.split("?")[0],  name: user.first_name+" "+user.last_name ,social : user.profile , email : user.email , username :user.username};
     // console.log(user);
   }
 
@@ -30,15 +34,56 @@ ngCIOC.service('userProfileService', function($rootScope, $window){
         var user = getUser(userUrl);
         // console.log("going to GET");
         // console.log(user);
-        userProfiles[userUrl]={url: userUrl, name: user.first_name+" "+user.last_name , DP : user.profile.displayPicture , email : user.email, username :user.username};
+        userProfiles[userUrl]={url: userUrl, name: user.first_name+" "+user.last_name , social : user.profile , email : user.email, username :user.username};
       }
       // console.log(userUrl);
       return userProfiles[userUrl];
+    },
+    social: function(username , item){
+      console.log("came in the get function of the userSocialProfileService");
+      if (item == "posts") {
+        if (typeof userSocialPosts[username]=="undefined") {
+          var posts =  getSocialContent(username , 'Post');
+          userSocialPosts[username]=posts;
+        }
+        return userSocialPosts[username];
+
+      }else if (item == "pictures") {
+
+        if (typeof userSocialPictures[username]=="undefined") {
+          var pictures = getSocialContent(username , 'Picture');
+          userSocialPictures[username]=pictures;
+        }
+        return userSocialPictures[username];
+      }else if (item == "albums") {
+        if (typeof userSocialAlbums[username]=="undefined") {
+          var albums =  getSocialContent(username , 'Album');
+          userSocialAlbums[username]=albums;
+        }
+        return userSocialAlbums[username];
+      }
+    },
+    getAlbumImage: function(getUrl){
+      // console.log("came in the getSocialImage function of the userSocialProfileService");
+      if (typeof userSocialPhotos[getUrl]=="undefined") {
+        var photo =  getAlbumImage(getUrl);
+        userSocialPhotos[getUrl] = photo;
+      }
+      return userSocialPhotos[getUrl].photo
     }
+
   }
 
+  // $window.sharedService.social('pradeep' , 'posts');
   return $window.sharedService;
 });
+
+ngCIOC.filter('albumImageUrl' , function(userProfileService){
+  return function(getUrl){ // the input the get url of the image like /api/socialPicture/1
+    return userProfileService.getAlbumImage(getUrl);
+  }
+})
+
 
 ngCIOC.filter('rainbow' , function(){
   return function(input){
@@ -168,8 +213,8 @@ ngCIOC.filter('getIcon' , function(){
 
 ngCIOC.filter('getDP' , function(userProfileService){
   return function(userUrl){
-    profile = userProfileService.get(userUrl);
-    return profile.DP;
+    user = userProfileService.get(userUrl);
+    return user.social.displayPicture;
   }
 })
 
@@ -277,29 +322,53 @@ ngCIOC.directive('ngEnter', function () {
 });
 
 
-function getUser(url , mode){
+function getUser(urlGet , mode){
+  console.log(url);
   var httpRequest = new XMLHttpRequest()
-  if(mode !="mySelf") {
-    urlGet = url+"?format=json";
-  }else{
-    urlGet = url;
+  if (urlGet.indexOf('json')==-1) {
+    urlGet += '?format=json';
   }
-  // console.log(url);
   httpRequest.open('GET', urlGet , false);
   httpRequest.send(null);
   if (httpRequest.status === 200) { // successfully
+    // console.log(urlGet);
     user = JSON.parse(httpRequest.responseText);
     user.myUrl = url;
     return user
   }
 }
-function mySelf(){
+
+function myProfile(){
   var httpRequest = new XMLHttpRequest()
-  httpRequest.open('GET', "http://localhost:8000/api/users/?mode=mySelf&format=json" , false);
+  httpRequest.open('GET', "/api/users/?mode=mySelf&format=json" , false);
   httpRequest.send(null);
   if (httpRequest.status === 200) { // successfully
     var temp = JSON.parse(httpRequest.responseText);
     // console.log(temp[0].url);
     return {user :getUser(temp[0].url , "mySelf") , url:temp[0].url};
+  }
+}
+
+function getSocialContent(username, mode){
+  var httpRequest = new XMLHttpRequest();
+  var urlStr = '/api/social'+mode+'/?format=json&user='+ username;
+  httpRequest.open('GET', urlStr , false);
+  httpRequest.send(null);
+  if (httpRequest.status === 200) { // successfully
+    // console.log("returning from the getSocialContent");
+    return JSON.parse(httpRequest.responseText);
+  }
+}
+
+function getAlbumImage(getUrl){
+  var httpRequest = new XMLHttpRequest();
+  if (getUrl.indexOf('json')==-1) {
+    getUrl += '?format=json';
+  }
+  httpRequest.open('GET', getUrl, false);
+  httpRequest.send(null);
+  if (httpRequest.status === 200) { // successfully
+    // console.log("returning from the getSocialContent");
+    return JSON.parse(httpRequest.responseText);
   }
 }

@@ -5,43 +5,17 @@ social.config(['$httpProvider' , function($httpProvider){
   $httpProvider.defaults.withCredentials = true;
 }]);
 
+
 social.controller('socialCtrl', function($scope , $http, $templateCache, $timeout , userProfileService , $aside) {
   // main business logic starts from here
   $scope.user = userProfileService.get('mySelf');
-  $scope.test = 'hello';
-
-  $scope.fetchPost = function(user){
-    fetch.url = '/api/socialPost/';
-    if (typeof user != 'undefined') {
-      fetch.url += '?user='+user;
-    }
-    fetch.method = 'GET';
-    $http({method: fetch.method, url: fetch.url, cache: $templateCache}).
-      then(function(response) {
-        $scope.posts = response.data;
-        console.log($scope.posts);
-      }, function(response) {
-
-    });
-  }
-  $scope.fetchAlbum = function(user){
-    fetch.url = '/api/socialAlbum/';
-    if (typeof user != 'undefined') {
-      fetch.url += '?user='+user;
-    }
-    fetch.method = 'GET';
-    $http({method: fetch.method, url: fetch.url, cache: $templateCache}).
-      then(function(response) {
-        $scope.album = response.data;
-        console.log($scope.album);
-      }, function(response) {
-
-    });
-  }
-
-
-
-  $scope.fetchPost()
-  $scope.fetchAlbum()
-
+  $scope.user.albums = userProfileService.social('pradeep' , 'albums');
+  $scope.user.posts = userProfileService.social('pradeep' , 'posts');
+  $scope.user.pictures = userProfileService.social('pradeep' , 'pictures');
+  console.log($scope.user.posts);
+  // console.log("albums now");
+  // console.log();
+  // console.log("pictures now");
+  // console.log(userProfileService.social('pradeep' , 'pictures'));
+  // console.log("end of the social controller");
 });

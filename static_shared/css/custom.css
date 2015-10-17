@@ -643,6 +643,9 @@ info-box-bordered >.progress-description, .info-box-text {
     padding: 10px;
     box-sizing: border-box;
 }
+.timeline > li > .timeline-item > .timeline-footer  a{
+  text-decoration: none;
+}
 
 .timeline > li > .timeline-item > .timeline-body, .timeline > li > .timeline-item > .timeline-footer {
     padding: 10px;

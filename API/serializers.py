@@ -14,7 +14,7 @@ class userDesignationSerializer(serializers.HyperlinkedModelSerializer):
 class userProfileSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = userProfile
-        fields = ('url' , 'user', 'mobile' , 'displayPicture' , 'website' , 'prefix')
+        fields = ('url' , 'user', 'mobile' , 'displayPicture' , 'website' , 'prefix', 'aboutMe', 'status' , 'coverPic')
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     profile = userProfileSerializer(many=False , read_only=True)

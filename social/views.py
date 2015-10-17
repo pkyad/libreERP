@@ -6,8 +6,7 @@ from rest_framework.decorators import detail_route,list_route
 from url_filter.integrations.drf import DjangoFilterBackend
 from django.shortcuts import render
 from .serializers import socialPostSerializer , socialPictureSerializer , socialAlbumSerializer
-from .models import post , picture , album 
-
+from .models import post , picture , album
 
 # Create your views here.
 class socialPostViewSet(viewsets.ModelViewSet):
