@@ -5,11 +5,11 @@ from rest_framework.response import Response
 from rest_framework.decorators import detail_route,list_route
 from url_filter.integrations.drf import DjangoFilterBackend
 from django.shortcuts import render
-from .serializers import socialPostSerializer , socialPictureSerializer , socialAlbumSerializer
-from .models import post , picture , album
+from .serializers import socialPostSerializer , socialPictureSerializer , socialAlbumSerializer , socialCommentLikeSerializer , socialPostLikeSerializer, socialPostCommentsSerializer
+from .models import post , picture , album , postComments , pictureComments , postLikes , pictureLike , commentLikes
 
 # Create your views here.
-class socialPostViewSet(viewsets.ModelViewSet):
+class postViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     serializer_class = socialPostSerializer
     def get_queryset(self):
@@ -19,7 +19,7 @@ class socialPostViewSet(viewsets.ModelViewSet):
         else :
             return post.objects.filter(user = self.request.user)
 
-class socialPictureViewSet(viewsets.ModelViewSet):
+class pictureViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     serializer_class = socialPictureSerializer
     def get_queryset(self):
@@ -29,7 +29,7 @@ class socialPictureViewSet(viewsets.ModelViewSet):
         else :
             return picture.objects.filter(user = self.request.user)
 
-class socialAlbumViewSet(viewsets.ModelViewSet):
+class albumViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     serializer_class = socialAlbumSerializer
     def get_queryset(self):
@@ -38,3 +38,17 @@ class socialAlbumViewSet(viewsets.ModelViewSet):
             return album.objects.filter(user = u).order_by('-created')
         else :
             return album.objects.filter(user = self.request.user)
+class postCommentsViewSet(viewsets.ModelViewSet):
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    serializer_class = socialPostCommentsSerializer
+    queryset = postComments.objects.all()
+
+class postLikesViewSet(viewsets.ModelViewSet):
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    serializer_class = socialPostLikeSerializer
+    queryset = postLikes.objects.all()
+
+class commentLikesViewSet(viewsets.ModelViewSet):
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    serializer_class = socialCommentLikeSerializer
+    queryset = commentLikes.objects.all()

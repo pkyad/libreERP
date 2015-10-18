@@ -88,7 +88,7 @@
 		          <li class=""><a aria-expanded="false" href="#tab_3" data-toggle="tab">Contributions</a></li>
 		        </ul>
 						<br>
-		        <div class="tab-content">
+		        <div class="tab-content" >
 		          <div class="tab-pane active" id="tab_1">
 								<div class="tab-pane active" id="timeline">
 		                <!-- The timeline -->
@@ -105,12 +105,12 @@
 		                    <i class="fa fa-commenting-o bg-blue"></i>
 		                    <div class="timeline-item">
 		                      <span class="time"><i class="fa fa-clock-o"></i> {{post.created | timeAgo}}</span>
-		                      <h3 class="timeline-header"><a href="#"><img ng-src="{{user.url | getDP}}" height="40px" width="40px"/> </a> {{user.url | getName}}</h3>
+		                      <h3 class="timeline-header"><a href=""><img ng-src="{{user.url | getDP}}" height="40px" width="40px"/> </a> {{user.url | getName}}</h3>
 		                      <div class="timeline-body">
 		                        {{post.text}}
 		                      </div>
 		                      <div class="timeline-footer" >
-		                        <a style="text-decoration: none;" href="" ng-click="openAside('right', true)">Like <i class="fa fa-thumbs-o-up"></i></a> <a href="#">Comments <i class="fa fa-comment-o"></i></a>
+		                        <a style="text-decoration: none;" href="" >{{post.likes.length==0? '':post.likes.length}} Likes <i class="fa fa-thumbs-o-up"></i></a> <a href="" ng-click="openPost('right', true , post)">{{post.comments.length==0? '':post.comments.length}} Comments <i class="fa fa-comment-o"></i></a>
 		                      </div>
 		                    </div>
 		                  </li>
@@ -129,8 +129,8 @@
 		                      <span class="time"><i class="fa fa-clock-o"></i> {{album.created | timeAgo}} ago</span>
 		                      <h3 class="timeline-header"><a href="#">{{user.url | getName}}</a> uploaded new photos to album : {{album.title}}</h3>
 		                      <div class="timeline-body">
-                            <div ng-repeat = "image in album.photos" style="display: inline;">
-		                          <img  ng-src="{{image | albumImageUrl:user.username}}" alt="..." class="margin" height="100px" width="150px" >
+                            <div ng-repeat = "picture in album.photos" style="display: inline;">
+		                          <img ng-click="openAlbum('right' , true , picture)" ng-src="{{picture.photo}}" alt="..." class="margin" height="100px" width="150px" >
                             </div>
 		                      </div>
 		                    </div>

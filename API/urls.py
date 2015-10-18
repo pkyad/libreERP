@@ -13,9 +13,12 @@ router.register(r'notification' , views.notificationViewSet, base_name = 'notifi
 router.register(r'chatMessage' , views.chatMessageViewSet, base_name = 'chatmessage')
 router.register(r'chatMessageBetween' , views.chatMessageBetweenViewSet, base_name = 'chatbetween')
 router.register(r'userProfile' , views.userProfileViewSet , base_name ='userprofile')
-router.register(r'socialPost' , socialPostViewSet , base_name ='post')
-router.register(r'socialPicture' , socialPictureViewSet , base_name ='picture')
-router.register(r'socialAlbum' , socialAlbumViewSet , base_name ='album')
+router.register(r'socialPost' , postViewSet , base_name ='post')
+router.register(r'socialPicture' , pictureViewSet , base_name ='picture')
+router.register(r'socialAlbum' , albumViewSet , base_name ='album')
+router.register(r'socialPostComments' , postCommentsViewSet , base_name ='postcomments')
+router.register(r'socialPostLikes' , postLikesViewSet , base_name ='postlikes')
+router.register(r'socialCommentLikes' , commentLikesViewSet , base_name ='commentlikes')
 
 urlpatterns = [
     url(r'^', include(router.urls)),

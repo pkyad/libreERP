@@ -5,7 +5,6 @@ ngCIOC.service('userProfileService', function($rootScope, $window){
   var userSocialPosts = [];
   var userSocialAlbums = [];
   var userSocialPictures = [];
-  var userSocialPhotos = [];
   if (typeof userProfiles["mySelf"]=="undefined") {
     var result = myProfile();
     user = result.user;
@@ -40,7 +39,7 @@ ngCIOC.service('userProfileService', function($rootScope, $window){
       return userProfiles[userUrl];
     },
     social: function(username , item){
-      console.log("came in the get function of the userSocialProfileService");
+      // console.log("came in the get function of the userSocialProfileService");
       if (item == "posts") {
         if (typeof userSocialPosts[username]=="undefined") {
           var posts =  getSocialContent(username , 'Post');
@@ -63,28 +62,12 @@ ngCIOC.service('userProfileService', function($rootScope, $window){
         return userSocialAlbums[username];
       }
     },
-    getAlbumImage: function(getUrl , username){
-      console.log(username);
-      // console.log("came in the getSocialImage function of the userSocialProfileService");
-      if (typeof userSocialPhotos[getUrl]=="undefined") {
-        var photo =  getAlbumImage(getUrl);
-        userSocialPhotos[getUrl] = photo;
-      }
-      return userSocialPhotos[getUrl].photo
-    }
 
   }
 
   // $window.sharedService.social('pradeep' , 'posts');
   return $window.sharedService;
 });
-
-ngCIOC.filter('albumImageUrl' , function(userProfileService){
-  return function(getUrl){ // the input the get url of the image like /api/socialPicture/1
-    return userProfileService.getAlbumImage(getUrl);
-  }
-})
-
 
 ngCIOC.filter('rainbow' , function(){
   return function(input){
@@ -324,7 +307,7 @@ ngCIOC.directive('ngEnter', function () {
 
 
 function getUser(urlGet , mode){
-  console.log(urlGet);
+  // console.log(urlGet);
   var httpRequest = new XMLHttpRequest()
   if (urlGet.indexOf('json')==-1) {
     urlGet += '?format=json';
