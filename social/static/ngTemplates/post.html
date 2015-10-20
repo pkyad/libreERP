@@ -1,6 +1,6 @@
 <div class="modal-header bg-blue">
   <div class="container-fluid">
-    <div class="col-md-5 pull-right">
+    <div class="col-md-4 pull-right">
       <div style="float:right;padding-top:10px;">
         <div class="row" style="text-align:right;">
           <a style="text-decoration: none; color: white" href="" ng-click = "viewMode ='likes'">{{data.likes.length==0? '':data.likes.length}}  Likes <i ng-click="like()" class="fa {{liked ?'fa-thumbs-up':'fa-thumbs-o-up'}} fa-lg"></i></a>
@@ -10,7 +10,7 @@
         </div>
       </div>
     </div>
-    <div class="pull-left">
+    <div class="pull-left md-col-8">
       <div class="col-md-4">
         <img ng-src="{{data.user | getDP}}" height="60px" width="60px" style="float:right; position:relative;"/>
       </div>

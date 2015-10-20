@@ -15,7 +15,7 @@
 		      	<!-- Widget: user widget style 1 -->
 			      <div class="box box-widget widget-user">
 			        <!-- Add the bg color to the header using any of the bg-* classes -->
-			        <div class="widget-user-header bg-black" style="background: url({{user.social.coverPic}}) center center">
+			        <div class="widget-user-header bg-black" style="background: url({{user.social.coverPic}}) no-repeat scroll center center / cover">
 			        </div>
 			        <div class="widget-user-image">
 			          <img class="img-circle" ng-src="{{user.url | getDP}}">
@@ -158,13 +158,37 @@
                   </form>
                 </div>
                 <div class="container-fluid">
-
                   <hr></hr>
                   <h2>Upload photos</h2>
                   <form class="form-horizontal" name = "postPicture" ng-submit= "uploadImage()">
                     <input type="file" name = "photo" file-model = "picturePost.photo">
                     <button type="submit" class = "btn btn-primary pull-right" name="button">Upload</button>
                   </form>
+                </div>
+                <div class="container-fluid">
+                  <hr></hr>
+                  <h2>Create album</h2>
+                  <div class="row">
+                    <div class="container-fluid" style="margin-top:10px;">
+                      <form class="form-horizontal" name = "postForm" ng-submit= "publishPost()">
+                        <div class="form-group">
+                          <label class="control-label col-sm-2" for="post">Album Name:</label>
+                          <div class="col-md-9">
+                            <input type="text" name="albumTitle" value="" class="form-control " required ng-model="post.text"></input>
+                          </div>
+                          <button type="button" class="btn btn-success">Create</button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                  <div class="row" style="height:700px;">
+                    <div class="col-md-3">
+                      <div style="border: 1px #c8b221 solid; display:block;box-sizing:border-box;height:700px;"></div>
+                    </div>
+                    <div class="col-md-9">
+                      <div style="border: 1px #16806a solid; display:block;box-sizing:border-box;height:700px;"></div>
+                    </div>
+                  </div>
                 </div>
 		          </div><!-- /.tab-pane -->
 		        </div><!-- /.tab-content -->

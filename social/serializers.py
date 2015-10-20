@@ -86,12 +86,14 @@ class postSerializer(serializers.HyperlinkedModelSerializer):
 
     def create(self ,  validated_data):
         text = validated_data.pop('text')
-        attached = validated_data.pop('attachment')
+        print validated_data
+        # attached = validated_data.pop('attachment')
+        # print attached
         user =  self.context['request'].user
         p = post()
         p.user = user
         p.text = text
-        p.attachment = attached
+        # p.attachment = attached
         p.save()
         return p
 

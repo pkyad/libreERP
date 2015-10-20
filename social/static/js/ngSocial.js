@@ -42,17 +42,7 @@ social.directive('messageBubble', function () {
 
 social.directive('post', function () {
   return {
-    template:'<li><i class="fa fa-commenting-o bg-blue"></i>'+
-    '<div class="timeline-item">'+
-      '<span class="time"><i class="fa fa-clock-o"></i> {{data.created | timeAgo}} ago</span>'+
-      '<h3 class="timeline-header"><a href=""><img ng-src="{{data.user | getDP}}" height="40px" width="40px"/> </a> {{data.user | getName}}</h3>'+
-      '<div class="timeline-body">'+
-        '{{data.text}}'+
-      '</div>'+
-      '<div class="timeline-footer" >'+
-        '<a style="text-decoration: none;" href="" >{{data.likes.length==0? '+"''"+':data.likes.length}} Likes <i class="fa fa-thumbs-o-up"></i></a> <a href="" ng-click="openPost('+"'right'"+', true , data)">{{data.comments.length==0? '+"''"+':data.comments.length}} Comments <i class="fa fa-comment-o"></i></a>'+
-      '</div>'+
-    '</div></li>',
+    templateUrl: '/static/ngTemplates/postBubble.html',
     restrict: 'E',
     transclude: true,
     replace:true,
@@ -248,31 +238,37 @@ social.controller('socialCtrl', function($scope , $http , $timeout , userProfile
   $scope.statusMessage = '';
   $scope.picturePost = {photo : {}};
   $scope.post = {attachment : {} , text : ''};
+  var f = new File([""], "");
+  $scope.post = {attachment : f , text: ''};
   $scope.publishPost = function(){
     var fd = new FormData();
     fd.append('attachment', $scope.post.attachment);
-    obj = new Object();
-    console.log($scope.post.attachment == obj);
-    if ($scope.post.attachment == new Object()) {
-      console.log("Yes");
-    }
     fd.append('text' , $scope.post.text );
     fd.append('user' , $scope.me.url);
     var uploadUrl = "/api/socialPost/";
     $http({method : 'POST' , url : uploadUrl, data : fd , transformRequest: angular.identity, headers: {'Content-Type': undefined}}).
     then(function(response){
-      $scope.post = {attachment : {} , text: ''};
+      $scope.post = {attachment : f , text: ''};
       $scope.statusMessage = "Posted";
       $scope.status = 'success';
       console.log($scope.user.url);
       console.log($scope.me.url);
       if ($scope.user.url == $scope.me.url) {
-        console.log("pushed");
         $scope.user.posts.push(response.data);
       }
+      setTimeout(function () {
+        $scope.statusMessage = '';
+        $scope.status = '';
+        $scope.$apply();
+      }, 4000);
     },function(response){
       $scope.status = 'danger';
-      $scope.statusMessage = 'Failed';
+      $scope.statusMessage = response.status + ' : ' + response.statusText;
+      setTimeout(function () {
+        $scope.statusMessage = '';
+        $scope.status = '';
+        $scope.$apply();
+      }, 4000);
     });
   };
   $scope.uploadImage = function(){
@@ -289,14 +285,22 @@ social.controller('socialCtrl', function($scope , $http , $timeout , userProfile
         $scope.user.pictures.push(response.data);
         $scope.status = 'success';
       }
+      setTimeout(function () {
+        $scope.statusMessage = '';
+        $scope.status = '';
+        $scope.$apply();
+      }, 4000);
+
     },function(response){
       $scope.status = 'danger';
-      $scope.statusMessage = 'Failed';
+      $scope.statusMessage = response.status + ' : ' +  response.statusText;
+      setTimeout(function () {
+        $scope.statusMessage = '';
+        $scope.status = '';
+        $scope.$apply();
+      }, 4000);
     });
   };
-
-
-
 });
 
 scroll = function(){
