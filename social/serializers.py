@@ -1,42 +1,85 @@
 from rest_framework import serializers
-from .models import post , album , picture , postComments , pictureComments , postLikes , pictureLike , commentLikes
+from .models import *
 from API.serializers import UserSerializer
 from django.core.exceptions import ValidationError
 
-class socialCommentLikeSerializer(serializers.HyperlinkedModelSerializer):
+class commentLikeSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = commentLikes
-        fields = ('url' , 'user' , 'created')
-class socialPostLikeSerializer(serializers.HyperlinkedModelSerializer):
+        model = commentLike
+        fields = ('url' , 'user' , 'created' )
+class postLikeSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = postLikes
+        model = postLike
         fields = ('url' , 'user' , 'created' , 'parent')
     def create(self , validated_data):
         parent = validated_data.pop('parent')
         user =  self.context['request'].user
-        if postLikes.objects.filter(parent = parent , user = user).exists():
-            like = postLikes.objects.get(parent = parent , user = user)
+        if postLike.objects.filter(parent = parent , user = user).exists():
+            like = postLike.objects.get(parent = parent , user = user)
         else:
-            like = postLikes(parent = parent , user = user)
+            like = postLike(parent = parent , user = user)
         like.save()
         return like
 
-class socialPostCommentsSerializer(serializers.HyperlinkedModelSerializer):
-    likes = socialCommentLikeSerializer(many = True , read_only = True)
+class postCommentsSerializer(serializers.HyperlinkedModelSerializer):
+    likes = commentLikeSerializer(many = True , read_only = True)
     class Meta:
-        model = postComments
+        model = postComment
         fields = ('url' , 'user' , 'parent' , 'created' , 'text' , 'attachment' , 'likes')
     def create(self , validated_data):
         text = validated_data.pop('text')
         parent = validated_data.pop('parent')
         user =  self.context['request'].user
-        comment = postComments(text = text , parent = parent , user = user)
+        comment = postComment(text = text , parent = parent , user = user)
         comment.save()
         return comment
+    def update(self, instance, validated_data): # like the comment
+        print "came in the update function"
+        user =  self.context['request'].user
+        l = commentLike(user = user , parent = instance)
+        l.save()
+        print dir(self)
+        print user
+        return instance
 
-class socialPostSerializer(serializers.HyperlinkedModelSerializer):
-    likes = socialPostLikeSerializer(many = True)
-    comments = socialPostCommentsSerializer(many = True)
+class pictureLikeSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = pictureLike
+        fields = ('url' , 'user' , 'created' , 'parent')
+    def create(self , validated_data):
+        parent = validated_data.pop('parent')
+        user =  self.context['request'].user
+        if pictureLike.objects.filter(parent = parent , user = user).exists():
+            like = pictureLike.objects.get(parent = parent , user = user)
+        else:
+            like = pictureLike(parent = parent , user = user)
+        like.save()
+        return like
+
+class pictureCommentsSerializer(serializers.HyperlinkedModelSerializer):
+    likes = commentLikeSerializer(many = True , read_only = True)
+    class Meta:
+        model = pictureComment
+        fields = ('url' , 'user' , 'parent' , 'created' , 'text' , 'attachment' , 'likes')
+    def create(self , validated_data):
+        text = validated_data.pop('text')
+        parent = validated_data.pop('parent')
+        user =  self.context['request'].user
+        comment = pictureComment(text = text , parent = parent , user = user)
+        comment.save()
+        return comment
+    def update(self, instance, validated_data): # like the comment
+        print "came in the update function"
+        user =  self.context['request'].user
+        l = commentLike(user = user , parent = instance)
+        l.save()
+        print dir(self)
+        print user
+        return instance
+
+class postSerializer(serializers.HyperlinkedModelSerializer):
+    likes = postLikeSerializer(many = True)
+    comments = postCommentsSerializer(many = True)
     class Meta:
         model = post
         fields = ('url' , 'user' , 'created' , 'likes' , 'text' , 'attachment' , 'comments')
@@ -52,7 +95,11 @@ class socialPostSerializer(serializers.HyperlinkedModelSerializer):
         p.save()
         return p
 
-class socialPictureSerializer(serializers.HyperlinkedModelSerializer):
+
+
+class pictureSerializer(serializers.HyperlinkedModelSerializer):
+    likes = pictureLikeSerializer(many = True)
+    comments = pictureCommentsSerializer(many = True)
     class Meta:
         model = picture
         fields = ('url' , 'user' , 'created' , 'likes' , 'photo' , 'comments' , 'tagged')
@@ -67,8 +114,8 @@ class socialPictureSerializer(serializers.HyperlinkedModelSerializer):
         pic.save()
         return pic
 
-class socialAlbumSerializer(serializers.HyperlinkedModelSerializer):
-    photos = socialPictureSerializer(many = True)
+class albumSerializer(serializers.HyperlinkedModelSerializer):
+    photos = pictureSerializer(many = True)
     class Meta:
         model = album
         fields = ('url' , 'user' , 'created' , 'photos', 'title' )

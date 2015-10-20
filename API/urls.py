@@ -16,9 +16,11 @@ router.register(r'userProfile' , views.userProfileViewSet , base_name ='userprof
 router.register(r'socialPost' , postViewSet , base_name ='post')
 router.register(r'socialPicture' , pictureViewSet , base_name ='picture')
 router.register(r'socialAlbum' , albumViewSet , base_name ='album')
-router.register(r'socialPostComments' , postCommentsViewSet , base_name ='postcomments')
-router.register(r'socialPostLikes' , postLikesViewSet , base_name ='postlikes')
-router.register(r'socialCommentLikes' , commentLikesViewSet , base_name ='commentlikes')
+router.register(r'socialPostComment' , postCommentsViewSet , base_name ='postcomment')
+router.register(r'socialPostLike' , postLikesViewSet , base_name ='postlike')
+router.register(r'socialCommentLike' , commentLikesViewSet , base_name ='commentlike')
+router.register(r'socialPictureComment' , pictureCommentsViewSet , base_name ='picturecomment')
+router.register(r'socialPictureLike' , pictureLikesViewSet , base_name ='picturelike')
 
 urlpatterns = [
     url(r'^', include(router.urls)),

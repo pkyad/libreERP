@@ -3,10 +3,10 @@
     <div class="col-md-5 pull-right">
       <div style="float:right;padding-top:10px;">
         <div class="row" style="text-align:right;">
-          <a style="text-decoration: none; color: white" href="" ng-click = "viewMode ='likes'">{{likesCount}}  Likes <i ng-click="like()" class="fa {{liked ?'fa-thumbs-up':'fa-thumbs-o-up'}} fa-lg"></i></a>
+          <a style="text-decoration: none; color: white" href="" ng-click = "viewMode ='likes'">{{data.likes.length==0? '':data.likes.length}}  Likes <i ng-click="like()" class="fa {{liked ?'fa-thumbs-up':'fa-thumbs-o-up'}} fa-lg"></i></a>
         </div>
         <div class="row" style="text-align:right;">
-          <a href="" style="text-decoration: none; color: white" ng-click = "viewMode ='comments'">{{ commentsCount }} Comments <i class="fa fa-comment-o fa-lg"></i></a>
+          <a href="" style="text-decoration: none; color: white" ng-click = "viewMode ='comments'">{{ data.comments.length==0? '':data.comments.length }} Comments <i class="fa fa-comment-o fa-lg"></i></a>
         </div>
       </div>
     </div>
@@ -29,16 +29,10 @@
   {{data.text}}
 </div>
 <div class="modal-footer" >
-
-
-
-  <div class="container" style="text-align:left;position:absolute;overflow:auto;box-sizing: border-box;display:block; height:{{commentsHeight}}%; width:98%; padding-right:50px;"  id = "postCommentsArea">
+  <div class="container" style="text-align:left;position:absolute;overflow:auto;box-sizing: border-box;display:block; height:{{commentsHeight}}%; width:98%; padding-right:50px;"  id = "commentsArea">
     <div class="row" ng-if="viewMode == 'comments'">
       <div ng-repeat="comment in data.comments">
-        <div class="col-md-2">
-          <img class="img-responsive img-circle" ng-src="{{comment.user | getDP}}" title="{{comment.user | getName}}" alt="image" width="50px" height="50px" alt="P" style="position:relative; top:10px;margin-left:5px;">
-        </div>
-        <div class="col-md-10 messageBubble"> <p style="word-wrap: break-word;"> {{comment.text}}<span style="position:absolute; right:4px; top:-1px;color:#c6c6c6; font-size:10px;"> {{comment.created |timeAgo}}</span></p> </div>
+        <message-bubble data = "comment"></message-bubble>
       </div>
     </div>
     <div class="row" ng-if = "viewMode == 'likes'">

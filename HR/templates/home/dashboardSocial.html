@@ -85,59 +85,31 @@
 		        <ul class="nav nav-tabs">
 		          <li class="active"><a aria-expanded="true" href="#tab_1" data-toggle="tab">Activity</a></li>
 		          <li class=""><a aria-expanded="false" href="#tab_2" data-toggle="tab">Timeline</a></li>
-		          <li class=""><a aria-expanded="false" href="#tab_3" data-toggle="tab">Contributions</a></li>
+		          <li class=" pull-right"><a aria-expanded="false" href="#tab_3" data-toggle="tab"> <i class="fa fa-plus"></i></a></li>
 		        </ul>
 						<br>
 		        <div class="tab-content" >
 		          <div class="tab-pane active" id="tab_1">
 								<div class="tab-pane active" id="timeline">
-		                <!-- The timeline -->
 		                <ul class="timeline timeline-inverse">
-		                  <!-- timeline time label -->
-		                  <li class="time-label">
+		                  <!-- <li class="time-label">
 		                    <span class="bg-yellow">
 		                      10 Feb. 2014
 		                    </span>
-		                  </li>
-		                  <!-- /.timeline-label -->
-		                  <!-- timeline item -->
-		                  <li ng-repeat = "post in user.posts">
-		                    <i class="fa fa-commenting-o bg-blue"></i>
-		                    <div class="timeline-item">
-		                      <span class="time"><i class="fa fa-clock-o"></i> {{post.created | timeAgo}}</span>
-		                      <h3 class="timeline-header"><a href=""><img ng-src="{{user.url | getDP}}" height="40px" width="40px"/> </a> {{user.url | getName}}</h3>
-		                      <div class="timeline-body">
-		                        {{post.text}}
-		                      </div>
-		                      <div class="timeline-footer" >
-		                        <a style="text-decoration: none;" href="" >{{post.likes.length==0? '':post.likes.length}} Likes <i class="fa fa-thumbs-o-up"></i></a> <a href="" ng-click="openPost('right', true , post)">{{post.comments.length==0? '':post.comments.length}} Comments <i class="fa fa-comment-o"></i></a>
-		                      </div>
-		                    </div>
-		                  </li>
-		                  <!-- END timeline item -->
-		                  <!-- timeline time label -->
-		                  <li class="time-label">
+		                  </li> -->
+
+                      <post ng-repeat = "post in user.posts" data = "post"></post>
+
+		                  <!-- <li class="time-label">
 		                    <span class="bg-green">
 		                      3 Jan. 2014
 		                    </span>
-		                  </li>
-		                  <!-- /.timeline-label -->
-		                  <!-- timeline item -->
-                      <li ng-repeat = "album in user.albums">
-		                    <i class="fa fa-camera bg-purple"></i>
-		                    <div class="timeline-item">
-		                      <span class="time"><i class="fa fa-clock-o"></i> {{album.created | timeAgo}} ago</span>
-		                      <h3 class="timeline-header"><a href="#">{{user.url | getName}}</a> uploaded new photos to album : {{album.title}}</h3>
-		                      <div class="timeline-body">
-                            <div ng-repeat = "picture in album.photos" style="display: inline;">
-		                          <img ng-click="openAlbum('right' , true , picture)" ng-src="{{picture.photo}}" alt="..." class="margin" height="100px" width="150px" >
-                            </div>
-		                      </div>
-		                    </div>
-		                  </li>
+		                  </li> -->
+
+                      <album ng-repeat = "album in user.albums" data = "album"></album>
 
 		                  <!-- END timeline item -->
-											<li>
+											<!-- <li>
 			                  <i class="fa fa-video-camera bg-maroon"></i>
 			                  <div class="timeline-item">
 			                    <span class="time"><i class="fa fa-clock-o"></i> 5 days ago</span>
@@ -151,7 +123,7 @@
 			                      <a href="#" class="btn btn-xs bg-maroon">See comments</a>
 			                    </div>
 			                  </div>
-			                </li>
+			                </li> -->
 		                </ul>
 		              </div>
 		          </div><!-- /.tab-pane -->
@@ -165,13 +137,35 @@
 		            and regular than that of the individual languages.
 		          </div><!-- /.tab-pane -->
 		          <div class="tab-pane" id="tab_3">
-		            Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-		            Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-		            when an unknown printer took a galley of type and scrambled it to make a type specimen book.
-		            It has survived not only five centuries, but also the leap into electronic typesetting,
-		            remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset
-		            sheets containing Lorem Ipsum passages, and more recently with desktop publishing software
-		            like Aldus PageMaker including versions of Lorem Ipsum.
+                <div ng-hide="statusMessage==''" class="alert alert-{{status}} fade in"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>{{statusMessage}}</div>
+                <div class="container-fluid">
+  		            <h2>Create a post</h2>
+                  <hr></hr>
+                  <form class="form-horizontal" name = "postForm" ng-submit= "publishPost()">
+                    <div class="form-group">
+                      <label class="control-label col-sm-3" for="post">Post:</label>
+                      <div class="col-md-7">
+                        <textarea type="text" rows="3" name="post" value="" class="form-control " required ng-model="post.text"></textarea>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="control-label col-sm-3" for="attachment">Attachment:</label>
+                      <div class="col-sm-7">
+                        <input type="file" name="attachment" file-model="post.attachment">
+                      </div>
+                    </div>
+                    <button type="submit" class = "btn btn-primary pull-right" name="button">Post</button>
+                  </form>
+                </div>
+                <div class="container-fluid">
+
+                  <hr></hr>
+                  <h2>Upload photos</h2>
+                  <form class="form-horizontal" name = "postPicture" ng-submit= "uploadImage()">
+                    <input type="file" name = "photo" file-model = "picturePost.photo">
+                    <button type="submit" class = "btn btn-primary pull-right" name="button">Upload</button>
+                  </form>
+                </div>
 		          </div><!-- /.tab-pane -->
 		        </div><!-- /.tab-content -->
 		    </div>

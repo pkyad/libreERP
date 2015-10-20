@@ -42,17 +42,15 @@ class like(models.Model):
     user = models.ForeignKey(User , related_name = 'commentsLiked')
     created = models.DateTimeField(auto_now = True)
 
-class postComments(comment):
+class postLike(like):
+    parent = models.ForeignKey(post , related_name = 'likes')
+class postComment(comment):
     parent = models.ForeignKey(post , related_name ='comments')
-
-class pictureComments(comment):
-    parent = models.ForeignKey(picture , related_name = 'comments')
-
-class commentLikes(like):
+class commentLike(like):
     parent = models.ForeignKey(comment , related_name = 'likes')
 
-class postLikes(like):
-    parent = models.ForeignKey(post , related_name = 'likes')
 
 class pictureLike(like):
     parent = models.ForeignKey(picture , related_name  = 'likes')
+class pictureComment(comment):
+    parent = models.ForeignKey(picture , related_name = 'comments')

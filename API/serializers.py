@@ -34,6 +34,8 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
     #     designation.domain = designation_data.get('domain')
     #     designation.unit = designation_data.get('unit')
     #     designation.save()
+    # print self.context['request'].data
+    # print dir(self.context['request'])
     #     return instance
 
 class GroupSerializer(serializers.ModelSerializer):

@@ -4,7 +4,7 @@ notificationApp.controller('myCtrl', function($scope , $http, $templateCache, $t
   // main business logic starts from here
 
   $scope.fetchNotifications = function() {
-    console.log("going to fetch notifictions");
+    // console.log("going to fetch notifictions");
     $scope.method = 'GET';
     $scope.url = '/api/notification/';
     $scope.notifications = [];
@@ -118,7 +118,7 @@ notificationApp.directive('notificationStrip', function () {
     },
     // attrs is the attrs passed from the main scope
     link: function postLink(scope, element, attrs) {
-      
+
     }
   };
 });

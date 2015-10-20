@@ -40,7 +40,7 @@ ngCIOC.service('userProfileService', function($rootScope, $window){
     },
     social: function(username , item){
       // console.log("came in the get function of the userSocialProfileService");
-      if (item == "posts") {
+      if (item == "post") {
         if (typeof userSocialPosts[username]=="undefined") {
           var posts =  getSocialContent(username , 'Post');
           userSocialPosts[username]=posts;
@@ -335,6 +335,7 @@ function myProfile(){
 
 function getSocialContent(username, mode){
   var httpRequest = new XMLHttpRequest();
+  // console.log(mode);
   var urlStr = '/api/social'+mode+'/?format=json&user='+ username;
   httpRequest.open('GET', urlStr , false);
   httpRequest.send(null);
