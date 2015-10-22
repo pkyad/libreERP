@@ -98,7 +98,7 @@
 		                    </span>
 		                  </li> -->
 
-                      <post ng-repeat = "post in user.posts" data = "post"></post>
+                      <post ng-repeat = "post in user.posts" data = "post" on-delete = "removePost($index)"></post>
 
 		                  <!-- <li class="time-label">
 		                    <span class="bg-green">
@@ -180,7 +180,7 @@
                         <div class="container-fluid" style="margin-top:10px;">
                           <form class="form-horizontal" name = "postForm" ng-submit= "publishPost()">
                             <div class="form-group">
-                              <label class="control-label col-sm-2" for="post">Album Name:</label>
+                              <label class="control-label col-sm-3" for="post">Album Name:</label>
                               <div class="col-md-9">
                                 <div class="input-group">
                                   <input type="text" name="albumTitle" value="" class="form-control " ng-model="tempAlbum.title"></input>

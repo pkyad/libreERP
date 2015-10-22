@@ -5,9 +5,9 @@ social.config(['$httpProvider' , function($httpProvider){
   $httpProvider.defaults.withCredentials = true;
 }]);
 
-social.directive('messageBubble', function () {
+social.directive('commentBubble', function () {
   return {
-    templateUrl:'/static/ngTemplates/messageBubble.html',
+    templateUrl:'/static/ngTemplates/commentBubble.html',
     restrict: 'E',
     transclude: true,
     replace:true,
@@ -27,7 +27,7 @@ social.directive('messageBubble', function () {
         if ($scope.liked) {
           return;
         }
-        $http({method : 'PATCH' , data : {some: "text"} , url : $scope.data.url }).
+        $http({method : 'PATCH' , url : $scope.data.url }).
         then(function(response){
           // console.log(response);
           $scope.data.likes.push(response.data)
@@ -48,9 +48,10 @@ social.directive('post', function () {
     replace:true,
     scope:{
       data : '=',
+      onDelete :'&',
     },
     controller : function($scope, $http , $timeout , userProfileService , $aside , $interval , $window) {
-      $scope.openPost = function(position, backdrop , data) {
+      $scope.openPost = function(position, backdrop , input) {
         $scope.asideState = {
           open: true,
           position: position
@@ -68,8 +69,9 @@ social.directive('post', function () {
           controller: function($scope, $modalInstance ) {
             $scope.me = userProfileService.get("mySelf");
             // console.log($scope);
-            $scope.data = data;
-            $scope.possibleCommentHeight = 70;
+            $scope.data = input.data;
+            $scope.onDelete = input.onDelete;
+            $scope.possibleCommentHeight = 70; // initial height percent setting
             $scope.textToComment = "";
             $scope.viewMode = 'comments';
             $scope.liked = false;
@@ -90,6 +92,7 @@ social.directive('post', function () {
               scroll();
             }, 100);
             $scope.comment = function(){
+              console.log($scope.textToComment);
               dataToSend = {text: $scope.textToComment , parent: $scope.data.url.split('?')[0] , user: $scope.data.user };
               // although the api will set the user to the sender of the request a valid user url is needed for the request otherwise 400 error will be trown
               $http({method: 'POST', data:dataToSend, url: '/api/socialPostComment/'}).
@@ -119,6 +122,35 @@ social.directive('post', function () {
                   $scope.data.likes.push(response.data)
                 }, function(response) {
                   // console.log("failed to sent the comment");
+
+              });
+            }
+
+            $scope.enableEdit = function(){
+              $scope.editMode = true;
+
+            }
+            $scope.save = function(){
+              var fd = new FormData();
+              var f = new File([""], "");
+              fd.append('attachment', f);
+              fd.append('text' , $scope.data.text );
+              fd.append('user' , $scope.me.url);
+              var url = $scope.data.url;
+              $http({method : 'PATCH' , url : url, data : fd , transformRequest: angular.identity, headers: {'Content-Type': undefined}}).
+              then(function(response){
+                $scope.editMode = false;
+              } , function(response){
+
+              });
+            }
+
+            $scope.delete = function(data){
+              $http({method : 'DELETE' , url : $scope.data.url}).
+              then(function(response){
+                $scope.onDelete();
+                $modalInstance.close();
+              } , function(response){
 
               });
             }
@@ -299,7 +331,9 @@ social.controller('socialCtrl', function($scope , $http , $timeout , userProfile
       }, 4000);
     });
   }
-
+  $scope.removePost = function(index){
+    $scope.user.posts.splice(index, 1);
+  }
 
   $scope.user = userProfileService.get("http://localhost:8000/api/users/2/");
   $scope.user.albums = userProfileService.social(user.username , 'albums');
@@ -308,16 +342,13 @@ social.controller('socialCtrl', function($scope , $http , $timeout , userProfile
   $scope.me = userProfileService.get('mySelf');
   $scope.statusMessage = '';
   $scope.picturePost = {photo : {}};
-  $scope.post = {attachment : {} , text : ''};
-
+  $scope.onDeleteWatchStr ='Pradeep';
   $http({method: 'GET' , url : '/api/socialPicture/?albumEditor&user='+$scope.user.username}).
   then(function(response){
     $scope.draggableObjects = response.data
   } , function(response){
     console.log("error getting the pictures");
   });
-
-
 
   var f = new File([""], "");
   $scope.post = {attachment : f , text: ''};

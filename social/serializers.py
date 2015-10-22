@@ -73,13 +73,11 @@ class pictureCommentsSerializer(serializers.HyperlinkedModelSerializer):
         user =  self.context['request'].user
         l = commentLike(user = user , parent = instance)
         l.save()
-        print dir(self)
-        print user
         return instance
 
 class postSerializer(serializers.HyperlinkedModelSerializer):
-    likes = postLikeSerializer(many = True)
-    comments = postCommentsSerializer(many = True)
+    likes = postLikeSerializer(many = True , read_only = True)
+    comments = postCommentsSerializer(many = True , read_only = True)
     class Meta:
         model = post
         fields = ('url' , 'user' , 'created' , 'likes' , 'text' , 'attachment' , 'comments')
@@ -96,6 +94,10 @@ class postSerializer(serializers.HyperlinkedModelSerializer):
         # p.attachment = attached
         p.save()
         return p
+    def update(self, instance, validated_data): # like the comment
+        instance.text = validated_data.pop('text');
+        instance.save()
+        return instance
 
 
 

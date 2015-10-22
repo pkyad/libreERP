@@ -9,7 +9,6 @@ def getPostAttachmentPath(instance , filename ):
 def getSocialPictureUploadPath(instance , filename ):
     return 'social/pictureUploads/%s_%s_%s' % (str(time()).replace('.', '_'), instance.user.username, filename)
 
-
 class post(models.Model):
     user = models.ForeignKey(User , related_name = 'socialPost' , null = False)
     text = models.TextField(null = False , max_length = 300)
@@ -17,6 +16,13 @@ class post(models.Model):
     created = models.DateTimeField(auto_now = True)
     def __unicode__(self):
         return self.text
+
+class postHistory(models.Model):
+    created = models.DateTimeField(auto_now = True)
+    text = models.TextField(null = False , max_length = 300)
+    attachment = models.FileField(upload_to = getPostAttachmentPath , null = True)
+    parent = models.ForeignKey(post , related_name = 'history' , null = False)
+
 class album(models.Model):
     user = models.ForeignKey(User , related_name = 'socialAlbums')
     created = models.DateTimeField(auto_now = True)

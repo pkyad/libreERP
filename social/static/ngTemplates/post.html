@@ -19,20 +19,49 @@
           <h4><a href=""> </a> {{data.user | getName}}</h4>
         </div>
         <div class="row">
-          <span style="color:white;padding-top:10px;"><i class="fa fa-clock-o" ></i> {{data.created | date:'dd MMM yyyy, hh:mm a'}}</span>
+          <span style="color:white;padding-top:10px;">
+            <span style="color:white;padding-top:10px;">
+              <span class="dropdown">
+                <i style="cursor:pointer;" class="fa fa-chevron-down dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"></i>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                  <li><a href="" ng-click = "enableEdit()"><i class="fa fa-pencil"></i>  Edit</a></li>
+                  <li><a href="" ng-click = "delete(data)"><i class="fa fa-trash"></i>  Delete</a></li>
+                </ul>
+              </span>
+              {{data.created | date:'dd MMM yyyy, hh:mm a'}}
+            </span>
+          </span>
         </div>
       </div>
     </div>
   </div>
 </div>
 <div class="modal-body" id="postModalBody">
-  {{data.text}}
+  <form ng-if="editMode" class="form-horizontal" name = "postForm" ng-submit= "save()">
+    <div class="form-group">
+      <div class="container-fluid">
+        <textarea type="text" rows="3" name="post" value="" class="form-control " required ng-model="data.text"></textarea>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label col-sm-3" for="attachment">Attachment:</label>
+      <div class="col-sm-7">
+        <input type="file" name="attachment" file-model="data.attachment">
+      </div>
+      <div class="col-md-2">
+        <button type="submit" class = "btn btn-primary" name="button">Save</button>
+      </div>
+    </div>
+  </form>
+  <div ng-if="!editMode">
+    {{data.text}}
+  </div>
 </div>
-<div class="modal-footer" >
+<div class="modal-footer" ng-show="!editMode">
   <div class="container" style="text-align:left;position:absolute;overflow:auto;box-sizing: border-box;display:block; height:{{commentsHeight}}%; width:98%; padding-right:50px;"  id = "commentsArea">
     <div class="row" ng-if="viewMode == 'comments'">
       <div ng-repeat="comment in data.comments">
-        <message-bubble data = "comment"></message-bubble>
+        <comment-bubble data = "comment"></comment-bubble>
       </div>
     </div>
     <div class="row" ng-if = "viewMode == 'likes'">

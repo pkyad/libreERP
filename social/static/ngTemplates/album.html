@@ -19,20 +19,29 @@
           <h4><a href=""> </a> {{data.user | getName}}</h4>
         </div>
         <div class="row">
-          <span style="color:white;padding-top:10px;"><i class="fa fa-clock-o" ></i> {{data.created | date:'dd MMM yyyy, hh:mm a'}}</span>
+          <span style="color:white;padding-top:10px;">
+            <!-- <span class="dropdown">
+              <i class="fa fa-chevron-down dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"></i>
+              <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                <li><a href="" ng-click = "edit()"><i class="fa fa-pencil"></i>  Edit</a></li>
+                <li><a href="" ng-click = "delete()"><i class="fa fa-trash"></i>  Delete</a></li>
+              </ul>
+            </span> -->
+            {{data.created | date:'dd MMM yyyy, hh:mm a'}}
+          </span>
         </div>
       </div>
     </div>
   </div>
 </div>
 <div class="modal-body" id="postModalBody">
-  <img style="width: 100%;" class="img" ng-src="{{data.photo}}">
+  <img style="width: 100%; height:500px;" class="img" ng-src="{{data.photo}}">
 </div>
 <div class="modal-footer" >
   <div class="container" style="text-align:left;position:absolute;overflow:auto;box-sizing: border-box;display:block; height:{{commentsHeight}}%; width:98%; padding-right:50px;transform: translate(0px,-10px);"  id = "commentsArea">
     <div class="row" ng-if="viewMode == 'comments'">
       <div ng-repeat="comment in data.comments">
-        <message-bubble data = "comment"></message-bubble>
+        <comment-bubble data = "comment"></comment-bubble>
       </div>
     </div>
     <div class="row" ng-if = "viewMode == 'likes'">
