@@ -115,19 +115,26 @@ class pictureSerializer(serializers.HyperlinkedModelSerializer):
         pic.user = user
         pic.save()
         return pic
+def only_numerics(seq):
+    return filter(type(seq).isdigit, seq)
 
 class albumSerializer(serializers.HyperlinkedModelSerializer):
-    photos = pictureSerializer(many = True)
+    photos = pictureSerializer(many = True , read_only = True)
     class Meta:
         model = album
         fields = ('url' , 'user' , 'created' , 'photos', 'title' )
     def create(self ,  validated_data):
-        photos = validated_data.pop('photos')
+        photos =  self.context['request'].data['photos']
         user =  self.context['request'].user
         a = album(user = user , title = validated_data.pop('title'))
         a.save()
+        count = 0
         for p in photos:
-            pic = picture.objects.get(photo = p.photo)
+            pk = only_numerics(p)
+            pic = picture.objects.get(pk = int(pk) , user = user)
             pic.album = a
+            count +=1
             pic.save()
+        if count==0: # if there wasn't any photo supplied or the photo does not owned by the sender
+            a.delete()
         return a

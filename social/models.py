@@ -48,8 +48,6 @@ class postComment(comment):
     parent = models.ForeignKey(post , related_name ='comments')
 class commentLike(like):
     parent = models.ForeignKey(comment , related_name = 'likes')
-
-
 class pictureLike(like):
     parent = models.ForeignKey(picture , related_name  = 'likes')
 class pictureComment(comment):

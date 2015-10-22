@@ -1,4 +1,4 @@
-var social = angular.module('social', ['libreHR.directives' , 'ngSanitize', 'ui.bootstrap', 'ngAside']);
+var social = angular.module('social', ['libreHR.directives' , 'ngSanitize', 'ui.bootstrap', 'ngAside' , 'ngDraggable']);
 social.config(['$httpProvider' , function($httpProvider){
   $httpProvider.defaults.xsrfCookieName = 'csrftoken';
   $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
@@ -230,6 +230,77 @@ social.directive('album', function () {
 });
 
 social.controller('socialCtrl', function($scope , $http , $timeout , userProfileService , $aside , $interval , $window) {
+
+  $scope.droppedObjects = [];
+  $scope.onDropComplete=function(data,evt){
+    var index = $scope.droppedObjects.indexOf(data);
+    if (index == -1){
+      $scope.droppedObjects.push(data);
+      var index = $scope.draggableObjects.indexOf(data);
+      $scope.draggableObjects.splice(index , 1);
+    }
+  }
+
+  $scope.itemsNumPerView = [5, 10, 20];
+  $scope.itemsPerView = 5;
+  $scope.pageList = [1];
+  $scope.pageNo = 1; // default page number set to 0
+
+  $scope.removeFromTempAlbum = function(index){
+    pic = $scope.droppedObjects[index];
+    $scope.droppedObjects.splice(index , 1);
+    $scope.draggableObjects.push(pic);
+  }
+  $scope.tempAlbum = {title : '' , photos : []};
+  $scope.createAlbum = function(){
+    if ($scope.droppedObjects.length == 0) {
+      $scope.status = 'danger';
+      $scope.statusMessage = 'No photo selected';
+      setTimeout(function () {
+        $scope.statusMessage = '';
+        $scope.status = '';
+        $scope.$apply();
+      }, 4000);
+      return;
+    }
+    for (var i = 0; i < $scope.droppedObjects.length; i++) {
+      uri = $scope.droppedObjects[i].url.split('/?')[0];
+      // nested request is not supported by the django rest framework so sending the PKs of the photos to the create function in the serializer
+      pk = uri.split('socialPicture/')[1];
+      $scope.tempAlbum.photos.push(pk);
+    }
+    dataToPost = {
+      user : $scope.me.url,
+      title : $scope.tempAlbum.title,
+      photos : $scope.tempAlbum.photos,
+    };
+    // console.log(dataToPost);
+    $http({method: 'POST' , data : dataToPost , url : '/api/socialAlbum/'}).
+    then(function(response){
+      $scope.tempAlbum = {title : '' , photos: []};
+      $scope.droppedObjects = [];
+      $scope.statusMessage = "Posted";
+      $scope.status = 'success';
+      if ($scope.user.url == $scope.me.url) {
+        $scope.user.albums.push(response.data);
+      }
+      setTimeout(function () {
+        $scope.statusMessage = '';
+        $scope.status = '';
+        $scope.$apply();
+      }, 4000);
+    },function(response){
+      $scope.status = 'danger';
+      $scope.statusMessage = response.status + ' : ' + response.statusText;
+      setTimeout(function () {
+        $scope.statusMessage = '';
+        $scope.status = '';
+        $scope.$apply();
+      }, 4000);
+    });
+  }
+
+
   $scope.user = userProfileService.get("http://localhost:8000/api/users/2/");
   $scope.user.albums = userProfileService.social(user.username , 'albums');
   $scope.user.posts = userProfileService.social(user.username , 'post');
@@ -238,6 +309,16 @@ social.controller('socialCtrl', function($scope , $http , $timeout , userProfile
   $scope.statusMessage = '';
   $scope.picturePost = {photo : {}};
   $scope.post = {attachment : {} , text : ''};
+
+  $http({method: 'GET' , url : '/api/socialPicture/?albumEditor&user='+$scope.user.username}).
+  then(function(response){
+    $scope.draggableObjects = response.data
+  } , function(response){
+    console.log("error getting the pictures");
+  });
+
+
+
   var f = new File([""], "");
   $scope.post = {attachment : f , text: ''};
   $scope.publishPost = function(){
@@ -251,8 +332,6 @@ social.controller('socialCtrl', function($scope , $http , $timeout , userProfile
       $scope.post = {attachment : f , text: ''};
       $scope.statusMessage = "Posted";
       $scope.status = 'success';
-      console.log($scope.user.url);
-      console.log($scope.me.url);
       if ($scope.user.url == $scope.me.url) {
         $scope.user.posts.push(response.data);
       }

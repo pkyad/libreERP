@@ -25,13 +25,17 @@ class pictureViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         if 'user' in self.request.GET:
             u = User.objects.get(username = self.request.GET['user'])
-            return picture.objects.filter(user = u).order_by('-created')
+            q = picture.objects.filter(user = u).order_by('-created')
+            if 'albumEditor' in self.request.GET: # for the albumEditor, get only those pictures which do not have album assigned
+                q = q.filter(album__isnull = True)
         else :
-            return picture.objects.filter(user = self.request.user)
+            q = picture.objects.filter(user = self.request.user)
+        return q
 
 class albumViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     serializer_class = albumSerializer
+
     def get_queryset(self):
         if 'user' in self.request.GET:
             u = User.objects.get(username = self.request.GET['user'] )
