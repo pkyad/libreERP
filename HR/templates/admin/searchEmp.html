@@ -25,121 +25,9 @@
     <!-- test text = {{test}} -->
 
     <div class="col-md-12">
-      <div class="row container-fluid">
-        <div class="input-group">
 
-          <input type="text" class="form-control" name="refine" placeholder="Search" ng-model = "searchText">
-          <div class="input-group-btn">
-            <a class='btn btn-default ' ng-click = "viewMode = 'list'"> <i class="fa fa-bars"></i></a>
-            <a class='btn btn-default ' ng-click = "viewMode = 'thumbnail'"> <i class="fa fa-th-large"></i></a>
-            <a class='btn btn-default ' ng-click = "viewMode = 'icon'"> <i class="fa fa-th"></i></a>
-            <a class='btn btn-default ' ng-click = "viewMode = 'graph' "> <i class="fa fa-pie-chart"></i></a>
+      <stable main-action = "openChatWindow" resource-Url = "'/api/users/'" primary-Search-Field="'username'"></stable>
 
-            <a class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span></a>
-            <ul class="dropdown-menu">
-              <li><a href="#">Use in report</a></li>
-              <li><a href="#">Export</a></li>
-              <li><a href="#">Print</a></li>
-              <li role="separator" class="divider"></li>
-              <li><a href="#">Send via email</a></li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <nav>
-        <ul class="pagination pull-right">
-          <li ng-repeat="num in itemsNumPerView" ng-class="{'active' : itemsNumPerView[$index] == itemsPerView}" ng-click="changeNumView(itemsNumPerView[$index])"><a href="">{{num}}</a></li>
-        </ul>
-        <ul class="pagination">
-          <li ng-click="loadPrevSetPages()">
-            <a href="" aria-label="Previous">
-              <span aria-hidden="true">&laquo;</span>
-            </a>
-          </li>
-          <li ng-repeat="page in pageList" ng-class="{'active':pageList[$index]==pageNo}" ng-click="changePage(pageList[$index])"><a href="">{{page}}</a></li>
-          <li ng-click="loadNextSetPages()">
-            <a href="" aria-label="Next">
-              <span aria-hidden="true">&raquo;</span>
-            </a>
-          </li>
-        </ul>
-      </nav>
-      <div class="row container-fluid">
-        <table ng-if="viewMode == 'list'" class="table" >
-          <thead>
-            <tr>
-              <th ng-repeat = "heading in tableHeading" ng-click="sort($index)">{{heading | humanize}}
-                <i ng-if="sortFlag[$index]==1" class="fa fa-angle-up"></i>
-                <i ng-if="sortFlag[$index]==-1" class="fa fa-angle-down"></i>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <div >
-              <tr table-row ng-repeat = "row in tableData" data="row" options="options" action="mainOption" perform-action="openChatWindow(row.url)"></tr>
-            </div>
-          </tbody>
-        </table>
-
-        <div ng-if = "viewMode == 'thumbnail'" ng-repeat="item in tableData">
-          <div class="col-md-3">
-            <!-- Widget: user widget style 1 -->
-            <div class="box box-widget widget-user-2">
-              <!-- Add the bg color to the header using any of the bg-* classes -->
-              <div class="widget-user-header {{$index | rainbow}}">
-                <div class="widget-user-image">
-                  <img class="img-circle" ng-src="{{item.url | getDP}}" alt="DP">
-                </div><!-- /.widget-user-image -->
-                <h3 class="widget-user-username">{{item.url | getName}}</h3>
-                <h5 class="widget-user-desc">{{item.designation.rank}}</h5>
-              </div>
-              <div class="box-footer no-padding">
-                <ul class="nav nav-stacked">
-                  <li><a href="#">Projects <span class="pull-right badge bg-blue">31</span></a></li>
-                  <li><a href="#">Tasks <span class="pull-right badge bg-aqua">5</span></a></li>
-                  <li><a href="#">Completed Projects <span class="pull-right badge bg-green">12</span></a></li>
-                  <li><a href="#">Followers <span class="pull-right badge bg-red">842</span></a></li>
-                </ul>
-              </div>
-            </div><!-- /.widget-user -->
-          </div>
-        </div>
-
-        <div ng-if = "viewMode == 'icon'" ng-repeat="item in tableData">
-          <div class="col-md-3 col-sm-6 col-xs-12">
-            <div class="info-box info-box-bordered">
-              <span class="info-box-icon"><img style="width: 100%;" class="img" ng-src="{{item.url | getDP}}" ></span>
-              <div class="info-box-content">
-                <span class="info-box-text">{{item.url | getName}}</span>
-                <span class="info-box-number">{{item.email}}</span>
-              </div><!-- /.info-box-content -->
-            </div><!-- /.info-box -->
-          </div><!-- /.col -->
-        </div>
-
-        <div ng-if = "viewMode == 'graph'" ng-repeat="item in tableData">
-          <div class="col-md-3 col-sm-6 col-xs-12">
-            <div class="info-box {{$index | rainbow}}">
-              <span class="info-box-icon {{$index | rainbow}}"><img style="width: 100%;" class="img" ng-src="{{item.url | getDP}}"></span>
-              <div class="info-box-content">
-                <span class="info-box-text">{{item.url | getName}}</span>
-                <span class="info-box-number">5,200</span>
-                <div class="progress">
-                  <div class="progress-bar" style="width: 50%"></div>
-                </div>
-                <span class="progress-description">
-                  50% Increase in 30 Days
-                </span>
-              </div><!-- /.info-box-content -->
-            </div><!-- /.info-box -->
-          </div><!-- /.col -->
-        </div>
-
-      </div>
-      <button type="button" class="btn btn-default" ng-click="openAside('left', true)"> Open aside</button>
-      <button type="button" class="btn btn-default" ng-click="openAside('left' )">
-              <span class="glyphicon glyphicon-align-justify"></span> Left
-            </button>
     </div> <!-- main col -->
     {% endverbatim %}
   </div> <!-- ng controller -->
@@ -162,3 +50,9 @@
 </script>
 
 {% endblock %}
+
+
+<!-- <button type="button" class="btn btn-default" ng-click="openAside('left', true)"> Open aside</button>
+<button type="button" class="btn btn-default" ng-click="openAside('left' )">
+        <span class="glyphicon glyphicon-align-justify"></span> Left
+      </button> -->
