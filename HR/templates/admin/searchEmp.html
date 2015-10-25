@@ -26,16 +26,13 @@
 
     <div class="col-md-12">
 
-      <stable main-action = "openChatWindow" resource-Url = "'/api/users/'" primary-Search-Field="'username'"></stable>
-
+      <generic-Table callback-Fn = "tableAction" options='options' resource-Url = "'/api/users/'" search="true"
+        primary-Search-Field="''" views='views' multiselect-Options = 'multiselectOptions' get-Params = "getParams"></generic-Table>
+        
     </div> <!-- main col -->
     {% endverbatim %}
   </div> <!-- ng controller -->
 </div> <!-- ng app -->
-
-
-
-
 
 {% endblock %}
 

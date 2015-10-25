@@ -1,3 +1,10 @@
+range = function(min, max, step){
+  step = step || 1;
+  var input = [];
+  for (var i = min; i <= max; i += step) input.push(i);
+  return input;
+};
+
 var ngCIOC = angular.module('libreHR.directives' , []);
 
 ngCIOC.service('userProfileService', function($rootScope, $window){
@@ -217,13 +224,18 @@ ngCIOC.filter('explodeObj' , function(userProfileService){
       // console.log(input);
       for(key in input){
         val = input[key];
-        if (val != null){
+        if (val != null && typeof val !='object'){
           // console.log('The key is ' + key + ' and the value is ' + val);
           urlTest = isUrl(val);
+          // console.log(urlTest);
           if ( urlTest.type == 'hyperLink') {
             toReturn += '<a href=' + val + '> <i class="fa fa-link"></i> </a>';
           } else if (urlTest.type == 'image') {
             toReturn += ' <i class="fa fa-picture-o"></i> ';
+          } else if (urlTest.type == 'pdf') {
+            toReturn += ' <i class="fa fa-file-pdf-o"></i> ';
+          } else if (urlTest.type == 'odt') {
+            toReturn += ' <i class="fa fa-file-text-o"></i> ';
           } else if(urlTest.type == 'string') {
             toReturn += val + ' , ';
           } else if(urlTest.type == 'number') {
@@ -233,14 +245,26 @@ ngCIOC.filter('explodeObj' , function(userProfileService){
           }
         } else{
           // console.log('The value is null for the key' + key);
-          // toReturn += 'Null , ';
+          toReturn += 'Obj or Null, ';
         }
       }
       return toReturn;
-    }else if (isUrl(input).flag == true){
-      return '<a href=' + input + '> <i class="fa fa-link"></i> </a>';
-    }else{
-      return input;
+    }else {
+      urlTest = isUrl(input);
+      // console.log(urlTest);
+      if ( urlTest.type == 'hyperLink') {
+        return '<a href=' + input + '> <i class="fa fa-link"></i> </a>';
+      } else if (urlTest.type == 'image') {
+        return ' <i class="fa fa-picture-o"></i> ';
+      } else if (urlTest.type == 'pdf') {
+        return ' <i class="fa fa-file-pdf-o"></i> ';
+      } else if (urlTest.type == 'odt') {
+        return ' <i class="fa fa-file-text-o"></i> ';
+      } else if(urlTest.type == 'string' || urlTest.type == 'number') {
+        return input ;
+      } else{
+        return input ;
+      }
     }
   }
 })
@@ -338,19 +362,6 @@ function getSocialContent(username, mode){
   // console.log(mode);
   var urlStr = '/api/social'+mode+'/?format=json&user='+ username;
   httpRequest.open('GET', urlStr , false);
-  httpRequest.send(null);
-  if (httpRequest.status === 200) { // successfully
-    // console.log("returning from the getSocialContent");
-    return JSON.parse(httpRequest.responseText);
-  }
-}
-
-function getAlbumImage(getUrl){
-  var httpRequest = new XMLHttpRequest();
-  if (getUrl.indexOf('json')==-1) {
-    getUrl += '?format=json';
-  }
-  httpRequest.open('GET', getUrl, false);
   httpRequest.send(null);
   if (httpRequest.status === 200) { // successfully
     // console.log("returning from the getSocialContent");

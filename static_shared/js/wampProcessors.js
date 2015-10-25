@@ -1,4 +1,4 @@
-var connection = new autobahn.Connection({url: 'ws://10.140.7.94:8080/ws', realm: 'realm1'});
+var connection = new autobahn.Connection({url: 'ws://10.140.1.232:8080/ws', realm: 'realm1'});
 
 // "onopen" handler will fire when WAMP session has been established ..
 connection.onopen = function (session) {
@@ -7,7 +7,7 @@ connection.onopen = function (session) {
 
    // our event handler we will subscribe on our topic
    //
-  function onhello (args) {
+  function chatResonse (args) {
     var msg = args[1];
     var status = args[0];
     var friend = args[2];
@@ -49,9 +49,9 @@ connection.onopen = function (session) {
     });
   }
 
-  session.subscribe('service.chat.'+wampBindName, onhello).then(
+  session.subscribe('service.chat.'+wampBindName, chatResonse).then(
     function (sub) {
-      console.log("subscribed to topic 'onhello'");
+      console.log("subscribed to topic 'chatResonse'");
     },
     function (err) {
       console.log("failed to subscribed: " + err);

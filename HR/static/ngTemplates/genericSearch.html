@@ -1,27 +1,26 @@
 <div class="row container-fluid">
   <div class="input-group">
 
-    <input type="text" class="form-control" name="refine" placeholder="Search" ng-model = "searchText">
+    <input ng-if="search" type="text" class="form-control" name="refine" placeholder="Search" ng-model = "searchText">
     <div class="input-group-btn">
-      <a class='btn btn-default ' ng-click = "viewMode = 'list'"> <i class="fa fa-bars"></i></a>
-      <a class='btn btn-default ' ng-click = "viewMode = 'thumbnail'"> <i class="fa fa-th-large"></i></a>
-      <a class='btn btn-default ' ng-click = "viewMode = 'icon'"> <i class="fa fa-th"></i></a>
-      <a class='btn btn-default ' ng-click = "viewMode = 'graph' "> <i class="fa fa-pie-chart"></i></a>
-
-      <a class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span></a>
+      <a ng-repeat = "view in views" ng-if="views.length > 1" class='btn btn-default ' ng-click = "changeView($index)"><i class="fa {{view.icon}}"></i></a>
+      <!-- <a class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span></a>
       <ul class="dropdown-menu">
         <li><a href="#">Use in report</a></li>
         <li><a href="#">Export</a></li>
         <li><a href="#">Print</a></li>
         <li role="separator" class="divider"></li>
         <li><a href="#">Send via email</a></li>
-      </ul>
+      </ul> -->
     </div>
   </div>
 </div>
 <nav>
   <ul class="pagination pull-right">
     <li ng-repeat="num in itemsNumPerView" ng-class="{'active' : itemsNumPerView[$index] == itemsPerView}" ng-click="changeNumView(itemsNumPerView[$index])"><a href="">{{num}}</a></li>
+  </ul>
+  <ul class="pagination pull-right" style="margin-right: 10px;">
+    <li ng-repeat = "option in multiselectOptions" ng-click = "multiSelectAction(option.text)"><a href="" style="color: #6f6f6f;"><i class = "{{option.icon}}">  {{option.text | humanize}}</i></a></li>
   </ul>
   <ul class="pagination">
     <li ng-click="loadPrevSetPages()">
@@ -37,34 +36,6 @@
     </li>
   </ul>
 </nav>
-
 <div class="row container-fluid">
-  <table ng-if="viewMode == 'list'" class="table" >
-    <thead>
-      <tr>
-        <th ng-repeat = "heading in tableHeading" ng-click="sort($index)">{{heading | humanize}}
-          <i ng-if="sortFlag[$index]==1" class="fa fa-angle-up"></i>
-          <i ng-if="sortFlag[$index]==-1" class="fa fa-angle-down"></i>
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-      <div >
-        <tr table-row ng-repeat = "row in tableData" data="row" options="options" action="mainOption" perform-action="mainAction(row.url)"></tr>
-      </div>
-    </tbody>
-  </table>
-
-  <div ng-if = "viewMode == 'thumbnail'" ng-repeat="item in tableData">
-    <div ng-include = "thumbnailTemplate"></div>
-  </div>
-
-  <div ng-if = "viewMode == 'icon'" ng-repeat="item in tableData">
-    <div ng-include = "iconTemplate"></div>
-  </div>
-
-  <div ng-if = "viewMode == 'graph'" ng-repeat="item in tableData">
-    <div ng-include = "tableGraph"></div>
-  </div>
-
+  <div ng-include = "views[viewMode].template"></div>
 </div>
