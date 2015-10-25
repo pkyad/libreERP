@@ -13,6 +13,7 @@ genericSearchTable.directive('genericTable', function () {
     transclude: true,
     replace: false,
     scope: {
+      tableData :'=',
       resourceUrl : '=',
       primarySearchField : '=',
       callbackFn : '=',

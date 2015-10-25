@@ -1,4 +1,4 @@
-var social = angular.module('social', ['libreHR.directives' , 'ngSanitize', 'ui.bootstrap', 'ngAside' , 'ngDraggable']);
+var social = angular.module('social', ['libreHR.directives' , 'ngSanitize', 'ui.bootstrap', 'ngAside' , 'ngDraggable' , 'genericSearchTable']);
 social.config(['$httpProvider' , function($httpProvider){
   $httpProvider.defaults.xsrfCookieName = 'csrftoken';
   $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
@@ -264,19 +264,16 @@ social.directive('album', function () {
 social.controller('socialCtrl', function($scope , $http , $timeout , userProfileService , $aside , $interval , $window) {
 
   $scope.droppedObjects = [];
-  $scope.onDropComplete=function(data,evt){
-    var index = $scope.droppedObjects.indexOf(data);
-    if (index == -1){
-      $scope.droppedObjects.push(data);
-      var index = $scope.draggableObjects.indexOf(data);
-      $scope.draggableObjects.splice(index , 1);
-    }
-  }
+  $scope.user = userProfileService.get("http://localhost:8000/api/users/2/");
+  $scope.user.albums = userProfileService.social(user.username , 'albums');
+  $scope.user.posts = userProfileService.social(user.username , 'post');
+  $scope.user.pictures = userProfileService.social(user.username , 'pictures');
+  $scope.me = userProfileService.get('mySelf');
+  $scope.statusMessage = '';
+  $scope.picturePost = {photo : {}};
 
-  $scope.itemsNumPerView = [5, 10, 20];
-  $scope.itemsPerView = 5;
-  $scope.pageList = [1];
-  $scope.pageNo = 1; // default page number set to 0
+  $scope.views = [{name : 'drag' , icon : '' , template : '/static/ngTemplates/draggablePhoto.html'} ];
+  $scope.getParams = [{key : 'albumEditor', value : ''}, {key : 'user' , value : 'pradeep'}];
 
   $scope.removeFromTempAlbum = function(index){
     pic = $scope.droppedObjects[index];
@@ -334,22 +331,14 @@ social.controller('socialCtrl', function($scope , $http , $timeout , userProfile
   $scope.removePost = function(index){
     $scope.user.posts.splice(index, 1);
   }
-
-  $scope.user = userProfileService.get("http://localhost:8000/api/users/2/");
-  $scope.user.albums = userProfileService.social(user.username , 'albums');
-  $scope.user.posts = userProfileService.social(user.username , 'post');
-  $scope.user.pictures = userProfileService.social(user.username , 'pictures');
-  $scope.me = userProfileService.get('mySelf');
-  $scope.statusMessage = '';
-  $scope.picturePost = {photo : {}};
-  $scope.onDeleteWatchStr ='Pradeep';
-  $http({method: 'GET' , url : '/api/socialPicture/?albumEditor&user='+$scope.user.username}).
-  then(function(response){
-    $scope.draggableObjects = response.data
-  } , function(response){
-    console.log("error getting the pictures");
-  });
-
+  $scope.onDropComplete=function(data,evt){
+    var index = $scope.droppedObjects.indexOf(data);
+    if (index == -1){
+      $scope.droppedObjects.push(data);
+      var index = $scope.draggableObjects.indexOf(data);
+      $scope.draggableObjects.splice(index , 1);
+    }
+  }
   var f = new File([""], "");
   $scope.post = {attachment : f , text: ''};
   $scope.publishPost = function(){
