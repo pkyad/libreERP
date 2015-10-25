@@ -36,6 +36,11 @@ genericSearchTable.directive('genericTable', function () {
       } else {
         $scope.haveOptions = true;
       }
+      if ( typeof $scope.search == 'undefined' || $scope.search  ) {
+        $scope.searchShow = true;
+      } else {
+        $scope.searchShow = false;
+      }
 
       $scope.$watch('tableData' , function(newValue , oldValue){
         $scope.selectStates = [];

@@ -1,7 +1,6 @@
 <div class="row container-fluid">
   <div class="input-group">
-
-    <input ng-if="search" type="text" class="form-control" name="refine" placeholder="Search" ng-model = "searchText">
+    <input ng-show="searchShow" type="text" class="form-control" placeholder="Search" ng-model = "searchText">
     <div class="input-group-btn">
       <a ng-repeat = "view in views" ng-if="views.length > 1" class='btn btn-default ' ng-click = "changeView($index)"><i class="fa {{view.icon}}"></i></a>
       <!-- <a class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span></a>
