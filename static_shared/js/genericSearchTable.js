@@ -125,7 +125,7 @@ genericSearchTable.directive('genericTable', function () {
             fetch.url += '&'+$scope.getParams[i].key + '='+ $scope.getParams[i].value;
           }
         }
-        $http({method: fetch.method, url: fetch.url, cache: $templateCache}).
+        $http({method: fetch.method, url: fetch.url}).
           then(function(response) {
             // console.log(response);
             $scope.pageCount = Math.floor(response.data.count/$scope.itemsPerView)+1;

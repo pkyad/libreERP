@@ -1,3 +1,20 @@
+Array.prototype.sortIndices = function (func) {
+  var i = j = this.length,
+    that = this;
+
+  while (i--) {
+    this[i] = { k: i, v: this[i] };
+  }
+
+  this.sort(function (a, b) {
+    return func ? func.call(that, a.v, b.v) :  a.v < b.v ? -1 : a.v > b.v ? 1 : 0;
+  });
+
+  while (j--) {
+      this[j] = this[j].k;
+  }
+}
+
 range = function(min, max, step){
   step = step || 1;
   var input = [];

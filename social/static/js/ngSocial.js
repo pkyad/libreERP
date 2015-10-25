@@ -263,15 +263,36 @@ social.directive('album', function () {
 
 social.controller('socialCtrl', function($scope , $http , $timeout , userProfileService , $aside , $interval , $window) {
 
-  $scope.droppedObjects = [];
   $scope.user = userProfileService.get("http://localhost:8000/api/users/2/");
   $scope.user.albums = userProfileService.social(user.username , 'albums');
   $scope.user.posts = userProfileService.social(user.username , 'post');
   $scope.user.pictures = userProfileService.social(user.username , 'pictures');
   $scope.me = userProfileService.get('mySelf');
+  $scope.droppedObjects = [];
   $scope.statusMessage = '';
   $scope.picturePost = {photo : {}};
 
+  $scope.refreshFeeds = function(){
+
+    orderMat = [];
+    for (var i = 0; i < $scope.user.posts.length; i++) {
+      orderMat.push( {created : $scope.user.posts[i].created , type: 'post', index : i })
+    }
+    for (var i = 0; i < $scope.user.albums.length; i++) {
+      orderMat.push( {created : $scope.user.albums[i].created , type: 'album', index : i })
+    }
+    $scope.rawFeeds = angular.copy(orderMat);
+
+    orderMat.sortIndices(function(b, a) { return new Date(a.created).getTime() - new Date(b.created).getTime(); });
+    console.log(orderMat);
+    $scope.sortedFeeds = [];
+    for (var i = 0; i < orderMat.length; i++) {
+      $scope.sortedFeeds.push( $scope.rawFeeds[orderMat[i]] )
+    }
+  }
+  $scope.refreshFeeds();
+
+  console.log($scope.sortedFeeds);
   $scope.views = [{name : 'drag' , icon : '' , template : '/static/ngTemplates/draggablePhoto.html'} ];
   $scope.getParams = [{key : 'albumEditor', value : ''}, {key : 'user' , value : 'pradeep'}];
 
@@ -312,6 +333,7 @@ social.controller('socialCtrl', function($scope , $http , $timeout , userProfile
       $scope.status = 'success';
       if ($scope.user.url == $scope.me.url) {
         $scope.user.albums.push(response.data);
+        $scope.refreshFeeds();
       }
       setTimeout(function () {
         $scope.statusMessage = '';
@@ -330,6 +352,7 @@ social.controller('socialCtrl', function($scope , $http , $timeout , userProfile
   }
   $scope.removePost = function(index){
     $scope.user.posts.splice(index, 1);
+    $scope.refreshFeeds();
   }
   $scope.onDropComplete=function(data,evt){
     var index = $scope.droppedObjects.indexOf(data);
@@ -354,6 +377,7 @@ social.controller('socialCtrl', function($scope , $http , $timeout , userProfile
       $scope.status = 'success';
       if ($scope.user.url == $scope.me.url) {
         $scope.user.posts.push(response.data);
+        $scope.refreshFeeds();
       }
       setTimeout(function () {
         $scope.statusMessage = '';

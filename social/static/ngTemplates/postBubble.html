@@ -10,11 +10,11 @@
       {{data.text}}
     </div>
     <div class="timeline-footer" >
-      <a style="text-decoration: none;" href="" >
-        {{data.likes.length==0? '':data.likes.length}} Likes <i class="fa fa-thumbs-o-up"></i>
+      <a style="text-decoration: none;" href="" ng-click="openPost('right', true , {data: data , onDelete: onDelete})">
+        {{data.likes.length==0? '':data.likes.length}} {{data.likes.length<=1? 'Like':'likes'}} <i class="fa fa-thumbs-o-up"></i>
       </a>
       <a href="" ng-click="openPost('right', true , {data: data , onDelete: onDelete})">
-        {{data.comments.length==0? '' :data.comments.length}} Comments <i class="fa fa-comment-o"></i></a>
+        {{data.comments.length==0? '' :data.comments.length}} {{data.comments.length<=1? 'Comment':'Comments'}} <i class="fa fa-comment-o"></i></a>
     </div>
   </div>
 </li>

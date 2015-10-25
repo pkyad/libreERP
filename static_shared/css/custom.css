@@ -599,28 +599,28 @@ info-box-bordered >.progress-description, .info-box-text {
     padding: 0px;
     list-style: outside none none;
 }
-.timeline > li {
+.timeline  li {
     position: relative;
     margin-right: 10px;
     margin-bottom: 15px;
     box-sizing: border-box;
 }
 
-.timeline > .time-label > span {
+.timeline .time-label > span {
     font-weight: 600;
     padding: 5px;
     display: inline-block;
     background-color: #FFF;
     border-radius: 4px;
 }
-.timeline > .time-label > span {
+.timeline  .time-label > span {
     font-weight: 600;
     padding: 5px;
     display: inline-block;
     background-color: #FFF;
     border-radius: 4px;
 }
-.timeline > li > .fa, .timeline > li > .glyphicon, .timeline > li > .ion {
+.timeline li > .fa, .timeline li > .glyphicon, .timeline li > .ion {
     width: 30px;
     height: 30px;
     font-size: 15px;
@@ -634,12 +634,12 @@ info-box-bordered >.progress-description, .info-box-text {
     top: 0px;
 }
 
-.timeline-inverse > li > .timeline-item {
+.timeline-inverse li > .timeline-item {
     background: #F0F0F0 none repeat scroll 0% 0%;
     border: 1px solid #DDD;
     box-shadow: none;
 }
-.timeline > li > .timeline-item {
+.timeline li > .timeline-item {
     /*box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.1);*/
     border-radius: 3px;
     margin-top: 0px;
@@ -653,7 +653,7 @@ info-box-bordered >.progress-description, .info-box-text {
 }
 
 
-.timeline > li > .timeline-item > .time {
+.timeline li > .timeline-item > .time {
     color: #999;
     float: right;
     padding: 10px;
@@ -661,10 +661,10 @@ info-box-bordered >.progress-description, .info-box-text {
     box-sizing: border-box;
 }
 
-.timeline-inverse > li > .timeline-item > .timeline-header {
+.timeline-inverse li > .timeline-item > .timeline-header {
     border-bottom-color: #DDD;
 }
-.timeline > li > .timeline-item > .timeline-header {
+.timeline li > .timeline-item > .timeline-header {
     margin: 0px;
     color: #555;
     border-bottom: 1px solid #F4F4F4;
@@ -672,15 +672,15 @@ info-box-bordered >.progress-description, .info-box-text {
     font-size: 16px;
     line-height: 1.1;
 }
-.timeline > li > .timeline-item > .timeline-body, .timeline > li > .timeline-item > .timeline-footer {
+.timeline li > .timeline-item > .timeline-body, .timeline li > .timeline-item > .timeline-footer {
     padding: 10px;
     box-sizing: border-box;
 }
-.timeline > li > .timeline-item > .timeline-footer  a{
+.timeline li > .timeline-item > .timeline-footer  a{
   text-decoration: none;
 }
 
-.timeline > li > .timeline-item > .timeline-body, .timeline > li > .timeline-item > .timeline-footer {
+.timeline li > .timeline-item > .timeline-body, .timeline li > .timeline-item > .timeline-footer {
     padding: 10px;
     box-sizing: border-box;
 }

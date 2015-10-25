@@ -90,23 +90,17 @@
 						<br>
 		        <div class="tab-content" >
 		          <div class="tab-pane active" id="tab_1">
-								<div class="tab-pane active" id="timeline">
+								<div class="tab-pane active" >
 		                <ul class="timeline timeline-inverse">
 		                  <!-- <li class="time-label">
 		                    <span class="bg-yellow">
 		                      10 Feb. 2014
 		                    </span>
 		                  </li> -->
-
-                      <post ng-repeat = "post in user.posts" data = "post" on-delete = "removePost($index)"></post>
-
-		                  <!-- <li class="time-label">
-		                    <span class="bg-green">
-		                      3 Jan. 2014
-		                    </span>
-		                  </li> -->
-
-                      <album ng-repeat = "album in user.albums" data = "album"></album>
+                      <div ng-repeat="feed in sortedFeeds">
+                        <post ng-if ="feed.type=='post'" data = "user.posts[feed.index]" on-delete = "removePost(feed.index)"></post>
+                        <album ng-if = "feed.type == 'album'" data = "user.albums[feed.index]"></album>
+                      </div>
 
 		                  <!-- END timeline item -->
 											<!-- <li>
@@ -138,81 +132,86 @@
 		          </div><!-- /.tab-pane -->
 		          <div class="tab-pane" id="tab_3">
                 <div ng-hide="statusMessage==''" class="alert alert-{{status}} fade in"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>{{statusMessage}}</div>
-                <div class="container-fluid">
-  		            <h2>Create a post</h2>
-                  <hr></hr>
-                  <form class="form-horizontal" name = "postForm" ng-submit= "publishPost()">
-                    <div class="form-group">
-                      <label class="control-label col-sm-3" for="post">Post:</label>
-                      <div class="col-md-7">
-                        <textarea type="text" rows="3" name="post" value="" class="form-control " required ng-model="post.text"></textarea>
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <label class="control-label col-sm-3" for="attachment">Attachment:</label>
-                      <div class="col-sm-7">
-                        <input type="file" name="attachment" file-model="post.attachment">
-                      </div>
-                    </div>
-                    <button type="submit" class = "btn btn-primary pull-right" name="button">Post</button>
-                  </form>
-                </div>
-                <div class="container-fluid">
-                  <hr></hr>
-                  <h2>Upload photos</h2>
-                  <form class="form-horizontal" name = "postPicture" ng-submit= "uploadImage()">
-                    <div class="form-group">
-                      <label class="control-label col-sm-2" for="post">Select photo :</label>
-                      <div class="col-md-9">
-                        <input type="file" name = "photo" file-model = "picturePost.photo">
-                      </div>
-                      <button type="submit" class = "btn btn-primary pull-right" name="button">Upload</button>
-                    </div>
-                  </form>
-                </div>
-                <div class="container-fluid">
-                  <hr></hr>
-                  <h2>Create album</h2>
 
-                  <div class="row" style="height:700px;">
-                    <div class="col-md-9">
-                      <div class="row">
-                        <div class="container-fluid" style="margin-top:10px;">
-                          <form class="form-horizontal" name = "postForm" ng-submit= "publishPost()">
-                            <div class="form-group">
-                              <label class="control-label col-sm-3" for="post">Album Name:</label>
-                              <div class="col-md-9">
-                                <div class="input-group">
-                                  <input type="text" name="albumTitle" value="" class="form-control " ng-model="tempAlbum.title"></input>
-                                  <span class="input-group-btn">
-                                    <button type="button" ng-click="createAlbum()" class="btn btn-success ">Create</button>
-                                  </span>
+                <ul class="nav nav-tabs nav-justified">
+    		          <li class="active"><a aria-expanded="true" href="#post" data-toggle="tab"><i class="fa fa-comment-o"></i>  Post</a></li>
+    		          <li class=""><a aria-expanded="false" href="#uploadPhoto" data-toggle="tab"><i class="fa fa-picture-o"></i>  Picture</a></li>
+                  <li class=""><a aria-expanded="false" href="#albumEditor" data-toggle="tab"><i class="fa fa-th-large"></i>  Album</a></li>
+    		        </ul>
+    						<br>
+
+                <div class="container-fluid">
+                  <div class="tab-content" >
+                    <div class="tab-pane active" id="post">
+                      <form class="form-horizontal" name = "postForm" ng-submit= "publishPost()">
+                        <div class="form-group">
+                          <label class="control-label col-sm-3" for="post">Post:</label>
+                          <div class="col-md-7">
+                            <textarea type="text" rows="3" name="post" value="" class="form-control " required ng-model="post.text"></textarea>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label class="control-label col-sm-3" for="attachment">Attachment:</label>
+                          <div class="col-sm-7">
+                            <input type="file" name="attachment" file-model="post.attachment">
+                          </div>
+                        </div>
+                        <button type="submit" class = "btn btn-primary pull-right" name="button">Post</button>
+                      </form>
+                    </div>
+                    <div class="tab-pane" id="uploadPhoto">
+                      <form class="form-horizontal" name = "postPicture" ng-submit= "uploadImage()">
+                        <div class="form-group">
+                          <label class="control-label col-sm-2" for="post">Select photo :</label>
+                          <div class="col-md-9">
+                            <input type="file" name = "photo" file-model = "picturePost.photo">
+                          </div>
+                          <button type="submit" class = "btn btn-primary pull-right" name="button">Upload</button>
+                        </div>
+                      </form>
+                    </div>
+                    <div class="tab-pane" id="albumEditor">
+                      <div class="row" style="height:700px;">
+                        <div class="col-md-9">
+                          <div class="row">
+                            <div class="container-fluid" style="margin-top:10px;">
+                              <form class="form-horizontal" name = "postForm" ng-submit= "publishPost()">
+                                <div class="form-group">
+                                  <label class="control-label col-sm-3" for="post">Album Name:</label>
+                                  <div class="col-md-9">
+                                    <div class="input-group">
+                                      <input type="text" name="albumTitle" value="" class="form-control " ng-model="tempAlbum.title"></input>
+                                      <span class="input-group-btn">
+                                        <button type="button" ng-click="createAlbum()" class="btn btn-success ">Create</button>
+                                      </span>
+                                    </div>
+                                  </div>
                                 </div>
+                              </form>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div style="display:block;box-sizing:border-box;height:700px;padding:10px;">
+                              <generic-Table resource-Url = "'/api/socialPicture/'" search="false" views='views' get-Params = "getParams" table-Data="draggableObjects"></generic-Table>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-3">
+                          <div style="border: 1px #3d9483 solid; display:block;box-sizing:border-box;height:700px;overflow:auto;" ng-drop="true" ng-drop-success="onDropComplete($data,$event)">
+                            <div ng-repeat="obj in droppedObjects" ng-drag-data="obj" data-allow-transform="true">
+                              <div class="container" style="position:relative; width:100%; padding:20px;" ng-mouseover="deleteObjOption=true" ng-mouseleave="deleteObjOption=false">
+                                <span>
+                                  <i ng-show="deleteObjOption" ng-click = "removeFromTempAlbum($index)" class="fa fa-times-circle fa-3x" style="position:absolute;top:0px;right:0px;text-align: center;;z-index:10;cursor:pointer"></i>
+                                </span>
+                                <img height="auto" width="100%" ng-src="{{obj.photo}}" alt="" />
                               </div>
                             </div>
-                          </form>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div style="display:block;box-sizing:border-box;height:700px;padding:10px;">
-                          <generic-Table resource-Url = "'/api/socialPicture/'" search="false" views='views' get-Params = "getParams" table-Data="draggableObjects"></generic-Table>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-md-3">
-                      <div style="border: 1px #3d9483 solid; display:block;box-sizing:border-box;height:700px;overflow:auto;" ng-drop="true" ng-drop-success="onDropComplete($data,$event)">
-                        <div ng-repeat="obj in droppedObjects" ng-drag-data="obj" data-allow-transform="true">
-                          <div class="container" style="position:relative; width:100%; padding:20px;" ng-mouseover="deleteObjOption=true" ng-mouseleave="deleteObjOption=false">
-                            <span>
-                              <i ng-show="deleteObjOption" ng-click = "removeFromTempAlbum($index)" class="fa fa-times-circle fa-3x" style="position:absolute;top:0px;right:0px;text-align: center;;z-index:10;cursor:pointer"></i>
-                            </span>
-                            <img height="auto" width="100%" ng-src="{{obj.photo}}" alt="" />
                           </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                </div>
+                  </div> <!-- tab content -->
+                </div> <!-- container -->
 		          </div><!-- /.tab-pane -->
 		        </div><!-- /.tab-content -->
 		    </div>
