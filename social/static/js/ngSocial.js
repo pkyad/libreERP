@@ -1,4 +1,4 @@
-var social = angular.module('social', ['libreHR.directives' , 'ngSanitize', 'ui.bootstrap', 'ngAside' , 'ngDraggable' , 'genericSearch']);
+var social = angular.module('social', ['libreHR.directives' , 'ngSanitize', 'ui.bootstrap', 'ngAside' , 'ngDraggable']);
 social.config(['$httpProvider' , function($httpProvider){
   $httpProvider.defaults.xsrfCookieName = 'csrftoken';
   $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';

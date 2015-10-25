@@ -25,11 +25,14 @@
     <!-- test text = {{test}} -->
 
     <div class="col-md-12">
-
       <generic-Table callback-Fn = "tableAction" options='options' resource-Url = "'/api/users/'" search="true"
-        primary-Search-Field="''" views='views' multiselect-Options = 'multiselectOptions' get-Params = "getParams"></generic-Table>
-        
+        primary-Search-Field="'username'" views='views' multiselect-Options = 'multiselectOptions' get-Params = "getParams"></generic-Table>
+
     </div> <!-- main col -->
+    <button type="button" class="btn btn-default" ng-click="openAside('left', true)"> Open aside</button>
+    <button type="button" class="btn btn-default" ng-click="openAside('left' )">
+            <span class="glyphicon glyphicon-align-justify"></span> Left
+          </button>
     {% endverbatim %}
   </div> <!-- ng controller -->
 </div> <!-- ng app -->
@@ -47,9 +50,3 @@
 </script>
 
 {% endblock %}
-
-
-<!-- <button type="button" class="btn btn-default" ng-click="openAside('left', true)"> Open aside</button>
-<button type="button" class="btn btn-default" ng-click="openAside('left' )">
-        <span class="glyphicon glyphicon-align-justify"></span> Left
-      </button> -->

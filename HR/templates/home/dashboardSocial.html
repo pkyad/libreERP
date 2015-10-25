@@ -193,10 +193,31 @@
                           </form>
                         </div>
                       </div>
-
                       <div class="row">
+
+                        <nav>
+                          <ul class="pagination pull-right">
+                            <li ng-repeat="num in itemsNumPerView" ng-class="{'active' : itemsNumPerView[$index] == itemsPerView}" ng-click="changeNumView(itemsNumPerView[$index])"><a href="">{{num}}</a></li>
+                          </ul>
+                          <ul class="pagination">
+                            <li ng-click="loadPrevSetPages()">
+                              <a href="" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                              </a>
+                            </li>
+                            <li ng-repeat="page in pageList" ng-class="{'active':pageList[$index]==pageNo}" ng-click="changePage(pageList[$index])"><a href="">{{page}}</a></li>
+                            <li ng-click="loadNextSetPages()">
+                              <a href="" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                              </a>
+                            </li>
+                          </ul>
+                        </nav>
+                      </div>
+                      <div class="row">
+
                         <div style="display:block;box-sizing:border-box;height:700px;padding:10px;">
-                          <div  ng-repeat="obj in droppedObjects" >
+                          <div  ng-repeat="obj in draggableObjects" >
                             <div ng-drag="true" ng-drag-data="obj" data-allow-transform="true" class="col-md-3" style="padding:15px">
                               <img height="100" width="150" ng-src="{{obj.photo}}" alt=""/>
                             </div>
