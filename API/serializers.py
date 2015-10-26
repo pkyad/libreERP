@@ -10,11 +10,10 @@ class userDesignationSerializer(serializers.HyperlinkedModelSerializer):
         model = userDesignation
         fields = ('url' , 'user', 'domainType' , 'domain' , 'rank' , 'unit' , 'department' , 'reportingTo' , 'primaryApprover' , 'secondaryApprover')
 
-
 class userProfileSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = userProfile
-        fields = ('url' , 'user', 'mobile' , 'displayPicture' , 'website' , 'prefix', 'aboutMe', 'status' , 'coverPic')
+        fields = ('url' , 'user', 'mobile' , 'displayPicture' , 'website' , 'prefix', 'aboutMe', 'status' , 'coverPic', 'almaMater', 'pgUniversity' , 'docUniversity')
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     profile = userProfileSerializer(many=False , read_only=True)
@@ -22,21 +21,7 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = User
         fields = ('url' , 'username' , 'email' , 'first_name' , 'last_name' , 'profile' , 'designation')
-    # def update(self, instance, validated_data):
-    #     designation_data = validated_data.pop('designation')
-    #     designation = instance.designation
-    #     designation.domainType = designation_data.get('domainType')
-    #     designation.primaryApprover = designation_data.get('primaryApprover')
-    #     designation.secondaryApprover = designation_data.get('secondaryApprover')
-    #     designation.reportingTo = designation_data.get('reportingTo')
-    #     designation.rank = designation_data.get('rank')
-    #     designation.department = designation_data.get('department')
-    #     designation.domain = designation_data.get('domain')
-    #     designation.unit = designation_data.get('unit')
-    #     designation.save()
-    # print self.context['request'].data
-    # print dir(self.context['request'])
-    #     return instance
+
 
 class GroupSerializer(serializers.ModelSerializer):
     class Meta:

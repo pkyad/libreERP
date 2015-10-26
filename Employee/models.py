@@ -73,6 +73,8 @@ class userProfile(models.Model):
     transcripts = models.FileField(upload_to = getTranscriptsPath ,  null = True)
     otherDocs = models.FileField(upload_to = getOtherDocsPath ,  null = True , blank = True)
     almaMater = models.CharField(max_length = 100 , null = True)
+    pgUniversity = models.CharField(max_length = 100 , null = True)
+    docUniversity = models.CharField(max_length = 100 , null = True)
 
     fathersName = models.CharField(max_length = 100 , null = True)
     mothersName = models.CharField(max_length = 100 , null = True)

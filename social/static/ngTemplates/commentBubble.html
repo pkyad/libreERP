@@ -4,7 +4,17 @@
   </div>
   <div class="col-md-10 messageBubble" ng-mouseover = "showOptions = true" ng-mouseleave = "showOptions = false">
     <p style="word-wrap: break-word;"> {{data.text}} </p>
-    <span ng-show = "showOptions" style="position:absolute; right:4px; top:-1px; font-size:10px;"> {{data.created |timeAgo}}</span>
-    <span ng-show = "showOptions || data.likes.length>0" style = "position: absolute; right: 4px; bottom:1px;" ><a style="text-decoration:none;" href="" ng-click = "likeComment()">{{data.likes.length==0? "":data.likes.length}} <i class = "fa {{liked ? 'fa-thumbs-up':'fa-thumbs-o-up'}}"></i></a></span>
+    <span ng-show = "showOptions" style="position:absolute; right:4px; top:-1px; font-size:10px;">
+      {{data.created |timeAgo}}
+    </span>
+    <span ng-show = "showOptions || data.likes.length>0" style = "position: absolute; right: 4px; bottom:1px;" >
+      <a  href="" style="text-decoration: none;" ng-if="iCommented" ng-click = "delete()">
+        <i class = "fa fa-trash-o"></i>
+      </a>
+      <a href="" style="text-decoration: none;" ng-click = "like()">
+        {{data.likes.length==0? "":data.likes.length}}
+        <i class = "fa {{liked ? 'fa-thumbs-up':'fa-thumbs-o-up'}}"></i>
+      </a>
+    </span>
   </div>
 </div>

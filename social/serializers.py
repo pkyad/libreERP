@@ -34,12 +34,9 @@ class postCommentsSerializer(serializers.HyperlinkedModelSerializer):
         comment.save()
         return comment
     def update(self, instance, validated_data): # like the comment
-        print "came in the update function"
         user =  self.context['request'].user
         l = commentLike(user = user , parent = instance)
         l.save()
-        print dir(self)
-        print user
         return instance
 
 class pictureLikeSerializer(serializers.HyperlinkedModelSerializer):
@@ -69,10 +66,12 @@ class pictureCommentsSerializer(serializers.HyperlinkedModelSerializer):
         comment.save()
         return comment
     def update(self, instance, validated_data): # like the comment
-        print "came in the update function"
         user =  self.context['request'].user
-        l = commentLike(user = user , parent = instance)
-        l.save()
+        if commentLike.objects.filter(parent = instance , user = user).exists():
+            like = commentLike.objects.get(parent = instance , user = user)
+        else:
+            like = commentLike(parent = instance , user = user)
+        like.save()
         return instance
 
 class postSerializer(serializers.HyperlinkedModelSerializer):
@@ -84,9 +83,6 @@ class postSerializer(serializers.HyperlinkedModelSerializer):
 
     def create(self ,  validated_data):
         text = validated_data.pop('text')
-        print validated_data
-        # attached = validated_data.pop('attachment')
-        # print attached
         user =  self.context['request'].user
         p = post()
         p.user = user
@@ -95,8 +91,10 @@ class postSerializer(serializers.HyperlinkedModelSerializer):
         p.save()
         return p
     def update(self, instance, validated_data): # like the comment
-        instance.text = validated_data.pop('text');
-        instance.save()
+        user =  self.context['request'].user
+        if instance.user == user:
+            instance.text = validated_data.pop('text');
+            instance.save()
         return instance
 
 

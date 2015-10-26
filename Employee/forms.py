@@ -59,7 +59,7 @@ class userProfileForm(forms.ModelForm):
             Tab('Identification' , 'empID','prefix','gender','dateOfBirth','email','email2','mobile', 'emergency', 'tele', 'website' , 'sign' , 'IDPhoto'),
             Tab('Family' , 'fathersName' , 'mothersName', 'childCSV' , 'wifesName'),
             Tab('Address' , 'localAddressStreet', 'localAddressCity', 'localAddressPin', 'localAddressState','localAddressCountry','permanentAddressStreet','permanentAddressCity','permanentAddressState','permanentAddressPin' , 'permanentAddressCountry'),
-            Tab('Documents', 'almaMater' , 'TNCandBond' , 'resume' , 'certificates' , 'transcripts' , 'otherDocs'),
+            Tab('Documents', 'almaMater' ,'pgUniversity', 'docUniversity' 'TNCandBond' , 'resume' , 'certificates' , 'transcripts' , 'otherDocs'),
             Tab('Notes' , 'note1' , 'note2' , 'note3')
         ),
         FormActions(
