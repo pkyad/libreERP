@@ -38,15 +38,3 @@
 </div> <!-- ng app -->
 
 {% endblock %}
-
-{% block specific_js %}
-<script src="{% static 'js/ngSearchEmp.js' %}"></script>
-<script type="text/javascript">
-
-  $(document).ready(function() {
-    // alert("going to load");
-    angular.bootstrap( document.getElementById('searchEmpApp'), ['genericSearch']);
-  });
-</script>
-
-{% endblock %}

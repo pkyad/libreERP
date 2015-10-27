@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import authenticate , login , logout
 from django.contrib.auth.models import User
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.template import RequestContext
@@ -15,10 +15,12 @@ profileSettingsSidebar = {
     'Themes' : '?action=changeTheme',
     }
 
-
+def isAdminCheck(user):
+    return user.is_superuser
 
 # Create your views here.
 @login_required(login_url = '/login')
+@user_passes_test(isAdminCheck , login_url = '/HR/home/')
 def admin(request):
     if request.method == 'GET':
         if 'action' in request.GET : # requesting a form

@@ -226,7 +226,7 @@ social.directive('album', function () {
           '<h3 class="timeline-header"><a href="#">{{data.user | getName}}</a> uploaded new photos to album : {{data.title}}</h3>'+
           '<div class="timeline-body">'+
             '<div ng-repeat = "picture in data.photos" style="display: inline;">'+
-              '<img ng-click="openAlbum('+"'right'"+ ', true , picture)" ng-src="{{picture.photo}}" alt="..." class="margin" height="100px" width="150px" >'+
+              '<img ng-click="openAlbum('+"'right'"+ ', true , picture , data)" ng-src="{{picture.photo}}" alt="..." class="margin" height="100px" width="150px" >'+
             '</div>'+
           '</div>'+
         '</div>'+
@@ -238,7 +238,7 @@ social.directive('album', function () {
       data : '=',
     },
     controller : function($scope, $http , $timeout , userProfileService , $aside , $interval , $window) {
-      $scope.openAlbum = function(position, backdrop , data) {
+      $scope.openAlbum = function(position, backdrop , data , parent) {
         $scope.asideState = {
           open: true,
           position: position
@@ -256,6 +256,8 @@ social.directive('album', function () {
           controller: function($scope, $modalInstance ) {
             $scope.me = userProfileService.get("mySelf");
             $scope.data = data;
+            $scope.parent = parent;
+            console.log($scope.parent);
             $scope.possibleCommentHeight = 70;
             $scope.textToComment = "";
             $scope.viewMode = 'comments';

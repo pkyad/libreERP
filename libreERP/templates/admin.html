@@ -63,7 +63,7 @@
           <div class="panel-body">
             <ul class="nav" >
               <li><a href="{% url 'HR:admin' %}?action=searchEmp"><i class="fa fa-search"></i> Seach</a> </li>
-              <!-- <li><a href="{% url 'HR:admin' %}?module=leaveManagement"><i class="fa fa-calendar"></i> Leave management</a></li> -->
+              <li><a href="{% url 'HR:admin' %}?module=leaveManagement"><i class="fa fa-calendar"></i> Leave management</a></li>
               <li><a href="{% url 'HR:admin' %}?action=createUser"><i class="fa fa-user-plus"></i> Mannual entry</a></li>
               <!-- <li><a href="#id2"><i class="fa fa-user-times"></i> Off boarding</a></li> -->
             </ul>
@@ -141,4 +141,16 @@
     </div>
   </div>
 </div>
+{% endblock %}
+{% block specific_js %}
+<script src="{% static 'js/ngSearchEmp.js' %}"></script>
+<script src="{% static 'js/ngCalendar.js' %}"></script>
+<script type="text/javascript">
+
+  $(document).ready(function() {
+    // alert("going to load");
+    angular.bootstrap( document.getElementById('searchEmpApp'), ['genericSearch']);
+  });
+</script>
+
 {% endblock %}
